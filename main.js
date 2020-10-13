@@ -1,28 +1,51 @@
+// Main javascript file
 
-const app = new PIXI.Application({ transparent: false, backgroundColor : 0xdddddd});
-document.body.appendChild(app.view);
+// canvas attributes 
+let canvas_width = 1000;
+let canvas_height = 590;
+tilesize = 100;
 
-app.renderer.resize(802, 602);
+// create a canvas object: width: 1000, height: 590
+const canvas = new PIXI.Application({
+width: canvas_width,
+height: canvas_height,
+antialias: true,
+transparent: false, 
+backgroundColor : 0xdddddd}
+);
+document.body.appendChild(canvas.view);
 
+// center and style the canvas in the window
+canvas.view.style.position = 'absolute';
+canvas.view.style.left = '55%';
+canvas.view.style.top = '52%';
+canvas.view.style.transform = 'translate3d( -50%, -50%, 0 )';
+canvas.view.style.border = 'solid 2px black';
+
+// create a graphics object to draw tiles on the canvas
 var graphics = new PIXI.Graphics();
 
+// set the line style
 graphics.lineStyle(1, 0x000000, 1);
 
-
-for (let x = 1; x <= 801; x += 100) {
+// draw vertical lines on the canvas
+for (let x = tilesize; x < canvas_width; x += tilesize) {
     graphics.moveTo(x, 0);
-    graphics.lineTo(x, 600);
+    graphics.lineTo(x, canvas_height);
     
 }
 
-for (let y = 1; y <= 801; y += 100) {
+// draw horizontal lines on the canvas
+for (let y = tilesize; y < canvas_width; y += tilesize) {
     graphics.moveTo(0, y);
-    graphics.lineTo(800, y);
+    graphics.lineTo(canvas_width, y);
     
 }
 
-app.stage.addChild(graphics);
+// add the graphics object to the canvas
+canvas.stage.addChild(graphics);
 
+// sample methods for dragging and dropping an object on the canvas
 function newObject(params) {
     const a = document.querySelector("li")
     var objectValue =a.getAttribute('data-value');
@@ -74,3 +97,4 @@ function onDragMove() {
         this.y = newPosition.y;
     }
 }
+

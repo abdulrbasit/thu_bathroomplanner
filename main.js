@@ -18,7 +18,7 @@ document.body.appendChild(canvas.view);
 // center and style the canvas in the window
 canvas.view.style.position = 'absolute';
 canvas.view.style.left = '55%';
-canvas.view.style.top = '52%';
+canvas.view.style.top = '50.5%';
 canvas.view.style.transform = 'translate3d( -50%, -50%, 0 )';
 canvas.view.style.border = 'solid 2px black';
 

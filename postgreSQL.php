@@ -1,4 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
 
+<!--START COPYING HERE -->
 <?php
 /**
 	Author: Abdul Basit 
@@ -66,10 +75,33 @@
 	/**
 	 * data to be passed
 	 * array of manufacturers: dbdata_manufacturer
-	 * array of product types: dbdat_product_type
+	 * array of product types: dbdata_product_type
 	 * an array of arrays of products: dbdata_product
-	 * */ 
+	 * */
+
+	// create a json representation of the associative array dbdata_manufacturer
+	$json_dbdata_manufacturer = json_encode($dbdata_manufacturer);
+	// create a json representation of the associative array dbdata_product_type
+	$json_dbdata_product_type = json_encode($dbdata_product_type);
+	// create a json representation of the associative array dbdata_product
+	$json_dbdata_product      = json_encode($dbdata_product);
 
 	// close the database connection in the end
 	pg_close($dblink);
 ?>
+<!--  STOP COYPING HERE  -->
+
+</body>
+
+<script>
+   /** javascript test test test to be removed */
+    var manu = <?= $json_dbdata_manufacturer ?>;
+	var p_type = <?= $json_dbdata_product_type ?>;
+	var product = <?= $json_dbdata_product ?>;
+
+	console.log(manu);
+	console.log(p_type);
+	console.log(product);
+	/*** test test test to be removed */
+</script>
+</html>

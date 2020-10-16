@@ -1,0 +1,83 @@
+#header{
+	background-color: brown;
+	width:100%;
+	height:70px;
+	text-align: center;
+}
+
+#sidebar-left{
+	color: white;
+	float:left;
+	width:20%;
+	background-color: black;
+}
+
+#center{
+	float:left;
+	width:70%;
+	background-color: white;
+}
+
+#sidebar-right{
+	color: white;
+	float:right;
+	width:10%;
+	background-color: black;
+}
+
+#footer{
+	clear:both;
+	height: 50px;
+	width: 100%;
+	text-align: center;
+	background-color: brown;
+}
+
+#sidebar-left, #main, #sidebar-right{
+	min-height: 600px				
+}
+
+/* Custom Bootstrap */
+
+.just-padding {
+	padding: 15px;
+  }
+  
+/* Formatting for the entire list/catalogue */
+.list-group.list-group-root {
+	padding: 0;
+	overflow: hidden;
+}
+  
+.list-group.list-group-root .list-group {
+	margin-bottom: 0;
+}
+  
+.list-group.list-group-root .list-group-item {
+	border-radius: 0;
+	border-width: 1px 0 0 0;
+}
+  
+/* Formatting for the first element of the list (i.e. Universal catalogue) */
+.list-group.list-group-root > .list-group-item:first-child {
+	border-top-width: 0;
+}
+  
+/* Product Type formatting */
+.list-group.list-group-root > .list-group > .list-group-item {
+	padding-left: 20px;
+}
+  
+/* Products formatting*/
+.list-group.list-group-root > .list-group > .list-group > .list-group-item {
+	padding-left: 30px;
+}
+  
+/* Remove the underline for all anchor elements */
+a {
+	text-decoration: none !important;
+}
+  
+
+			
+

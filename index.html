@@ -8,22 +8,7 @@
 	</head>
 	<body  onload='update_properties()'>
 		<div id="header">Header</div>
-			<!-- Ajax request -->
-			<script type="text/javascript">
-				(function ($) {
-					$(document).ready(function () {
-						$.ajax({
-							url: 'initCatalogue.php',
-							type: 'get',
-							dataType: 'json',
-							success: function (response) {
-								console.log(response);
-							}
-						});
-					});
-				})(jQuery);
-			</script>
-
+			
 		<!-- CATALOGUE -->
 		<div id="sidebar-left">
             <div id='dimensions'>
@@ -62,6 +47,8 @@
 						<div class="just-padding">
 
 							<div class="list-group list-group-root well">
+
+								<?php include 'populateCatalogue.php';?>
 				  
 				  				<a href="#item-1" class="list-group-item text-warning bg-secondary font-weight-bold" data-toggle="collapse">
 									Universal
@@ -201,7 +188,7 @@
 		</div>
 		<div id="main"></div>
 		<!--<div id="sidebar-right">Right</div>-->
-		<div id="footer">Footer</div>
+		<div class="navbar fixed-bottom" id="footer">Footer</div>
 	</body>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js"></script>
 	<!--please concatenate the scripts intuitively. init should be first. it is easier to understand it like that-->
@@ -213,4 +200,25 @@
 	<!-- jQuery and JS bundle w/ Popper.js -->
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+	<!-- Ajax request -->
+	<script type="text/javascript">
+
+		// Send a GET request to the server to update the catalogue
+		// url: php file where the request is sent
+		// type: type of request
+		// datatype: type of data that is looked for in the response
+		(function ($) {
+			$(document).ready(function () {
+				$.ajax({
+					url: 'initCatalogue.php',
+					type: 'get',
+					dataType: 'text',
+					success: function (response) {
+						console.log(response);
+					}
+				});
+			});
+		})(jQuery);
+	</script>
 </html>

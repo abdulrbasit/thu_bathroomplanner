@@ -45,6 +45,9 @@
 			$dbdata_product[] = $row;
 		}
 
+		// Populate the catalogue
+		
+
 		// close the database connection in the end
 		pg_close($dblink);
 

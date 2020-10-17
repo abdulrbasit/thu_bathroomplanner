@@ -1,3 +1,8 @@
+// a variable for displaying the dimensions of the layout
+let wall_side = 400;
+// variables to display the coordinates of the layout
+let wall1_x = 492;
+let wall1_y = 100;
 const squareX = new PIXI.Sprite(PIXI.Texture.BLACK);
 
 function wallSprInit(){
@@ -69,9 +74,17 @@ function wall(x,y, width, height=cm/2, horizontal=true){
 
 }
 
+// a function to draw the walls for the layout on the canvas
 function drawLayout1(){
-   let wall1 = new wall(300,300, 400, cm/2, false);
-   let wall2 = new wall(492, 100, 400, cm/2, true);
-   let wall3 = new wall(685,300, 400, cm/2, false);
-   let wall4 = new wall(492, 500, 400, cm/2, true);
+   // horizontal wall: top
+   let wall1 = new wall(wall1_x, wall1_y, wall_side, cm/2, true);
+   // vertical wall: left
+   let wall2 = new wall(300,300, wall_side, cm/2, false);
+   // vertical wall: right
+   let wall3 = new wall(685,300, wall_side, cm/2, false);
+   // horizontal wall: bottom
+   let wall4 = new wall(492, 500, wall_side, cm/2, true);
 }
+
+// execute the drawLayout function
+drawLayout1();

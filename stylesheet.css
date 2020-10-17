@@ -21,7 +21,7 @@
 #sidebar-right{
 	color: white;
 	float:right;
-	width:10%;
+	width:0%;
 	background-color: black;
 }
 
@@ -77,7 +77,25 @@
 a {
 	text-decoration: none !important;
 }
-  
+
+/**styles for the dimension layout*/
+textarea, option, select{
+	color: white;
+	background-color: black;
+}
+.object_names{
+	color: white;
+	background-color: black;
+    font-size: 15px; 
+    padding: 1px;
+    margin-right: 1px;
+}
+
+
+#dimensions{
+	margin-bottom: 5px;
+	margin-top: 2px;
+}
 
 			
 

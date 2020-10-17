@@ -3,15 +3,17 @@ var graphics = new PIXI.Graphics();
 function drawGrid() {
   
     graphics.lineStyle(1, 0x000000, 1);
-    for (let xIndex = 0; xIndex <= scWidth - 100; xIndex += cm) {
+    // draw vertical lines on the canvas
+    for (let xIndex = 0; xIndex <= scWidth; xIndex += cm) {
         graphics.moveTo(xIndex, 0);
-        graphics.lineTo(xIndex, scrHeight/2 + 50);
+        graphics.lineTo(xIndex, scrHeight);
         
     }
 
-    for (let yIndex = 0; yIndex <= scrHeight/2 + 50 ; yIndex += cm) {
+    // draw horizontal lines on the canvas
+    for (let yIndex = 0; yIndex <= scrHeight ; yIndex += cm) {
         graphics.moveTo(0, yIndex);
-        graphics.lineTo(scWidth - 100, yIndex);
+        graphics.lineTo(scWidth, yIndex);
     }
 
     app.stage.addChild(graphics);
@@ -22,4 +24,6 @@ function clearGrid(){
     graphics.clear();
 
 }
+// execute the drawGrid() function
+drawGrid();
 

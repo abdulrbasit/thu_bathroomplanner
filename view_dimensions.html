@@ -4,18 +4,23 @@
 <title> View Properties of Objects </title>
   <style>
   .object_names{
-     font-family: Calibri; 
+      color: white;
+	  background-color: black;
+     font-family: calibri; 
      font-size: 15px; 
      padding: 1px;
+	 margin-right: 5px;
+  }
+  textarea, option, select{
+      color: white;
+	  background-color: black;
   }
   </style>
 </head>
 <body onload='update_properties()'>
-
-<h3>Properties of selected objects</h3>
 <table>
 <tr>
-<td><label class='object_names' > Name </label></td>        <td><select id="objects" onchange="update_properties()">
+<td><label class='object_names' > Name </label></td><td><select id="objects" onchange="update_properties()">
   <option value="Bathroom Layout">Bathroom layout</option>
   <!---dummy data: to be removed for now-->
   <option value="Toilet">Toilet</option>
@@ -25,10 +30,10 @@
 </select></td>
 </tr>
 <tr>
-<td><label class='object_names'> Position </label></td>      <td><textarea readonly rows="1" cols="1"> x </textarea> <textarea readonly id="posx" rows="1" cols="2">  </textarea> <textarea readonly rows="1" cols="1"> y </textarea> <textarea readonly id="posy" rows="1" cols="2">  </textarea></td>
+<td><label class='object_names'> Position </label></td><td><textarea readonly rows="1" cols="1"> x </textarea> <textarea readonly id="posx" rows="1" cols="2">  </textarea> <textarea readonly rows="1" cols="1"> y </textarea> <textarea readonly id="posy" rows="1" cols="2">  </textarea></td>
 </tr>
 <tr>
-<td><label class='object_names'> Dimensions </label></td>   <td><textarea readonly rows="1" cols="5"> width </textarea> <textarea readonly id="width" rows="1" cols="2">  </textarea> <textarea readonly rows="1" cols="6"> height </textarea> <textarea readonly id="height" rows="1" cols="2">  </textarea></td>
+<td><label class='object_names'> Dimensions </label></td><td><textarea readonly rows="1" cols="3">width</textarea> <textarea readonly id="width" rows="1" cols="1">  </textarea> <textarea readonly rows="1" cols="4">height</textarea> <textarea readonly id="height" rows="1" cols="1">  </textarea></td>
 </tr>
 </table>
 

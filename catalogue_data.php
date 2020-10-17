@@ -1,13 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-</head>
-<body>
-
-<!--START COPYING HERE -->
 <?php
 /**
 	Author: Abdul Basit 
@@ -66,7 +56,7 @@
 		$temp[$inner_index] = $row['width'];
 		$inner_index++;
 		$temp[$inner_index] = $row['height'];
-		$inner_index++;
+		$inner_index = 0;
 		// add the array to the product array
 		$dbdata_product[$index] = $temp;
 		$index++;
@@ -89,19 +79,3 @@
 	// close the database connection in the end
 	pg_close($dblink);
 ?>
-<!--  STOP COYPING HERE  -->
-
-</body>
-
-<script>
-   /** javascript test test test to be removed */
-    var manu = <?= $json_dbdata_manufacturer ?>;
-	var p_type = <?= $json_dbdata_product_type ?>;
-	var product = <?= $json_dbdata_product ?>;
-
-	console.log(manu);
-	console.log(p_type);
-	console.log(product);
-	/*** test test test to be removed */
-</script>
-</html>

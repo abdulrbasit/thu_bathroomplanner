@@ -7,9 +7,6 @@ var scale = 1/100;
 var scWidth = 0.7 * screen.width + 90;
 var scrHeight = screen.height - 270;
 
-/*var scWidth = 1300;
-var scrHeight = 1070;*/
-
 //Scale change.
 function setScale(newScale){
     scale = newScale;

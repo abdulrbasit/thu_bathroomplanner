@@ -8,6 +8,21 @@
 	</head>
 	<body  onload='update_properties()'>
 		<div id="header">Header</div>
+			<!-- Ajax request -->
+			<script type="text/javascript">
+				(function ($) {
+					$(document).ready(function () {
+						$.ajax({
+							url: 'initCatalogue.php',
+							type: 'get',
+							dataType: 'json',
+							success: function (response) {
+								console.log(response);
+							}
+						});
+					});
+				})(jQuery);
+			</script>
 
 		<!-- CATALOGUE -->
 		<div id="sidebar-left">

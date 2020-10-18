@@ -48,111 +48,33 @@
 
 							<div class="list-group list-group-root well">
 
-								<?php include 'populateCatalogue.php';?>
-				  
-				  				<a href="#item-1" class="list-group-item text-warning bg-secondary font-weight-bold" data-toggle="collapse">
-									Universal
-				  				</a>
-				  				<div class="list-group collapse" id="item-1">
-					
-									<a href="#item-1-1" class="list-group-item font-weight-bold" data-toggle="collapse">
-									Bathtub
-									</a>
-									<div class="list-group collapse" id="item-1-1">
-					  					<a href="#" class="list-group-item">Bathtub 1</a>
-					  					<a href="#" class="list-group-item">Bathtub 2</a>
-					 					<a href="#" class="list-group-item">Bathtub 3</a>
-									</div>
-					
-									<a href="#item-1-2" class="list-group-item font-weight-bold" data-toggle="collapse">
-									Shower
-									</a>
-									<div class="list-group collapse" id="item-1-2">
-					  					<a href="#" class="list-group-item">Shower 1</a>
-					  					<a href="#" class="list-group-item">Shower 2</a>
-					  					<a href="#" class="list-group-item">Shower 3</a>
-									</div>
-					
-									<a href="#item-1-3" class="list-group-item font-weight-bold" data-toggle="collapse">
-									Toilet
-									</a>
-									<div class="list-group collapse" id="item-1-3">
-					  					<a href="#" class="list-group-item">Toilet 1</a>
-					  					<a href="#" class="list-group-item">Toilet 2</a>
-					  					<a href="#" class="list-group-item">Toilet 3</a>
-									</div>
-					
-				  				</div>
-				  
-				  				<a href="#item-2" class="list-group-item text-warning bg-secondary font-weight-bold" data-toggle="collapse">
-								  Manufacturer 1
-				  				</a>
-				  				<div class="list-group collapse" id="item-2">
-					
-									<a href="#item-2-1" class="list-group-item" data-toggle="collapse">
-									Bathtub
-									</a>
-									<div class="list-group collapse" id="item-2-1">
-										<a href="#" class="list-group-item">Bathtub 1</a>
-										<a href="#" class="list-group-item">Bathtub 2</a>
-										<a href="#" class="list-group-item">Bathtub 3</a>
-									</div>
-					
-									<a href="#item-2-2" class="list-group-item" data-toggle="collapse">
-									Shower
-									</a>
-									<div class="list-group collapse" id="item-2-2">
-										<a href="#" class="list-group-item">Shower 1</a>
-										<a href="#" class="list-group-item">Shower 2</a>
-										<a href="#" class="list-group-item">Shower 3</a>
-									</div>
-					
-									<a href="#item-2-3" class="list-group-item" data-toggle="collapse">
-								       Toilet
-									</a>
-									<div class="list-group collapse" id="item-2-3">
-										<a href="#" class="list-group-item">Toilet 1</a>
-										<a href="#" class="list-group-item">Toilet 2</a>
-										<a href="#" class="list-group-item">Toilet 3</a>
-									</div>
-					
-				  				</div>
-				  
-				  
-								<a href="#item-3" class="list-group-item text-warning bg-secondary font-weight-bold" data-toggle="collapse">
-							       Manufacturer2
-								</a>
-				  				<div class="list-group collapse" id="item-3">
-					
-									<a href="#item-3-1" class="list-group-item" data-toggle="collapse">
-									Bathtub
-									</a>
-									<div class="list-group collapse" id="item-3-1">
-										<a href="#" class="list-group-item">Bathtub 1</a>
-										<a href="#" class="list-group-item">Bathtub 2</a>
-										<a href="#" class="list-group-item">Bathtub 3</a>
-									</div>
-					
-									<a href="#item-3-2" class="list-group-item" data-toggle="collapse">
-				                        Shower
-									</a>
-									<div class="list-group collapse" id="item-3-2">
-										<a href="#" class="list-group-item">Shower 1</a>
-										<a href="#" class="list-group-item">Shower 2</a>
-										<a href="#" class="list-group-item">Shower 3</a>
-									</div>
-					
-									<a href="#item-3-3" class="list-group-item" data-toggle="collapse">
-                                        Toilet
-									</a>
-									<div class="list-group collapse" id="item-3-3">
-										<a href="#" class="list-group-item">Toilet 1</a>
-										<a href="#" class="list-group-item">Toilet 2</a>
-										<a href="#" class="list-group-item">Toilet 3</a>
-									</div>
-					
-				  				</div>
-				  
+								<?php include 'populateCatalogue.php';
+
+									// Populate the catalogue
+									foreach($dbdata_manufacturer as $key_m => $manufacturer){
+
+										echo '<a href="#item-'.($key_m + 1).'" class="list-group-item text-warning bg-secondary font-weight-bold" data-toggle="collapse">';
+										echo $manufacturer['name']; 
+										echo '</a>';
+									
+										echo '<div class="list-group collapse" id="item-'.($key_m + 1).'">';
+												
+										// Populate product types
+										foreach ($dbdata_product_type as $key_pt => $productType){
+													
+											echo '<a href="#item-'.($key_pt + 1).'-'.($key_pt + 1).'" class="list-group-item font-weight-bold" data-toggle="collapse">';
+											echo $productType['name'];
+											echo '</a>';
+									
+											echo '<div class="list-group collapse" id="item-'.($key_pt + 1).'-'.($key_pt + 1).'">';
+											// Populate products
+											echo '</div>';
+										}
+									
+										echo '</div>';
+									}
+								?>
+
 							</div>
 						</div>
 					</div>
@@ -200,9 +122,10 @@
 	<!-- jQuery and JS bundle w/ Popper.js -->
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
 	<!-- Ajax request -->
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 
 		// Send a GET request to the server to update the catalogue
 		// url: php file where the request is sent
@@ -220,5 +143,5 @@
 				});
 			});
 		})(jQuery);
-	</script>
+	</script> -->
 </html>

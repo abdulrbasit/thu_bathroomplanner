@@ -46,10 +46,38 @@
 		}
 
 		// Populate the catalogue
-		
+		for($manufacturer = 0; $manufacturer < sizeof($dbdata_manufacturer); $manufacturer += 1){
+
+			echo '<a href=\"#item-'.($manufacturer + 1).'" class="list-group-item text-warning bg-secondary font-weight-bold" data-toggle="collapse">';
+			echo $dbdata_manufacturer[$manufacturer];
+			echo '</a>';
+
+			echo '<div class="list-group collapse" id="item-'.($manufacturer + 1).'">';
+			
+			// Populate product types
+			for ($productType = 0; $productType < sizeof($dbdata_product_type); $productType += 1){
+				
+				echo '<a href="#item-'.($productType + 1).'-'.($productType + 1).'" class="list-group-item font-weight-bold" data-toggle="collapse">';
+				echo $dbdata_product_type[$productType];
+				echo '</a>';
+
+				echo '<div class="list-group collapse" id="item-'.($productType + 1).'-'.($productType + 1).'">';
+				// Populate products
+				echo '</div>';
+			}
+
+			echo '</div>';
+		}
 
 		// close the database connection in the end
 		pg_close($dblink);
+
+	}
+
+
+	function populateProductTypes($dbdata_product_type){
+
+	
 
 	}
 ?>

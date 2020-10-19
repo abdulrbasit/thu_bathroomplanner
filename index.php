@@ -6,12 +6,13 @@
 		<link rel="stylesheet" href='stylesheet.css'>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 	</head>
-	<body  onload='update_properties()'>
+	<body>
 		<div id="header">Header</div>
 			
 		<!-- CATALOGUE -->
-		<div id="sidebar-left">
-            <div id='dimensions'>
+		<div class="row">
+		<div class="col-sm-3" id="sidebar-left">
+            <div id='dimensions'  onload='javascript:update_properties()'>
 				<table>
 					<tr>
 					<td><label class='object_names' > Name </label></td><td><select id="objects" onchange="update_properties()">
@@ -108,15 +109,20 @@
 				</div>
 			</div>
 		</div>
-		<div id="main"></div>
+		<div class="col" id="main"></div>
+
 		<!--<div id="sidebar-right">Right</div>-->
+		</div>
 		<div class="navbar fixed-bottom" id="footer">Footer</div>
 	</body>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js"></script>
 	<!--please concatenate the scripts intuitively. init should be first. it is easier to understand it like that-->
+	
+	<!-- DON'T DO THAT OR GLOBAL VARIABLES AND FUNCTION CALLS WON'T WORK. THERE IS A REASON FOR THIS ORDER, TCHUESSS ) -->
+
+	<script src="scripts/walls.js"></script>	
 	<script src="scripts/init.js"></script>
 	<script src="scripts/canvas.js"></script>
-	<script src="scripts/walls.js"></script>	
 	<script src='scripts/dimensions.js'></script>
 
 	<!-- jQuery and JS bundle w/ Popper.js -->
@@ -126,7 +132,6 @@
 	
 	<!-- Ajax request -->
 	<!-- <script type="text/javascript">
-
 		// Send a GET request to the server to update the catalogue
 		// url: php file where the request is sent
 		// type: type of request

@@ -1,4 +1,4 @@
-var graphics = new PIXI.Graphics();
+let graphics = new PIXI.Graphics();
 
 function drawGrid() {
   

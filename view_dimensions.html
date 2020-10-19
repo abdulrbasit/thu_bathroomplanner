@@ -37,20 +37,23 @@
 </tr>
 </table>
 
+<!-- still requires pixi in scope, anyways it should be placed on the index.html -->
+<script src="scripts/walls.js"></script>
 <script>
   
 // a function which updates object properties
 function update_properties() {
+  let walls = getWalls();
   let selection = document.getElementById("objects").value;
   let posx = document.getElementById('posx');
   let posy = document.getElementById('posy');
   let width = document.getElementById('width');
   let height = document.getElementById('height');
   if(selection == 'Bathroom Layout'){
-    posx.innerHTML = 10; // replace with the variable with the actual x coordinate
-		posy.innerHTML = 20; // replace with the variable with the actual y coordinate
-		width.innerHTML = 5; // replace with the variable with the actual width
-		height.innerHTML = 15; // replace with the variable with the actual height
+    posx.innerHTML = walls[0].wallSprite.x; // replace with the variable with the actual x coordinate
+		posy.innerHTML = walls[0].wallSprite.y; // replace with the variable with the actual y coordinate
+		width.innerHTML = walls[0].wallSprite.width; // replace with the variable with the actual width
+		height.innerHTML = walls[0].wallSprite.height; // replace with the variable with the actual height
   }else if(selection == 'Toilet'){
         posx.innerHTML = 30;
 		posy.innerHTML = 40;

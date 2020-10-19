@@ -1,90 +1,146 @@
-// a variable for displaying the dimensions of the layout
-let wall_side = 400;
-// variables to display the coordinates of the layout
-let wall1_x = 492;
-let wall1_y = 100;
-const squareX = new PIXI.Sprite(PIXI.Texture.BLACK);
 
-function wallSprInit(){
-   let wallSprite = new PIXI.Sprite(PIXI.Texture.BLACK);
-   wallSprite.factor = 1;
-   wallSprite.anchor.set(0.5);
-   wallSprite.position.set(100, 100);
+//Wall array, defined here for scope.
 
-    return wallSprite;
-}
+let walls;
+//Points (Array for future), defined here for scope.
+let points = [interactionPoint(0, 0)];
 
-
+//Interaction point to resize room layout.
 function interactionPoint(x, y) {
-   let point = new PIXI.Sprite(PIXI.Texture.WHITE);
-   //point.tint = 0x000000;
-   //point.factor = 2;
-   point.anchor.set(0.5);
-  point.height = 20;
-  point.width = 20;
-  point.position.set(x, y);
-  point.visible = false;
+
+      let point = new PIXI.Sprite(PIXI.Texture.WHITE);
+      point.anchor.set(0.0);
+      point.position.set(x, y);
+      point.visible = false;
+      point.interactive = true;
+      point.on('pointerdown', onDragStart)
+      .on('pointerup', onDragEnd)
+      .on('pointerupoutside', onDragEnd)
+      .on('pointermove', onDragMove);   
+  
    return point;
 }
 
-function wall(x,y, width, height=cm/2, horizontal=true){
-   let wallSprite = new PIXI.Sprite(PIXI.Texture.WHITE);
-   this.wallSprite = wallSprite;
-   wallSprite.tint = 0x000000;
-   wallSprite.factor = 2;
-   //wallSprite.anchor.set(0.5);
-   wallSprite.position.set(x, y);
-   wallSprite.height = height;
-   wallSprite.width = width;
-   this.height = height;
-   this.width = width;
-   app.stage.addChild(wallSprite);
-   wallSprite.anchor.set(0.5)
-   if(horizontal){
-      
-      let point1 = new interactionPoint(x - width / 2 + 20, y);
-      this.point1 = point1;
-      app.stage.addChild(point1);
-   
-      let point2 = new interactionPoint(x, y);
-      this.point2 = point2;
-      app.stage.addChild(point2);
-   
-      let point3 = new interactionPoint(x + width / 2 - 20, y);
-      this.point3 = point3;
-      app.stage.addChild(point3);
-   }else{
-      wallSprite.height = width;
-      wallSprite.width = height;
-      this.height = width;
-      this.width = height;
-      app.stage.addChild(wallSprite);
-      let point1 = new interactionPoint(x, y  - width / 2 + 20);
-      this.point1 = point1;
-      app.stage.addChild(point1);
+function onDragStart(event) {
+   // store a reference to the data
+   // the reason for this is because of multitouch
+   // we want to track the movement of this particular touch
+   this.data = event.data;
+   this.alpha = 0.5;
+   this.dragging = true;
+}
 
-      let point2 = new interactionPoint(x, y);
-      this.point2 = point2;
-      app.stage.addChild(point2);
+function onDragEnd() {
+   this.alpha = 1;
+   this.dragging = false;
+   // set the interaction data to null
+   this.data = null;
+}
 
-      let point3 = new interactionPoint(x , y + width / 2 - 20);
-      this.point3 = point3;
-      app.stage.addChild(point3);
+function onDragMove() {
+   if (this.dragging) {
+      const newPosition = this.data.getLocalPosition(this.parent);
+
+      //vertical scaling
+      //If position of pointer changes in y axis move three walls and resize two of them. 
+      if((newPosition.y - points[0].y) != 0){
+         if(!(newPosition.y >= walls[2].wallSprite.y)){
+            //Move three walls.
+            walls[0].wallSprite.y +=  newPosition.y - points[0].y;
+            walls[1].wallSprite.y +=  newPosition.y - points[0].y;
+            walls[3].wallSprite.y +=  newPosition.y - points[0].y;
+            //Decrease size of the walls.
+            if((newPosition.y - points[0].y) > 0){
+             walls[1].wallSprite.height -= newPosition.y - points[0].y;
+             walls[3].wallSprite.height -= newPosition.y - points[0].y;
+            }else if((newPosition.y - points[0].y) < 0 )
+            {
+               //Increase size of the walls.
+             walls[1].wallSprite.height += points[0].y - newPosition.y;
+             walls[3].wallSprite.height += points[0].y - newPosition.y;
+          }
+          //Move interraction point.
+          points[0].y =  newPosition.y;
+         }
+        
+   }
+      //Horizontal scaling.
+      //If pointer moves in x axis move one wall resize two of the walls.
+      if((newPosition.x - points[0].x) != 0){
+         if(!(newPosition.x <= walls[3].wallSprite.x)){
+         walls[1].wallSprite.x +=  newPosition.x - points[0].x;
+         if((newPosition.x - points[0].x) > 0){
+          walls[0].wallSprite.width += newPosition.x - points[0].x;
+          walls[2].wallSprite.width += newPosition.x - points[0].x;
+         }else if((newPosition.x - points[0].x) < 0 )
+         {
+
+          walls[0].wallSprite.width -=  points[0].x - newPosition.x;
+          walls[2].wallSprite.width -=  points[0].x - newPosition.x;
+       }
+         
+            points[0].x = newPosition.x;
+         }
+      }
+   }
+}
+
+
+function onOver(event){
+   //console.log('test');
+   this.visible = false;
+}
+
+function wall(x,y, height, width, horizontal=true){
+   this.x = x;
+   this.y = y;
+
+   if(!horizontal){
+      [width, height] = [height, width];
    }
 
+   this.height = height;
+   this.width = width;
+
+   
+
+   let phics = new PIXI.Graphics();
+   //Draw rectangle for wall.
+   phics.beginFill(0x00);
+   phics.drawRect(0, 0, height, width);
+   phics.endFill();
+
+   //Convert it to Sprite.
+   let ren = new PIXI.AbstractRenderer();
+   let tex = app.renderer.generateTexture(phics);
+   let wallSprite = new PIXI.Sprite(tex);
+   this.wallSprite = wallSprite;
+   wallSprite.x = x;
+   wallSprite.y = y;
+   wallSprite.interactive = true;
+   //If it's clicked on, make the interaction point visible/not visible.
+   wallSprite.on('click', function(event) { points[0].visible = !points[0].visible;});
+   app.stage.addChild(wallSprite);
 }
 
-// a function to draw the walls for the layout on the canvas
+
+
+
 function drawLayout1(){
-   // horizontal wall: top
-   let wall1 = new wall(wall1_x, wall1_y, wall_side, cm/2, true);
-   // vertical wall: left
-   let wall2 = new wall(300,300, wall_side, cm/2, false);
-   // vertical wall: right
-   let wall3 = new wall(685,300, wall_side, cm/2, false);
-   // horizontal wall: bottom
-   let wall4 = new wall(492, 500, wall_side, cm/2, true);
+   
+
+   let wall1 = new wall(100, 100, 400, cm/2, true);
+   let wall2 = new wall(500, 100, 400, cm/2, false);
+   let wall3 = new wall(100 + (cm/2), 500, 400, cm/2, true);
+   let wall4 = new wall(100, 100+(cm/2), 400, cm/2, false);
+   walls = [wall1, wall2, wall3, wall4];
+   //Place interaction point.
+   points[0].x = 490;
+   points[0].y = 110;
+   app.stage.addChild(points[0]);
+   
 }
 
-// execute the drawLayout function
-drawLayout1();
+function getWalls(){
+   return walls;
+}

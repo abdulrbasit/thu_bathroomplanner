@@ -1,8 +1,5 @@
 <?php
 /**
-	Author: Abdul Basit 
-	Co-Author: Nelson Waffo
-	Owner: Abdul Basit
 	This script implements postgreSQL access to the database
  */
 

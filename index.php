@@ -74,10 +74,11 @@
 											
 											// Populate products
 											// Formula for img dimensions (aspect ratio): [ newWidth = (newHeight * aspectRatio) ], [ aspectRatio = (oldWidth / oldHeight) ]
+											// The product dimensions from the database are used (length = image width, width = image height) as they provide the aspect ratio (top-down 2D image)
 											foreach ($dbdata_product as $key_prod => $product){
 												if($product['product_type_id'] == $productType_id){
 													echo '<a href="#" class="list-group-item">';
-													echo '<img src="'.$product['image'].'" alt="Product image" width="'.(90 * ($product['width'] / $product['height'])).'" height="90">';
+													echo '<img src="'.$product['image'].'" alt="Product image" width="'.(90 * ($product['length'] / $product['width'])).'" height="90">';
 													echo $product['name'];
 													echo '</a>';
 												}

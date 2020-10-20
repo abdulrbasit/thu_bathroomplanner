@@ -22,7 +22,7 @@
 	}
 
 	//Fetch all rows from manufacturer, product types and product tables
-	$result_manufacturer = pg_query($dblink, "SELECT name FROM manufacturer");
+	$result_manufacturer = pg_query($dblink, "SELECT * FROM manufacturer");
 	$result_product_type = pg_query($dblink, "SELECT * FROM product_type");
 	$result_product = pg_query($dblink, "SELECT * FROM product");
 		

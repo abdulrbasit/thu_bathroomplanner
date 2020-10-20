@@ -49,33 +49,47 @@
 
 							<div class="list-group list-group-root well">
 
-								<?php include 'populateCatalogue.php';
+							<?php include 'populateCatalogue.php';
 
-									// Populate the catalogue
-									foreach($dbdata_manufacturer as $key_m => $manufacturer){
+								// Populate the catalogue
+								foreach($dbdata_manufacturer as $key_m => $manufacturer){
+									$manufacturer_id = $manufacturer['id'];
 
-										echo '<a href="#item-'.($key_m + 1).'" class="list-group-item text-warning bg-secondary font-weight-bold" data-toggle="collapse">';
-										echo $manufacturer['name']; 
-										echo '</a>';
-									
-										echo '<div class="list-group collapse" id="item-'.($key_m + 1).'">';
-												
-										// Populate product types
-										foreach ($dbdata_product_type as $key_pt => $productType){
-													
-											echo '<a href="#item-'.($key_pt + 1).'-'.($key_pt + 1).'" class="list-group-item font-weight-bold" data-toggle="collapse">';
+									echo '<a href="#item-'.($key_m + 1).'" class="list-group-item text-warning bg-secondary font-weight-bold" data-toggle="collapse">';
+									echo $manufacturer['name']; 
+									echo '</a>';
+
+									echo '<div class="list-group collapse" id="item-'.($key_m + 1).'">';
+											
+									// Populate product types
+									foreach ($dbdata_product_type as $key_pt => $productType){
+										$productType_id = $productType['id'];
+										
+										if($productType['manufacturer_id'] == $manufacturer_id){
+											echo '<a href="#item-'.($manufacturer_id).'-'.($productType_id).'" class="list-group-item font-weight-bold" data-toggle="collapse">';
 											echo $productType['name'];
 											echo '</a>';
-									
-											echo '<div class="list-group collapse" id="item-'.($key_pt + 1).'-'.($key_pt + 1).'">';
+								
+											echo '<div class="list-group collapse" id="item-'.($manufacturer_id).'-'.($productType_id).'">';
+											
 											// Populate products
+											// Formula for img dimensions (aspect ratio): [ newWidth = (newHeight * aspectRatio) ], [ aspectRatio = (oldWidth / oldHeight) ]
+											foreach ($dbdata_product as $key_prod => $product){
+												if($product['product_type_id'] == $productType_id){
+													echo '<a href="#" class="list-group-item">';
+													echo '<img src="'.$product['image'].'" alt="Product image" width="'.(90 * ($product['width'] / $product['height'])).'" height="90">';
+													echo $product['name'];
+													echo '</a>';
+												}
+											}
+										
 											echo '</div>';
 										}
-									
-										echo '</div>';
 									}
-								?>
 
+									echo '</div>';
+								}
+							?>
 							</div>
 						</div>
 					</div>

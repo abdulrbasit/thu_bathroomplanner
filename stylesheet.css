@@ -5,15 +5,9 @@
 	text-align: center;
 }
 
-/* Setting the height of the document to 100% so that catalogues (sidebar-left) height can be set to 100% */
-html, body {
-	height: 100%;
-}
-
 #sidebar-left{
 	color: white;
 	float:left;
-	height: 100%;
 	width:20%;
 	background-color: black;
 }

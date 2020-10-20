@@ -1,6 +1,5 @@
 
 //Wall array, defined here for scope.
-
 let walls;
 //Points (Array for future), defined here for scope.
 let points = [interactionPoint(0, 0)];
@@ -127,8 +126,6 @@ function wall(x,y, height, width, horizontal=true){
 
 
 function drawLayout1(){
-   
-
    let wall1 = new wall(100, 100, 400, cm/2, true);
    let wall2 = new wall(500, 100, 400, cm/2, false);
    let wall3 = new wall(100 + (cm/2), 500, 400, cm/2, true);
@@ -138,7 +135,6 @@ function drawLayout1(){
    points[0].x = 490;
    points[0].y = 110;
    app.stage.addChild(points[0]);
-   
 }
 
 function getWalls(){

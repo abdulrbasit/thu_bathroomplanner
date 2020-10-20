@@ -1,17 +1,16 @@
+let selection = document.getElementById("objects").value;
+let posx = document.getElementById('posx');
+let posy = document.getElementById('posy');
+let width = document.getElementById('width');
+let height = document.getElementById('height');
+	
 // this is a work in progress. the function is not dynamic yet, but will be.
-
-
 function update_properties() {
-    let selection = document.getElementById("objects").value;
-    let posx = document.getElementById('posx');
-    let posy = document.getElementById('posy');
-    let width = document.getElementById('width');
-    let height = document.getElementById('height');
     if(selection == 'Bathroom Layout'){
-      posx.innerHTML = walls[0].wallSprite.x; // replace with the variable with the actual x coordinate
-      posy.innerHTML = walls[0].wallSprite.y; // replace with the variable with the actual y coordinate
-      width.innerHTML = walls[0].wallSprite.width; // replace with the variable with the actual width
-      height.innerHTML = walls[2].wallSprite.width; // replace with the variable with the actual height
+      posx.innerHTML = walls[0].wallSprite.x; 
+      posy.innerHTML = walls[0].wallSprite.y; 
+      width.innerHTML = walls[0].wallSprite.width; 
+      height.innerHTML = walls[2].wallSprite.width; 
     }else if(selection == 'Toilet'){
           posx.innerHTML = 30;
           posy.innerHTML = 40;

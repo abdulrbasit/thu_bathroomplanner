@@ -99,7 +99,7 @@
 						<div class="just-padding">
 							<div class="list-group list-group-root">
 								<div class="">
-									<a class="list-group-item text-warning bg-secondary font-weight-bold d-flex justify-content-center">
+								<a class="roomLayout list-group-item text-warning bg-secondary font-weight-bold d-flex justify-content-center" id="roomLayout_1">
 										-----------------<br>
 										|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|<br>
 										|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|<br>
@@ -109,7 +109,7 @@
 									</a>
 								</div>
 								<div class="">
-									<a class="list-group-item text-warning bg-secondary font-weight-bold d-flex justify-content-center">
+									<a class="roomLayout list-group-item text-warning bg-secondary font-weight-bold d-flex justify-content-center" id="roomLayout_2">
 										-----------------<br>
 										|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|<br>
 										|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|<br>

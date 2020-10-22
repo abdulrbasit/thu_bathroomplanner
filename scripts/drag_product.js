@@ -3,7 +3,27 @@
  */
 
 // obtain the array of products from php.
-let products = JSON.parse( document.getElementById('json_products').innerHTML );
+// Send a GET request to the server to obtain the products
+// url: php file where the request is sent
+// type: type of request
+// datatype: type of data that is looked for in the response
+let products;
+
+(function ($) {
+	$(document).ready(function () {
+		$.ajax({
+			url: 'getProducts.php',
+			type: 'get',
+			dataType: 'json',
+			success: function (response) {
+                console.log("Successfully loaded products.");
+                products = JSON.parse(JSON.stringify(response));
+			}
+		});
+	});
+})(jQuery);
+
+//let products = JSON.parse( document.getElementById('json_products').innerHTML );
 
 // creat an array for the products added to the canvas: this will be used later
 let canvas_products = [];

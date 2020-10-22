@@ -264,9 +264,10 @@ function drawLayout1(){
    walls = [wall1, wall2, wall3, wall4];
    
 }
-drawLayout1();
-
 
 function getWalls(){
    return walls;
 }
+
+// draw the layout
+drawLayout1();

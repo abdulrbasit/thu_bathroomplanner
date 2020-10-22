@@ -4,8 +4,8 @@ const cm = 37.79;
 //Global Scale Variable
 var scale = 1/100;
 
-var scWidth = 0.7 * screen.width + 90;
-var scrHeight = screen.height - 270;
+var scWidth = 0.7 * screen.width;
+var scrHeight = 0.7 * screen.height;
 
 //Scale change.
 function setScale(newScale){
@@ -23,6 +23,6 @@ document.getElementById('main').appendChild(app.view);
 //document.body.appendChild(app.view);
 
 //Init screen size.
-app.renderer.resize(scWidth * 0.8, scrHeight*0.7);
+app.renderer.resize(scWidth, scrHeight);
 
-drawLayout1();
+

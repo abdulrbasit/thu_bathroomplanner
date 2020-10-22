@@ -11,7 +11,7 @@
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	</head>
 	<body>
-		<div id="header"><h1>Bathroom Planner</h1></div>
+		<div class="text-white font-weight-bold" id="header"><h1>Bathroom Planner</h1></div>
 			
 		<!-- CATALOGUE -->
 		<div class="row">
@@ -41,7 +41,7 @@
 								foreach($dbdata_manufacturer as $key_m => $manufacturer){
 									$manufacturer_id = $manufacturer['id'];
 
-									echo '<a href="#item-'.($key_m + 1).'" class="list-group-item text-warning bg-secondary font-weight-bold" data-toggle="collapse">';
+									echo '<a href="#item-'.($key_m + 1).'" class="list-group-item text-white font-weight-bold" data-toggle="collapse">';
 									echo $manufacturer['name']; 
 									echo '</a>';
 
@@ -52,7 +52,7 @@
 										$productType_id = $productType['id'];
 										
 										if($productType['manufacturer_id'] == $manufacturer_id){
-											echo '<a href="#item-'.($manufacturer_id).'-'.($productType_id).'" class="list-group-item font-weight-bold" data-toggle="collapse">';
+											echo '<a href="#item-'.($manufacturer_id).'-'.($productType_id).'" class="list-group-item text-white font-weight-bold" data-toggle="collapse">';
 											echo $productType['name'];
 											echo '</a>';
 								
@@ -63,7 +63,7 @@
 											// The product dimensions from the database are used (length = image width, width = image height) as they provide the aspect ratio (top-down 2D image)
 											foreach ($dbdata_product as $key_prod => $product){
 												if($product['product_type_id'] == $productType_id){
-													echo '<a href="#" class="list-group-item">';
+													echo '<a href="#" class="list-group-item text-white">';
 													echo '<img src="'.$product['image'].'" class="products" id="'.$product['name'].'" alt="Product image" width="'.(90 * ($product['length'] / $product['width'])).'" height="90" ondragstart="set_id(this.id)">';
 													echo $product['name'];
 													echo '</a>';
@@ -84,7 +84,7 @@
 						<div class="just-padding">
 							<div class="list-group list-group-root">
 								<div class="">
-									<a class="list-group-item text-warning bg-secondary font-weight-bold d-flex justify-content-center">
+									<a class="roomLayout list-group-item text-white font-weight-bold d-flex justify-content-center">
 										-----------------<br>
 										|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|<br>
 										|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|<br>
@@ -94,7 +94,7 @@
 									</a>
 								</div>
 								<div class="">
-									<a class="list-group-item text-warning bg-secondary font-weight-bold d-flex justify-content-center">
+									<a class="roomLayout list-group-item text-white font-weight-bold d-flex justify-content-center">
 										-----------------<br>
 										|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|<br>
 										|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|<br>

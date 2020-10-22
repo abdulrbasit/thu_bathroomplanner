@@ -132,8 +132,9 @@
 	</body>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js"></script>
 
-	<script src="scripts/walls.js"></script>	
+		
 	<script src="scripts/init.js"></script>
+	<script src="scripts/walls.js"></script>
 	<script src="scripts/canvas.js"></script>
 	<script src='scripts/dimensions.js'></script>
 

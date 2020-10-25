@@ -16,14 +16,11 @@ let products;
 			type: 'get',
 			dataType: 'json',
 			success: function (response) {
-                console.log("Successfully loaded products.");
                 products = JSON.parse(JSON.stringify(response));
 			}
 		});
 	});
 })(jQuery);
-
-//let products = JSON.parse( document.getElementById('json_products').innerHTML );
 
 // creat an array for the products added to the canvas: this will be used later
 let canvas_products = [];
@@ -32,7 +29,8 @@ let the_canvas_width = app.renderer.width;
 let the_canvas_height = app.renderer.height;
 // a variable to give an id to canvas products: later use
 let product_id = 0;
-
+// a reference to the select box for showing dimensions
+//let select_box = document.getElementById('objects');
 // a variable to store the id of the clicked product
 let the_id='';
 // a function which sets the id of the clicked product
@@ -63,33 +61,68 @@ $( function() {
                // get mouse offset relative to dragged item
                var dragItemOffsetX = event.offsetX;
                var dragItemOffsetY = event.offsetY;
-               // get the clicked product
+               // get the image of the product from the html document
                var product = document.getElementById(the_id);
                // get position of dragged item relative to drop target and center coordinates
                var positionX = dropPositionX-dragItemOffsetX+product.width/2;
                var positionY = dropPositionY-dragItemOffsetY+product.height/2;
                // get a texture of the product image
                var texture = PIXI.Texture.from(product.src);
-               // create product on the canvas
-               create_product(positionX, positionY, texture, product_id);
+               
+               // dimensions of the product in centimeters
+               let product_width_scaled=0;
+               let product_height_scaled=0;
+
                // add the product to the array of canvas products
                for(i=0, len=products.length; i<len; ++i){
+                  // console.log("the product id: "+products[i].id);
                    if(products[i].id == the_id){
                        let temp_product = {};
                        temp_product.id = product_id;
-                       temp_product.x = Math.round(positionX - product.width / 2);
-                       temp_product.y = Math.round(positionY - product.height / 2);
+                       temp_product.x = ((positionX - product.width / 2)/cm).toFixed(1);
+                       temp_product.y = ((positionY - product.height / 2)/cm).toFixed(1);
                        temp_product.name = products[i].name;
                        temp_product.image = products[i].image;
-                       temp_product.width = products[i].width;
-                       temp_product.height = products[i].height;
+                       
+                       // scaled height and width of the product
+                       /**
+                        * product[i].width is the actual width in centimeters. multiplying it with cm yields the width in pixels.
+                        * then multiplying it with the scale scales it (reduces it)
+                        */
+                       // problem with width and height: width should be the horizontal side; height is the vertical side. it is a standard
+                       // for 2D apps. the change should be made in the database
+                       product_width_scaled = Math.round((products[i].length * cm) * scale);
+                       product_height_scaled = Math.round((products[i].width * cm) * scale);
+                       
+                       // scaled height and width of the product in centimeters
+                       /**
+                        * the scaled width in pixels is converted to centimeters by dividing by cm. cm represents the number of pixels
+                        * per centimeter.
+                        */
+                       temp_product.width = (product_width_scaled/cm).toFixed(1);
+                       temp_product.height = (product_height_scaled/cm).toFixed(1);
+                       
+
                        // add the dropped product in the list of canvas products
+
                        canvas_products.push(temp_product);
-                       // update the product id
-                       product_id++;
+
+                       // add the product to the select box as an option
+                       // create a new option element
+                       let option = document.createElement('option');
+                       // create a text node to add to the option element
+                       option.appendChild(document.createTextNode(temp_product.name));
+                       // set value property for the option
+                       option.value = temp_product.id;
+                       // add the option to the select box
+                       select_box.appendChild(option);
                        break;
                    }
                }
+                // create product on the canvas
+                create_product(positionX, positionY, texture, product_id++, product_width_scaled, product_height_scaled);
+
+ 
           }
       }
     );
@@ -105,7 +138,7 @@ class Sprite extends PIXI.Sprite {
 }
 
 // a function used to create products on the canvas
-function create_product(posX, posY, texture, product_id)
+function create_product(posX, posY, texture, product_id, product_width_scaled,product_height_scaled)
 {
     // create a sprite for the product on the canvas
     let product = new Sprite(texture, product_id);
@@ -115,11 +148,18 @@ function create_product(posX, posY, texture, product_id)
     product.buttonMode = true;
     // center the product's anchor point
     product.anchor.set(0.5);
-    // make the product look normal
-    product.scale.set(1);
+    //product.scale.set(1);
+    
+    
+    // setting the scaled dimensions of the product: the width of the sprite is the horizontal side; 
+    //the height is the vertical side. so inverting is required
+    product.width = product_width_scaled;
+    product.height = product_height_scaled;
+    
+
     // setup events for dragging and dropping the product
     product
-        // events for drag start
+        .on('added', create)
         .on('mousedown', start_dragging)
         .on('touchstart', start_dragging)
         // events for drag end
@@ -134,20 +174,31 @@ function create_product(posX, posY, texture, product_id)
     // position of the product on the canvas
     product.position.x = posX;
     product.position.y = posY;
+
     // add it to the stage
     app.stage.addChild(product);
+}
+
+// a function which is called when the sprite is added to the stage
+function create(){
+    // display the dimensions of the dropped product straight away
+    select_box.value = this.id;
+    update_properties();
 }
 
 // a function which handles the start of the dragging of the product
 function start_dragging(event)
 {
+    // when the user clicks on a product, show its dimensions
+    select_box.value = this.id; 
+    // update object properties
+    update_properties();
     // store a reference to the data to track the movement of this particular touch 
     this.data = event.data;
     // make the product semi-transparent when the user starts dragging
     this.alpha = 0.5;
     // enable the dragging of the product
     this.dragging = true;
-
     // update offsets so the drag starts where the user clicked
     this.offsetX = this.x - this.data.getLocalPosition(this.parent).x;
     this.offsetY = this.y - this.data.getLocalPosition(this.parent).y;
@@ -158,6 +209,7 @@ function stop_dragging()
 {
     // make the product non-transparent when the dragging ends
     this.alpha = 1;
+    // stop the dragging of the product
     this.dragging = false;
     // set the interaction data to null
     this.data = null;
@@ -199,11 +251,14 @@ function drag()
         // store the coordinates of the moved product on the canvas: for later use
         for(i=0, len=canvas_products.length; i < len; ++i){
             if(canvas_products[i].id == this.id){
-                // update the coordinates for the display
-                canvas_products[i].x = Math.round(newPositionX - half_width);
-                canvas_products[i].y = Math.round(newPositionY - half_height);
+                // update the coordinates of the dragged object for the display
+                canvas_products[i].x = ((newPositionX - half_width)/cm).toFixed(1);
+                canvas_products[i].y = ((newPositionY - half_height)/cm).toFixed(1);
             }
         }
+
+        // update properties for the user
+        update_properties();
         
     }
 }

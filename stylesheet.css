@@ -74,7 +74,7 @@ html, body, .row {
 .list-group.list-group-root > .list-group > .list-group > .list-group-item {
 	padding-left: 30px;
 }
-  
+
 /* Remove the underline for all anchor elements */
 a {
 	text-decoration: none !important;
@@ -83,11 +83,11 @@ a {
 /**styles for the dimension layout*/
 textarea, option, select{
 	color: white;
-	background-color: black;
+	background-color: #123;
 }
 .object_names{
 	color: white;
-	background-color: black;
+	background-color: #123;
     font-size: 15px; 
     padding: 1px;
     margin-right: 1px;

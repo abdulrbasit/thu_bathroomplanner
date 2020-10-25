@@ -1,6 +1,20 @@
-
-//Wall array, defined here for scope.
+// Wall array, defined here for scope.
 let walls;
+
+// a reference to the select box for showing dimensions
+let select_box = document.getElementById('objects');
+// get the value of the first option of the select box
+let bathroom_layout = select_box.options[0].value;
+// wall dimensions
+let wall_initial_side = 400;
+let wall_width = (wall_initial_side/cm).toFixed(1) + " cm";
+let wall_height = (wall_initial_side/cm).toFixed(1) + " cm";
+// layout top-left corner coordinates
+/*
+let wall_x = 100;
+let wall_y = 100;
+*/
+
 //Points (Array for future), defined here for scope.
 let points = [];
 
@@ -41,6 +55,10 @@ function interactionPoint(sprite) {
 }
 
 function onDragStart(event) {
+   // when the user clicks on a wall, show the dimensions
+   select_box.value = bathroom_layout; 
+   // update object properties
+   update_properties();
    // store a reference to the data
    // the reason for this is because of multitouch
    // we want to track the movement of this particular touch
@@ -97,7 +115,7 @@ function onDragMove() {
                
                verticalWall.wallSprite.text.y = (verticalWall.wallSprite.width / 2) + verticalWall.wallSprite.y;
                verticalWall.wallSprite.text.text = ((verticalWall.wallSprite.width/cm)  /scale).toFixed(2)  + " cm";
-               
+               wall_height = (verticalWall.wallSprite.width/cm).toFixed(1)  + " cm";
                //verticalWall.wallSprite.text.updateText();
                //verticalWall.wallSprite.text.visible = false;
             }
@@ -107,8 +125,6 @@ function onDragMove() {
          this.sprite.y = newPosition.y;
       }
       if(!(this.sprite.horizontal)){ //if this wall is vertical
-         
-         
          let test = 0;
          attachedWalls.forEach(horizantalWall => {
             //move and resize horizantal walls
@@ -152,21 +168,23 @@ function onDragMove() {
             }
             horizantalWall.wallSprite.text.x = (horizantalWall.wallSprite.width / 2) + horizantalWall.wallSprite.x;
             horizantalWall.wallSprite.text.text = ((horizantalWall.wallSprite.width/cm) /scale).toFixed(2)  + " cm";
+            wall_width = (horizantalWall.wallSprite.width/cm).toFixed(1)  + " cm";
          });
-         this.x = newPosition.x ;//+ test;
+         this.x = newPosition.x ;
          this.sprite.text.x = this.x + 10;
-         this.sprite.x = newPosition.x;
+         this.sprite.x = newPosition.x;   
       }
-              
+      // update layout display
+      update_properties();    
    }
 }
 
 
 function onOver(event){
-   //console.log('test');
    this.visible = false;
 }
 
+// a constructor for the wall
 function wall(x,y, height, width, horizontal){
    this.x = x;
    this.y = y;
@@ -178,8 +196,6 @@ function wall(x,y, height, width, horizontal){
    this.height = height;
    this.width = width;
    
-
-
    let phics = new PIXI.Graphics();
    //Draw rectangle for wall.
    phics.beginFill(0x00);
@@ -242,20 +258,20 @@ function wall(x,y, height, width, horizontal){
 function drawLayout1(){
 
    //top
-   let wall1 = new wall(100, 100, 400, cm/2, true);
+   let wall1 = new wall(100, 100, wall_initial_side, cm/2, true);
    //right
-   let wall2 = new wall(500 + (cm/2), 100, 400, cm/2, false);
+   let wall2 = new wall(500 + (cm/2), 100, wall_initial_side, cm/2, false);
    wall2.attachWall(wall1);
    wall1.attachWall(wall2);
 
    //bottom
-   let wall3 = new wall(100, 500 - (cm/2), 400, cm/2, true);
+   let wall3 = new wall(100, 500 - (cm/2), wall_initial_side, cm/2, true);
    wall3.attachWall(wall2);
 
    wall2.attachWall(wall3);
 
    //left
-   let wall4 = new wall(100,  100, 400, cm/2, false);
+   let wall4 = new wall(100,  100, wall_initial_side, cm/2, false);
    wall4.attachWall(wall1);
    wall4.attachWall(wall3);
 

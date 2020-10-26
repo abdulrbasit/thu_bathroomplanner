@@ -255,10 +255,10 @@ function wall(x,y, height, width, horizontal){
 
 
 
-function drawLayout1(){
+function drawroomLayout_1(){
 
    //top
-   let wall1 = new wall(100, 100, wall_initial_side, cm/2, true);
+   let wall1 = new wall(100, 100, 400, cm/2, true);
    //right
    let wall2 = new wall(500 + (cm/2), 100, wall_initial_side, cm/2, false);
    wall2.attachWall(wall1);
@@ -281,9 +281,55 @@ function drawLayout1(){
    
 }
 
+function drawroomLayout_2(){
+
+   //top
+   let wall1 = new wall(100, 100, 600, cm/2, true);
+
+   //right
+   let wall2 = new wall(700 + (cm/2), 100, wall_initial_side, cm/2, false);
+   wall2.attachWall(wall1);
+   wall1.attachWall(wall2);
+
+   //bottom
+   let wall3 = new wall(100, 700 - (cm/2), wall_initial_side, cm/2, true);
+   
+   
+   //left
+   let wall4 = new wall(100,  100, 600, cm/2, false);
+   wall4.attachWall(wall1);
+   wall4.attachWall(wall3);
+   wall3.attachWall(wall4);
+   wall1.attachWall(wall4);
+   //bottom middle
+   let wall5 = new wall(500 + (cm/2),  500, 200, cm/2, true);
+   wall5.attachWall(wall2);
+   wall2.attachWall(wall5);
+
+   //right middle
+   let wall6 = new wall(500 + (cm/2),  500, 200, cm/2, false);
+   wall6.attachWall(wall3);
+   wall6.attachWall(wall5);
+   wall3.attachWall(wall6);
+   wall5.attachWall(wall6);
+   walls = [wall1, wall2, wall3, wall4, wall5, wall6];
+}
+
 function getWalls(){
    return walls;
 }
 
-// draw the layout
-drawLayout1();
+drawroomLayout_2();
+
+$(".roomLayout").on('click', function(event){
+   event.stopPropagation();
+   if(walls.length != 0){
+      walls.forEach(element => {
+         element.wallSprite.destroy();
+         element.wallSprite.text.destroy();
+      });
+   }
+   
+   let func = "draw" + event.target.id + "();";
+   eval(func);
+});

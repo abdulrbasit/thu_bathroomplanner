@@ -1,6 +1,13 @@
 // Wall array, defined here for scope.
 let walls;
 
+// a constant to distinguish layouts
+const layouts = Object.freeze({
+   "layout1": 1,
+   "layout2": 2
+});
+let layout = layouts.layout1;
+
 //Points (Array for future), defined here for scope.
 let points = [];
 
@@ -150,7 +157,7 @@ function onDragMove() {
          this.sprite.x = newPosition.x;
       }
       // display the area of the room
-      displayArea();
+      displayArea(layout);
    }
 }
 
@@ -228,6 +235,9 @@ function wall(x,y, height, width, horizontal){
 
 function drawroomLayout_1(){
 
+   // set the layout choice
+   layout = layouts.layout1;
+
    //top
    let wall1 = new wall(100, 100, 400, cm/2, true);
    //right
@@ -251,10 +261,13 @@ function drawroomLayout_1(){
    walls = [wall1, wall2, wall3, wall4];
 
    // display the area of the room
-   displayArea();
+   displayArea(layout);
 }
 
 function drawroomLayout_2(){
+
+   // set the layout choice
+   layout = layouts.layout2;
 
    //top
    let wall1 = new wall(100, 100, 600, cm/2, true);
@@ -286,7 +299,7 @@ function drawroomLayout_2(){
    walls = [wall1, wall2, wall3, wall4, wall5, wall6];
 
    // display the area
-   displayArea();
+   displayArea(layout);
 }
 
 function getWalls(){
@@ -294,15 +307,25 @@ function getWalls(){
 }
 
 // a function to display the area of the bathroom in the center of the  bathroom
-function displayArea(){
+function displayArea(layout){
       // coordinates of the text to be displayed in the center of the room
       let x = ((walls[0].wallSprite.x)) + (((walls[0].wallSprite.width))/2) - 2 * cm;
       let y = (((walls[0].wallSprite.y)) + ((walls[3].wallSprite.width))/2) - (cm/2);
       // dimensions of the room
       let width = (((walls[0].wallSprite.width)/cm)/scale).toFixed(2);
       let length = (((walls[3].wallSprite.width)/cm)/scale).toFixed(2);
-      // calculate the area
-      let area = (width * length * (1/10000)).toFixed(2);
+
+      let area;
+      if(layout == layouts.layout1){
+          // calculate the area
+          area = (width * length * (1/10000)).toFixed(2);
+      }else if(layout == layouts.layout2){
+          // other dimensions
+          let small_width = (((walls[4].wallSprite.width)/cm)/scale).toFixed(2);
+          let small_length = (((walls[5].wallSprite.width)/cm)/scale).toFixed(2);
+          area = ((width * length * (1/10000)).toFixed(2) - (small_width * small_length * (1/10000)).toFixed(2)).toFixed(2);
+      }
+
       // set the area to be displayed
       area_text.text = ("Area: " + area + " \u33A1");
       // set position of the text
@@ -311,6 +334,7 @@ function displayArea(){
       app.stage.addChild(area_text);
 }
 
+// draw the second layout
 drawroomLayout_2();
 
 $(".roomLayout").on('click', function(event){

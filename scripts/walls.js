@@ -1,22 +1,11 @@
 // Wall array, defined here for scope.
 let walls;
 
-// a reference to the select box for showing dimensions
-let select_box = document.getElementById('objects');
-// get the value of the first option of the select box
-let bathroom_layout = select_box.options[0].value;
-// wall dimensions
-let wall_initial_side = 400;
-let wall_width = (wall_initial_side/cm).toFixed(1) + " cm";
-let wall_height = (wall_initial_side/cm).toFixed(1) + " cm";
-// layout top-left corner coordinates
-/*
-let wall_x = 100;
-let wall_y = 100;
-*/
-
 //Points (Array for future), defined here for scope.
 let points = [];
+
+// a variable to display the area of a text
+let area_text = new PIXI.Text("", {fontFamily: "Arial", fontSize : "22px", fontWeight: "normal"});
 
 //Interaction point to resize room layout.
 function interactionPoint(sprite) {
@@ -49,16 +38,11 @@ function interactionPoint(sprite) {
       .on('pointerup', onDragEnd)
       .on('pointerupoutside', onDragEnd)
       .on('pointermove', onDragMove)
-      .on('click', function(event){ this.destroy();});   
-  
+      .on('click', function(event){ this.destroy();});
  //  return point;
 }
 
 function onDragStart(event) {
-   // when the user clicks on a wall, show the dimensions
-   select_box.value = bathroom_layout; 
-   // update object properties
-   update_properties();
    // store a reference to the data
    // the reason for this is because of multitouch
    // we want to track the movement of this particular touch
@@ -90,15 +74,13 @@ function onDragMove() {
                     //    verticalWall.wallSprite.text.y -= this.y - newPosition.y;
                   //if it is above the walls move the walls upwards and increase the length
                   }else if(verticalWall.wallSprite.y > this.sprite.y){
-                     
                      verticalWall.wallSprite.y -=  this.y  - newPosition.y;
-                    
                      verticalWall.wallSprite.width += this.y - newPosition.y;
                   }
 
                }else if(newPosition.y > this.y){ //if the anchor sprite moved downwards
                   //if anchor is below the walls
-                  if(verticalWall.wallSprite.y < this.sprite.y){ 
+                  if(verticalWall.wallSprite.y < this.sprite.y){
                   //   verticalWall.wallSprite.y = newPosition.y;
                      //increase the size
                      verticalWall.wallSprite.width += newPosition.y - this.sprite.y ;
@@ -112,10 +94,8 @@ function onDragMove() {
                   }
                }
                }
-               
                verticalWall.wallSprite.text.y = (verticalWall.wallSprite.width / 2) + verticalWall.wallSprite.y;
                verticalWall.wallSprite.text.text = ((verticalWall.wallSprite.width/cm)  /scale).toFixed(2)  + " cm";
-               wall_height = (verticalWall.wallSprite.width/cm).toFixed(1)  + " cm";
                //verticalWall.wallSprite.text.updateText();
                //verticalWall.wallSprite.text.visible = false;
             }
@@ -131,7 +111,6 @@ function onDragMove() {
             if(horizantalWall.horizantal){
                //If moved on x
                if (newPosition.x - this.x != 0) {
-                  
                   //if moved to the left
                   if (newPosition.x - this.x < 0) {
                      //if selected anchor is on the left side of horizontal walls
@@ -140,13 +119,13 @@ function onDragMove() {
                         //Move horizontal walls to the left and increase their size
                         horizantalWall.wallSprite.x -= this.x - newPosition.x;
                         horizantalWall.wallSprite.width += this.x - newPosition.x; //+ test;
-                     }//if selected anchor is on the right side of horizontal walls 
+                     }//if selected anchor is on the right side of horizontal walls
                      else if((this.sprite.x > horizantalWall.wallSprite.x )){
                         //decrease size
                         test = 0;
                         horizantalWall.wallSprite.width -= this.x - newPosition.x;
                      }
-                  }//If selected anchor moved to the right 
+                  }//If selected anchor moved to the right
                   else if (newPosition.x - this.x > 0) {
                      //if selected anchor is on the left side of horizontal walls
                      if (this.sprite.x <= horizantalWall.wallSprite.x ) {
@@ -154,28 +133,24 @@ function onDragMove() {
                         //Move horizontal walls to the right and decrease their size
                         horizantalWall.wallSprite.x += newPosition.x - this.x;
                         horizantalWall.wallSprite.width -= newPosition.x - this.x; //+ test;
-                     }//if selected anchor is on the right side of horizontal walls 
+                     }//if selected anchor is on the right side of horizontal walls
                      else if((this.sprite.x > horizantalWall.wallSprite.x )){
                         //decrease size
                         test = 0;
                         horizantalWall.wallSprite.width += newPosition.x - this.x;
                      }
                   }
-                 
-                 
                }
-               
             }
             horizantalWall.wallSprite.text.x = (horizantalWall.wallSprite.width / 2) + horizantalWall.wallSprite.x;
             horizantalWall.wallSprite.text.text = ((horizantalWall.wallSprite.width/cm) /scale).toFixed(2)  + " cm";
-            wall_width = (horizantalWall.wallSprite.width/cm).toFixed(1)  + " cm";
          });
          this.x = newPosition.x ;
          this.sprite.text.x = this.x + 10;
-         this.sprite.x = newPosition.x;   
+         this.sprite.x = newPosition.x;
       }
-      // update layout display
-      update_properties();    
+      // display the area of the room
+      displayArea();
    }
 }
 
@@ -195,7 +170,6 @@ function wall(x,y, height, width, horizontal){
 
    this.height = height;
    this.width = width;
-   
    let phics = new PIXI.Graphics();
    //Draw rectangle for wall.
    phics.beginFill(0x00);
@@ -224,7 +198,7 @@ function wall(x,y, height, width, horizontal){
       text.y = y + (height / 2);
    }
    wallSprite.text = text;
-   
+
    app.stage.addChild(wallSprite.text);
 
   // var wsp = this.wallSprite;
@@ -233,10 +207,7 @@ function wall(x,y, height, width, horizontal){
       // points[0].visible = !points[0].visible;
       // if(points[0].visible)
       let point1 = new interactionPoint(this);
-      
    });
-
-
 
    app.stage.addChild(wallSprite);
 
@@ -260,25 +231,27 @@ function drawroomLayout_1(){
    //top
    let wall1 = new wall(100, 100, 400, cm/2, true);
    //right
-   let wall2 = new wall(500 + (cm/2), 100, wall_initial_side, cm/2, false);
+   let wall2 = new wall(500 + (cm/2), 100, 400, cm/2, false);
    wall2.attachWall(wall1);
    wall1.attachWall(wall2);
 
    //bottom
-   let wall3 = new wall(100, 500 - (cm/2), wall_initial_side, cm/2, true);
+   let wall3 = new wall(100, 500 - (cm/2), 400, cm/2, true);
    wall3.attachWall(wall2);
 
    wall2.attachWall(wall3);
 
    //left
-   let wall4 = new wall(100,  100, wall_initial_side, cm/2, false);
+   let wall4 = new wall(100,  100, 400, cm/2, false);
    wall4.attachWall(wall1);
    wall4.attachWall(wall3);
 
    wall1.attachWall(wall4);
    wall3.attachWall(wall4);
    walls = [wall1, wall2, wall3, wall4];
-   
+
+   // display the area of the room
+   displayArea();
 }
 
 function drawroomLayout_2(){
@@ -287,14 +260,12 @@ function drawroomLayout_2(){
    let wall1 = new wall(100, 100, 600, cm/2, true);
 
    //right
-   let wall2 = new wall(700 + (cm/2), 100, wall_initial_side, cm/2, false);
+   let wall2 = new wall(700 + (cm/2), 100, 400, cm/2, false);
    wall2.attachWall(wall1);
    wall1.attachWall(wall2);
 
    //bottom
-   let wall3 = new wall(100, 700 - (cm/2), wall_initial_side, cm/2, true);
-   
-   
+   let wall3 = new wall(100, 700 - (cm/2), 400, cm/2, true);
    //left
    let wall4 = new wall(100,  100, 600, cm/2, false);
    wall4.attachWall(wall1);
@@ -313,10 +284,31 @@ function drawroomLayout_2(){
    wall3.attachWall(wall6);
    wall5.attachWall(wall6);
    walls = [wall1, wall2, wall3, wall4, wall5, wall6];
+
+   // display the area
+   displayArea();
 }
 
 function getWalls(){
    return walls;
+}
+
+// a function to display the area of the bathroom in the center of the  bathroom
+function displayArea(){
+      // coordinates of the text to be displayed in the center of the room
+      let x = ((walls[0].wallSprite.x)) + (((walls[0].wallSprite.width))/2) - 2 * cm;
+      let y = (((walls[0].wallSprite.y)) + ((walls[3].wallSprite.width))/2) - (cm/2);
+      // dimensions of the room
+      let width = (((walls[0].wallSprite.width)/cm)/scale).toFixed(2);
+      let length = (((walls[3].wallSprite.width)/cm)/scale).toFixed(2);
+      // calculate the area
+      let area = (width * length * (1/10000)).toFixed(2);
+      // set the area to be displayed
+      area_text.text = ("Area: " + area + " \u33A1");
+      // set position of the text
+      area_text.position.set(x,y);
+      // display message
+      app.stage.addChild(area_text);
 }
 
 drawroomLayout_2();
@@ -329,7 +321,6 @@ $(".roomLayout").on('click', function(event){
          element.wallSprite.text.destroy();
       });
    }
-   
    let func = "draw" + event.target.id + "();";
    eval(func);
 });

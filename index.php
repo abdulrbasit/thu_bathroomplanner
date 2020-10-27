@@ -16,21 +16,17 @@
 		<div class="row">
 			<div class="col-sm-3" id="sidebar-left">
 		<div class='dimensions'>
-			<table>
+				<table>
             <tr>
-               <td><label class='object_names' > Name </label></td><td><select id="objects" onchange="update_properties()">
-                    <option value="Bathroom Layout">Bathroom Layout</option>
+               <td><label class='object_names' > Name </label></td><td><select id="objects">
                </select></td>
             </tr>
             <tr>
                <td><label class='object_names'> Position </label></td><td><textarea readonly rows="1" cols="1"> x </textarea> <textarea readonly id="posx" rows="1" cols="6">  </textarea> <textarea readonly rows="1" cols="1"> y </textarea> <textarea readonly id="posy" rows="1" cols="6">  </textarea></td>
             </tr>
             <tr>
-               <td><label class='object_names'> Dimensions </label></td><td><textarea readonly rows="1" cols="4">width</textarea> <textarea readonly id="width" rows="1" cols="6">  </textarea> <textarea readonly rows="1" cols="4">height</textarea> <textarea readonly id="height" rows="1" cols="6">  </textarea></td>
+               <td><label class='object_names'> Dimensions </label></td><td><textarea readonly rows="1" cols="4">width</textarea> <textarea readonly id="width" rows="1" cols="6">  </textarea> <textarea readonly rows="1" cols="4">length</textarea> <textarea readonly id="length" rows="1" cols="6">  </textarea></td>
 			</tr>
-			<tr>
-               <td><label class='object_names'> Scale </label></td><td><textarea id='scale' rows="1" cols="4">  </textarea></td>
-            </tr>
 		    </table>
 		</div>	
 
@@ -80,7 +76,7 @@
 													if($product['product_type_id'] == $productType_id){
 														echo '<a href="#" class="list-group-item text-white">';
 														echo '<img src="'.$product['image'].'" class="products" id="'.$product['id'].'" alt="Product image" width="'.(90 * ($product['length'] / $product['width'])).'" height="90" ondragstart="set_id(this.id)">';
-														echo " " . $product['name'];
+														echo $product['name'];
 														echo '</a>';
 													}
 												}

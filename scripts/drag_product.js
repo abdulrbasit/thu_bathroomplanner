@@ -1,7 +1,21 @@
 /**
  * A script used to drag products to and on the canvas
  */
-
+// a reference to the select box for showing dimensions
+let select_box = document.getElementById('objects');
+// creat an array for the products added to the canvas: this will be used later
+let canvas_products = [];
+// store the width and the height of the canvas
+let the_canvas_width = app.renderer.width;
+let the_canvas_height = app.renderer.height;
+// a variable to give an id to canvas products: later use
+let product_id = 0;
+// a variable to store the id of the clicked product
+let the_id='';
+// AN ARRAY TO STORE SPRITES DISPLAYED ON THE CANVAS
+let sprites = [];
+// A VARIABLE TO STORE THE ID OF A CLICKED SPRITE ON THE CANVAS
+let sprite_id = -1;
 // obtain the array of products from php.
 // Send a GET request to the server to obtain the products
 // url: php file where the request is sent
@@ -22,23 +36,12 @@ let products;
 	});
 })(jQuery);
 
-// creat an array for the products added to the canvas: this will be used later
-let canvas_products = [];
-// store the width and the height of the canvas
-let the_canvas_width = app.renderer.width;
-let the_canvas_height = app.renderer.height;
-// a variable to give an id to canvas products: later use
-let product_id = 0;
-// a reference to the select box for showing dimensions
-//let select_box = document.getElementById('objects');
-// a variable to store the id of the clicked product
-let the_id='';
 // a function which sets the id of the clicked product
 function set_id(value){
     the_id = value;
 }
 
-// JQuery: a function used to drop products on the canvas
+// a function used to drop products on the canvas
 $( function() {
     // make products draggable above everything else
     $(".products").draggable(
@@ -78,6 +81,7 @@ $( function() {
                   // console.log("the product id: "+products[i].id);
                    if(products[i].id == the_id){
                        let temp_product = {};
+                       // store properties for the products on the canvas
                        temp_product.id = product_id;
                        temp_product.x = ((positionX - product.width / 2)/cm).toFixed(1);
                        temp_product.y = ((positionY - product.height / 2)/cm).toFixed(1);
@@ -93,18 +97,11 @@ $( function() {
                        // for 2D apps. the change should be made in the database
                        product_width_scaled = Math.round((products[i].length * cm) * scale);
                        product_height_scaled = Math.round((products[i].width * cm) * scale);
-                       
-                       // scaled height and width of the product in centimeters
-                       /**
-                        * the scaled width in pixels is converted to centimeters by dividing by cm. cm represents the number of pixels
-                        * per centimeter.
-                        */
-                       temp_product.width = (product_width_scaled/cm).toFixed(1);
-                       temp_product.height = (product_height_scaled/cm).toFixed(1);
-                       
 
+                       temp_product.width = products[i].width;
+                       temp_product.length = products[i].length;
+                       
                        // add the dropped product in the list of canvas products
-
                        canvas_products.push(temp_product);
 
                        // add the product to the select box as an option
@@ -119,10 +116,8 @@ $( function() {
                        break;
                    }
                }
-                // create product on the canvas
-                create_product(positionX, positionY, texture, product_id++, product_width_scaled, product_height_scaled);
-
- 
+               // create product on the canvas
+               create_product(positionX, positionY, texture, product_id++, product_width_scaled, product_height_scaled);
           }
       }
     );
@@ -150,13 +145,11 @@ function create_product(posX, posY, texture, product_id, product_width_scaled,pr
     product.anchor.set(0.5);
     //product.scale.set(1);
     
-    
     // setting the scaled dimensions of the product: the width of the sprite is the horizontal side; 
     //the height is the vertical side. so inverting is required
     product.width = product_width_scaled;
     product.height = product_height_scaled;
     
-
     // setup events for dragging and dropping the product
     product
         .on('added', create)
@@ -169,14 +162,23 @@ function create_product(posX, posY, texture, product_id, product_width_scaled,pr
         .on('touchendoutside', stop_dragging)
         // events for dragging
         .on('mousemove', drag)
+        .on('click', store_id)
         .on('touchmove', drag);
 
     // position of the product on the canvas
     product.position.x = posX;
     product.position.y = posY;
 
+    // store the sprite
+    sprites.push(product);
+
     // add it to the stage
     app.stage.addChild(product);
+}
+
+// A FUNCTION TO STORE THE ID OF THE CLICKED SPRITE
+function store_id(){
+    sprite_id = this.id;
 }
 
 // a function which is called when the sprite is added to the stage
@@ -259,6 +261,5 @@ function drag()
 
         // update properties for the user
         update_properties();
-        
     }
 }

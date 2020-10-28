@@ -1,12 +1,65 @@
 #header{
+	padding-left: 15px;
+	padding-top: 5px;
+	font-size: 18px;
+	/* background-color: #3b3b3a; #249cd3; */
+	/* width:100%; /
+	height:40px;
+	padding: 0.05px !important;
+	display: flex;
+	*/
+}
+#headerCol {
+ background-color: #3b3b3a;
+
+}
+
+.title-box {
+	/*margin-left: 15px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 10%; 
+	background-color: #249cd3;
+	color: #fff;
+	border-radius: 5px;
+	justify-content: center !important;
 	background-color: #3b3b3a;
-	width:100%;
-	height:50px;
-	text-align: center;
+} 
+
+.title {
+	/* vertical-align: middle; */
+	/* text-align: center; */
+}
+
+#toolbar {
+	background-color: #3b3b3a;
+	/* width: 100%; */
+	height: 40px;
+	
+}
+
+li.nav-item {
+	list-style: none;
+}
+
+.btn-room-layouts {
+	margin: 0 10px 0 10px;
+}
+
+#btn-rotate-left {
+	margin: 0 5px 0 5px;
+}
+
+#btn-rotate-right {
+	margin: 0 5px 0 5px;
+}
+
+#btn-delete-product {
+	margin: 0 5px 0 5px;
 }
 
 /* Setting the height of the document to 100% so that catalogues (sidebar-left) height can be set to 100% */
-html, body, .row {
+html, body, #sidebar, #main-container {
     height: 100% !important;
 }
 
@@ -15,9 +68,15 @@ html, body, .row {
     min-height: 100%;
     height: auto;
     width:20%;
-    background-color:  #123;
+    background-color:  #3b3b3a;
 }
 
+#main {
+	/* position: absolute;
+  	overflow: hidden; */
+}
+
+/* Not in use */
 #sidebar-right{
 	color: white;
 	width:0%;
@@ -32,13 +91,59 @@ html, body, .row {
 	background-color: #3b3b3a;
 }
 
+/* Dimension layout styles */
+.dimensions {
+	padding-left: 15px;
+}
+textarea, option, select{
+	color: black;
+}
+.object_names{
+	color: white;
+    font-size: 15px; 
+    padding: 1px;
+    margin-right: 1px;
+}
+
+
+/********************/
 /* Custom Bootstrap */
+/********************/
 .roomLayout{
 	background-color: #249cd3 !important;
 }
 
 .list-group, .list-group-item {
 	background-color: #249cd3 !important; 
+}
+
+.list-group:hover, .list-group-item:hover {
+	background-color: #1b729b !important; 
+}
+
+.manufacturer {}
+.manufacturer:active {
+	background-color: #13435a !important;
+}
+.productType {
+	background-color: #bbb !important;
+	color: #222 !important;
+}
+.productTypeSpan {
+	padding-left: 15px;
+}
+.product {
+	background-color: #fff !important; 
+
+}
+
+.productSpan {
+	padding-left: 10px;
+}
+
+.product:hover {
+	background-color: #fff !important;
+	text-decoration: none !important;
 }
 
 .just-padding {
@@ -80,16 +185,20 @@ a {
 	text-decoration: none !important;
 }
 
-/**styles for the dimension layout*/
-textarea, option, select{
-	color: white;
-	background-color: #123;
+/* Modal */
+.modal-content {
+	
 }
-.object_names{
-	color: white;
-	background-color: #123;
-    font-size: 15px; 
-    padding: 1px;
-    margin-right: 1px;
+.modal-header {
+	background-color: #249cd3;
+	border-bottom: 0 none;
+	color: #fff;
+}
+.modal-body {
+	background-color: #fff;
+}
+.modal-footer {
+	background-color: #fff;
+	/* border-top: 0 none; */
 }
 

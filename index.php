@@ -141,4 +141,5 @@
 	<script src="scripts/canvas.js"></script>
 	<script src="scripts/drag_product.js"></script>
 	<script src="scripts/dimensions.js"></script>
+	<script src="scripts/rotate_product.js"></script>
 </html>

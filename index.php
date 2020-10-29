@@ -11,7 +11,7 @@
 	<body>
 
 		<div class="row no-gutters">
-			<div class="col-sm-3" id="headerCol">
+			<div class="col-3" id="headerCol">
 				<div class="text-white font-weight-bold" id="header">
 					<div class="title-box">
 						<div class="title">Bathroom Planner</div>
@@ -19,7 +19,7 @@
 				</div>
 			</div>
 		
-			<div class="col">
+			<div class="col-9">
 				<div class="" id="toolbar">
 					
 					<div class="btn-group">
@@ -107,7 +107,7 @@
 		</div>
 		<!-- CATALOGUE -->
 		<div class="row no-gutters" id="sidebar">
-			<div class="col-sm-3" id="sidebar-left">
+			<div class="col-3" id="sidebar-left">
 				<div class='dimensions'>
 					<table>
 						<tr>
@@ -183,7 +183,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col" id="main"></div>
+			<div class="col-9" id="main"></div>
 		</div>				
 		<!--<div id="sidebar-right">Right</div>-->
 		

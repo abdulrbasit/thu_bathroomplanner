@@ -1,1 +1,1 @@
-Bathroom Planner Version 1.0
+Bathroom Planner Version 1.1

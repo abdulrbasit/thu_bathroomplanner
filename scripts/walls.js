@@ -396,6 +396,12 @@ drawroomLayout_2();
 
 $(".roomLayout").on('click', function(event){
    //event.stopPropagation();
+   if(sprites.length > 0){
+      sprites.forEach(element => {
+         element.destroy();
+      });
+      sprites = [];
+   }
    if(walls.length != 0){
       walls.forEach(element => {
          element.wallSprite.destroy();

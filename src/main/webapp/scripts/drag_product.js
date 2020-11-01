@@ -30,7 +30,7 @@ let products;
 			type: 'get',
 			dataType: 'json',
 			success: function (response) {
-                products = JSON.parse(JSON.stringify(response));
+                products = JSON.parse(JSON.stringify(response[2]));
 			}
 		});
 	});

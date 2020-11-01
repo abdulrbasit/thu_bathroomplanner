@@ -161,7 +161,7 @@
 <script src="scripts/init.js"></script>
 <script src="scripts/walls.js"></script>
 <script src="scripts/canvas.js"></script>
-<script src="scripts/populateCatalogue.js"></script>
+<script src="scripts/populate_catalogue.js"></script>
 <script src="scripts/drag_product.js"></script>
 <script src="scripts/dimensions.js"></script>
 <script src="scripts/rotate_product.js"></script>

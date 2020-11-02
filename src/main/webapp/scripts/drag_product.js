@@ -23,26 +23,13 @@ let sprite_id = -1;
 // datatype: type of data that is looked for in the response
 let products;
 
-(function ($) {
-	$(document).ready(function () {
-		$.ajax({
-			url: 'getProducts.php',
-			type: 'get',
-			dataType: 'json',
-			success: function (response) {
-                products = JSON.parse(JSON.stringify(response[2]));
-			}
-		});
-	});
-})(jQuery);
-
 // a function which sets the id of the clicked product
 function set_id(value){
     the_id = value;
 }
 
 // a function used to drop products on the canvas
-$( function() {
+function init_draggable() {
     // make products draggable above everything else
     $(".products").draggable(
     {
@@ -121,8 +108,7 @@ $( function() {
           }
       }
     );
-  } 
-);
+}
 
 // a constructor for the Sprite with id: useful later for sorting sprites for collisons etc
 class Sprite extends PIXI.Sprite {

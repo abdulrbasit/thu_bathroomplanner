@@ -26,7 +26,9 @@ vendor/
 *.iws
 
 # IntelliJ
-target/
+target/classes
+target/generated-sources
+target/thu_bathroomplanner-1.0
 
 *.iml
 modules.xml

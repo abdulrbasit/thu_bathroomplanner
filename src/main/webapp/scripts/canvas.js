@@ -25,5 +25,6 @@ function clearGrid(){
 
 }
 // execute the drawGrid() function
+window.addEventListener('resize', drawGrid);
 drawGrid();
 

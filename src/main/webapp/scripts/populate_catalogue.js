@@ -3,7 +3,7 @@ const MANUFACTURERS = 0;
 const PRODUCT_TYPES = 1;
 const PRODUCTS = 2;
 const PRODUCT_DIMENSIONS = 3;
-const IMG_SIZES = [70, 60, 50];
+const IMG_SIZES = [65, 55, 45];
 
 // AJAX call
 // Retrieve a catalogue array which consists of 3 arrays: manufacturers, product types and products.

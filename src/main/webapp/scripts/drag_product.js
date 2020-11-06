@@ -27,7 +27,10 @@ let sprite_id = -1;
 // url: php file where the request is sent
 // type: type of request
 // datatype: type of data that is looked for in the response
-let products;
+let drag_product_products;
+let products = drag_product_products.slice();
+
+let drag_product_product_dimensions;
 
 // a function which sets the id of the clicked product
 function set_id(value){

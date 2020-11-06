@@ -306,8 +306,18 @@ function create(){
 }
 
 // a function which handles the start of the dragging of the product
-function start_dragging(event)
-{
+function start_dragging(event) {
+    //Indicator for selected product
+    if(sprite_id != this.id){
+        for (sprite = 0; sprite < sprites.length; ++sprite) {
+
+            if (sprite_id == sprites[sprite].id) {
+
+                sprites[sprite].tint = 0xffffff;
+            }
+        }
+    }
+        this.tint = 0xddddff;
     // when the user clicks on a product, show its dimensions
     //selected_product.value = this.id; 
     // update object properties

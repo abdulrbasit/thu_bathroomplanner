@@ -19,7 +19,8 @@ function delete_product() {
                 app.stage.removeChild(sprites[i]);
                 sprites.splice(i, 1);
                 canvas_products.splice(i, 1);
-
+                // delete the properties of the deleted product
+                update_properties(sprite_id);
             }
     }
 }

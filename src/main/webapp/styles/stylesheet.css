@@ -91,21 +91,6 @@ html, body, #sidebar, #main-container {
 	background-color: #3b3b3a;
 }
 
-/* Dimension layout styles */
-.dimensions {
-	padding-left: 15px;
-}
-textarea, option, select{
-	color: black;
-}
-.object_names{
-	color: white;
-    font-size: 15px; 
-    padding: 1px;
-    margin-right: 1px;
-}
-
-
 /********************/
 /* Custom Bootstrap */
 /********************/
@@ -227,3 +212,29 @@ a {
 	/* border-top: 0 none; */
 }
 
+/**alignment of text areas for dimensions*/
+.properties{
+	width: 63px;
+	height: 30px;
+	resize: none;
+}
+
+#selection{
+	width: 130.5px;
+	height: 30px;
+	resize: none;
+}
+
+/* Dimension layout styles */
+.dimensions {
+	padding-left: 15px;
+}
+textarea, option, select{
+	color: black;
+}
+.object_names{
+	color: white;
+    font-size: 15px; 
+    padding: 1px;
+    margin-right: 1px;
+}

@@ -4,7 +4,6 @@ const cm = 37.79;
 //Global Scale Variable
 var scale = 1/20;
 
-
 //Scale change.
 function setScale(newScale){
     scale = newScale;

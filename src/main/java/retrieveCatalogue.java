@@ -27,6 +27,7 @@ public class retrieveCatalogue extends HttpServlet {
         JSONArray dbdata_manufacturer = new JSONArray();
         JSONArray dbdata_product_type = new JSONArray();
         JSONArray dbdata_product = new JSONArray();
+        JSONArray dbdata_product_dimension = new JSONArray();
 
         // Json array to store the other arrays
         JSONArray dbdata_catalogue = new JSONArray();
@@ -60,7 +61,7 @@ public class retrieveCatalogue extends HttpServlet {
                 // Inserting key-value pairs into the json object
                 record.put("id", rs.getInt("id"));
                 record.put("name", rs.getString("name"));
-                record.put("manufacturer_id", rs.getString("manufacturer_id"));
+                record.put("manufacturer_id", rs.getInt("manufacturer_id"));
                 dbdata_product_type.add(record);
             }
 
@@ -74,16 +75,29 @@ public class retrieveCatalogue extends HttpServlet {
                 record.put("id", rs.getInt("id"));
                 record.put("name", rs.getString("name"));
                 record.put("image", rs.getString("image"));
-                record.put("length", rs.getInt("length"));
-                record.put("width", rs.getString("width"));
-                record.put("product_type_id", rs.getString("product_type_id"));
+                record.put("product_type_id", rs.getInt("product_type_id"));
                 dbdata_product.add(record);
+            }
+
+            // Select all data from product_dimension table
+            rs = stmt.executeQuery("select * from product_dimension");
+            while (rs.next())
+            {
+                JSONObject record = new JSONObject();
+
+                // Inserting key-value pairs into the json object
+                record.put("id", rs.getInt("id"));
+                record.put("length", rs.getInt("length"));
+                record.put("width", rs.getInt("width"));
+                record.put("product_id", rs.getInt("product_id"));
+                dbdata_product_dimension.add(record);
             }
 
             // Add all arrays to the dbdata_catalogue
             dbdata_catalogue.add(dbdata_manufacturer);
             dbdata_catalogue.add(dbdata_product_type);
             dbdata_catalogue.add(dbdata_product);
+            dbdata_catalogue.add(dbdata_product_dimension);
 
             con.close();
             out.print(dbdata_catalogue);

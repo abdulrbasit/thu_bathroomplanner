@@ -351,12 +351,12 @@ function drawroomLayout_2(){
    wall4.attachWall(wall3);
    wall4.attachWall(wall1);
    wall1.attachWall(wall4);
-   //bottom middle
+   //bottom middle: small horizontal wall
    let wall5 = new wall(500 + (cm/2),  500, 200, cm/2, true);
    wall5.attachWall(wall2);
    wall2.attachWall(wall5);
    wall2.attachWall(wall1);
-   //right middle
+   //right middle: small vertical wall
    let wall6 = new wall(500 + (cm/2),  500, 200, cm/2, false);
 
    wall6.attachWall(wall5);

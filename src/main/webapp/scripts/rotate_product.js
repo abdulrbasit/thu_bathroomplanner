@@ -1,8 +1,11 @@
 /**
  * A script used to rotate selected products on the canvas
  */
+// rotation angles
 const right_angle = -45;
 const left_angle = 45;
+let rotate_factor = Math.PI * 2;
+
 // handle left rotation when button is clicked 
 $("#btn-rotate-left").on('click', function (event) {
 
@@ -17,7 +20,6 @@ $("#btn-rotate-right").on('click', function (event) {
 
 });
 
-let rotate_factor = Math.PI * 2;
 
 // a function which rotates product to left: rotation angle is 45 degrees
 function rotate_left() {

@@ -14,10 +14,15 @@ let canvas_products = [];
 // store the width and the height of the canvas
 let the_canvas_width = app.renderer.width;
 let the_canvas_height = app.renderer.height;
+
+// variables to store details on products
+var drag_product_products;
+var drag_product_product_dimensions;
 // a variable to give an id to canvas products: later use
 let product_id = 0;
 // a variable to store the id of the clicked product
-let the_id='';
+let the_product_id='';
+let the_dimension_id = '';
 // an array to store sprites displayed on the canvas
 let sprites = [];
 // a variable to store the id of a clicked sprite on the canvas
@@ -26,14 +31,11 @@ let sprite_id = -1;
 // Send a GET request to the server to obtain the products
 // url: php file where the request is sent
 // type: type of request
-// datatype: type of data that is looked for in the response
-var drag_product_products;
-
-var drag_product_product_dimensions;
 
 // a function which sets the id of the clicked product
-function set_id(value){
-    the_id = value;
+function set_id(value, dimension_id){
+    the_product_id = value;
+    the_dimension_id = dimension_id;
 }
 
 //let drop;
@@ -58,6 +60,7 @@ function init_draggable() {
                 // enable the drop of the product on the canvas
                 drop_product = true;
                 drop_wall = true;
+                found_product = false;
                // get mouse position relative to drop target 
                var dropPositionX = event.pageX - $(this).offset().left;
                var dropPositionY = event.pageY - $(this).offset().top;
@@ -65,7 +68,7 @@ function init_draggable() {
                var dragItemOffsetX = event.offsetX;
                var dragItemOffsetY = event.offsetY;
                // get the image of the product from the html document
-               var product = document.getElementById(the_id);
+               var product = document.getElementById(the_product_id);
                // get position of dragged item relative to drop target and center coordinates
                var positionX = dropPositionX-dragItemOffsetX+product.width/2;
                var positionY = dropPositionY-dragItemOffsetY+product.height/2;
@@ -78,9 +81,11 @@ function init_draggable() {
                 // create a json object with all four coordinates of the product 
                 let coordinates = {};
                // attempt to add the product to the array of canvas products
-               for(i=0, len=drag_product_products.length; i<len; ++i){
-                   if(drag_product_products[i].id == the_id){
-                       let temp_product = {};
+
+               for(i=0, length=drag_product_product_dimensions.length; i < length; ++i){
+                   // retrieve the selected product and its dimensions
+                   if(drag_product_product_dimensions[i]['product_id'] == the_product_id && drag_product_product_dimensions[i]['id'] == the_dimension_id){
+                    let temp_product = {};
                    // scaled height and width of the product
                     /**
                     * product[i].width is the actual width in centimeters. multiplying it with cm yields the width in pixels.
@@ -88,8 +93,8 @@ function init_draggable() {
                     */
                     // problem with width and height: width should be the horizontal side; height is the vertical side. it is a standard
                     // for 2D apps. the change should be made in the database
-                    product_width_scaled = Math.round((drag_product_products[i].length * cm) * scale);
-                    product_height_scaled = Math.round((drag_product_products[i].width * cm) * scale);
+                    product_width_scaled = Math.round((drag_product_product_dimensions[i]['length'] * cm) * scale);
+                    product_height_scaled = Math.round((drag_product_product_dimensions[i]['width'] * cm) * scale);
 
                     // dropped product pixel coordinates: top-left corner
                     let pixel_positionX = positionX - (product_width_scaled / 2);
@@ -187,16 +192,20 @@ function init_draggable() {
                                     break;
                             }
                     }
-
-                    if(drop_product && drop_wall){
+                    for(let q = 0; q < drag_product_products.length; ++q){
+                       
+                      if(the_product_id == drag_product_products[q]["id"] && drop_product && drop_wall){
                         // store properties for the products on the canvas
                         temp_product.id = product_id;
                         temp_product.x = pixel_positionX;
                         temp_product.y = pixel_positionY;
-                        temp_product.name = drag_product_products[i].name;
-                        temp_product.image = drag_product_products[i].image;
-                        temp_product.width = drag_product_products[i].width;
-                        temp_product.length = drag_product_products[i].length;
+
+                        temp_product.name = drag_product_products[q]['name'];
+                        temp_product.image = drag_product_products[q]['image'];
+
+                        temp_product.width = drag_product_product_dimensions[i]['width'];
+                        temp_product.length = drag_product_product_dimensions[i]['length']; 
+
                         // scaled_width: horizontal side of the product on the canvas 
                         // scaled_height: vertical side of the product on the canvas
                         temp_product.scaled_width = product_width_scaled;
@@ -214,13 +223,16 @@ function init_draggable() {
                         temp_product.rad_angle = 0;
                         // add the coordinates data to the temp product
                         temp_product.coords = coordinates;
-                       // add the dropped product in the list of canvas products
-                       canvas_products.push(temp_product);
+                        // add the dropped product in the list of canvas products
+                        canvas_products.push(temp_product);
+                        found_product = true;
+                        break;
+                      }
                     }
                        break;
                    }
                }
-               if(drop_product && drop_wall){
+               if(found_product && drop_product && drop_wall){
                    // create product on the canvas
                    create_product(positionX, positionY, texture, product_id++, product_width_scaled, product_height_scaled, coordinates, 0);
                }
@@ -364,14 +376,13 @@ function drag()
         // calculate half the width and half the height of the image of the product
         let half_width = this.width / 2;
         let half_height = this.height / 2;
-
+        // coordinate set of the colliding sprite
+        let colliding_coordinates = [[this.coords.x1, this.coords.y1], [this.coords.x2, this.coords.y2], [this.coords.x3, this.coords.y3], [this.coords.x4, this.coords.y4]];
         // collision detection and changing the color of the colliding sprite when it occurs
         for(k = 0, length = canvas_products.length; k < length; ++k){
              // create a polygon out of the coordinates of the collided sprite
              let collided_polygon = [[canvas_products[k].coords.x1, canvas_products[k].coords.y1], [canvas_products[k].coords.x2, canvas_products[k].coords.y2],
               [canvas_products[k].coords.x3, canvas_products[k].coords.y3], [canvas_products[k].coords.x4, canvas_products[k].coords.y4]];           
-             // coordinate set of the colliding sprite
-             let colliding_coordinates = [[this.coords.x1, this.coords.y1], [this.coords.x2, this.coords.y2], [this.coords.x3, this.coords.y3], [this.coords.x4, this.coords.y4]];
              
              // check if the colliding sprite is in the collided sprite
              for(m = 0; m < colliding_coordinates.length; ++m){
@@ -409,6 +420,33 @@ function drag()
                 }
             }
         }
+        
+        /*
+        // check collisions with the walls
+        let distance=0;
+        for(n=0, length=walls.length; n < length; ++n){
+  
+            let wall_polygon = get_wall_polygon(n);
+                // check if the colliding sprite is in the collided wall
+                for(p = 0; p < colliding_coordinates.length; ++p){
+                    if(collision(colliding_coordinates[p], wall_polygon)){
+                        // a collision has been detected here
+                       // this.tint = collision_color;
+                       // calculate the distance between the point and the origin
+                      /* let hypo = Math.sqrt((Math.pow((newPositionX - colliding_coordinates[p][0]) ,2))+(Math.pow((newPositionY - colliding_coordinates[p][1]) ,2)));
+                       let adjacent = newPositionX - colliding_coordinates[p][0];
+                       distance = Math.sqrt(Math.pow(hypo, 2) - Math.pow(adjacent, 2));*/
+                        // corrections
+                        /*if(n == 0 && newPositionY - half_height < walls[n].wallSprite.y + walls[n].wallSprite.height){
+                            newPositionY = walls[n].wallSprite.y + walls[n].wallSprite.height + half_height;
+                        }*/
+                        // block the colliding sprite
+                        //this.dragging  = false;
+                       // collided = true;
+       /*                 break;
+                    }
+                }
+        }*/
 
          // change the color back to white after the collision
         if(!collided){
@@ -434,6 +472,54 @@ function drag()
               half_height = temp;
         }
 
+        // distance for the square
+        if(half_width == half_height && this.rad_angle != 0){
+             let side = Math.sqrt(2 * Math.pow(half_width, 2));
+             half_width = side;
+             half_height = side;
+        }
+        
+        // small vertical wall
+        if(walls.length > 4 && newPositionY + half_height > walls[5].wallSprite.y){
+            if(walls.length > 4 && newPositionX + half_width > walls[5].wallSprite.x - cm/2){
+                    newPositionX = walls[5].wallSprite.x -cm/2 - half_width;
+             }
+        }
+
+        // small horizontal wall
+        if(walls.length > 4 && newPositionX + half_width > walls[4].wallSprite.x){
+
+            if(this.rad_angle == 0 && newPositionY + half_height > walls[4].wallSprite.y){
+                 newPositionY = walls[4].wallSprite.y - half_height;
+            }    
+            else if(this.rad_angle != 0 && newPositionY + half_width > walls[4].wallSprite.y){
+                 newPositionY = walls[4].wallSprite.y - half_width;
+             }
+        }
+
+        // left vertical wall collision adjustment
+        if(newPositionX - half_width < walls[3].wallSprite.x){
+              newPositionX = walls[3].wallSprite.x + half_width;
+        }
+        
+        // top wall
+        if(this.rad_angle == 0 && newPositionY - half_height < walls[0].wallSprite.y + walls[0].wallSprite.height){
+            newPositionY = walls[0].wallSprite.y + walls[0].wallSprite.height + half_height;
+        }else if(this.rad_angle != 0 && newPositionY - half_width < walls[0].wallSprite.y + walls[0].wallSprite.height){
+            newPositionY = walls[0].wallSprite.y + walls[0].wallSprite.height + half_width;
+        }
+        // bottom wall
+        if(this.rad_angle == 0 && newPositionY + half_height > walls[2].wallSprite.y){
+            newPositionY = walls[2].wallSprite.y - half_height;
+        }else if(this.rad_angle != 0 && newPositionY + half_width > walls[2].wallSprite.y){
+            newPositionY = walls[2].wallSprite.y - half_width;
+        }
+
+        // right vertical wall collision adjustment
+        if(newPositionX + half_width > walls[1].wallSprite.x - cm/2){
+            newPositionX = walls[1].wallSprite.x -cm/2 - half_width;
+        }
+
         // to the left of the canvas
         if(newPositionX < half_width){
             newPositionX = half_width;
@@ -452,7 +538,7 @@ function drag()
         }
 
         // move the image of the product on the canvas if there are no collisions
-        if(this.dragging && !(Math.abs(newPositionX - this.position.x) > cm || Math.abs(newPositionY - this.position.y) > cm)){
+        if(this.dragging && !(Math.abs(newPositionX - this.position.x) > 2* cm || Math.abs(newPositionY - this.position.y) > 2 * cm)){
             this.position.x = newPositionX;
             this.position.y = newPositionY;
         }
@@ -521,4 +607,20 @@ function collision(point, polygon) {
         if (intersect) found = !found;
     }   
     return found;
+}
+
+// a function which returns a wall polygon: n represents the id of the wall
+function get_wall_polygon(n){
+    let wall_width = walls[n].wallSprite.width;
+    let wall_height = walls[n].wallSprite.height;
+    let wall_x = walls[n].wallSprite.x;
+    let wall_y = walls[n].wallSprite.y;
+    // adjusting to the weird coordinate arrangements of the walls (wall 1 and wall 3, 5)
+    if(n == 1 || n == 3 || n == 5){
+        // swap to adapt to the logic used in the 'walls' script
+        wall_width = walls[n].wallSprite.height;
+        wall_height = walls[n].wallSprite.width;
+        wall_x -= cm/2;
+    }
+    return [[wall_x, wall_y], [wall_x, wall_y+wall_height], [wall_x+wall_width, wall_y+wall_height],[wall_x+wall_width, wall_y]];
 }

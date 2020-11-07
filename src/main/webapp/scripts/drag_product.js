@@ -28,7 +28,6 @@ let sprite_id = -1;
 // type: type of request
 // datatype: type of data that is looked for in the response
 var drag_product_products;
-let products = drag_product_products.slice();
 
 var drag_product_product_dimensions;
 
@@ -79,8 +78,8 @@ function init_draggable() {
                 // create a json object with all four coordinates of the product 
                 let coordinates = {};
                // attempt to add the product to the array of canvas products
-               for(i=0, len=products.length; i<len; ++i){
-                   if(products[i].id == the_id){
+               for(i=0, len=drag_product_products.length; i<len; ++i){
+                   if(drag_product_products[i].id == the_id){
                        let temp_product = {};
                    // scaled height and width of the product
                     /**
@@ -89,8 +88,8 @@ function init_draggable() {
                     */
                     // problem with width and height: width should be the horizontal side; height is the vertical side. it is a standard
                     // for 2D apps. the change should be made in the database
-                    product_width_scaled = Math.round((products[i].length * cm) * scale);
-                    product_height_scaled = Math.round((products[i].width * cm) * scale);
+                    product_width_scaled = Math.round((drag_product_products[i].length * cm) * scale);
+                    product_height_scaled = Math.round((drag_product_products[i].width * cm) * scale);
 
                     // dropped product pixel coordinates: top-left corner
                     let pixel_positionX = positionX - (product_width_scaled / 2);
@@ -194,10 +193,10 @@ function init_draggable() {
                         temp_product.id = product_id;
                         temp_product.x = pixel_positionX;
                         temp_product.y = pixel_positionY;
-                        temp_product.name = products[i].name;
-                        temp_product.image = products[i].image;
-                        temp_product.width = products[i].width;
-                        temp_product.length = products[i].length;
+                        temp_product.name = drag_product_products[i].name;
+                        temp_product.image = drag_product_products[i].image;
+                        temp_product.width = drag_product_products[i].width;
+                        temp_product.length = drag_product_products[i].length;
                         // scaled_width: horizontal side of the product on the canvas 
                         // scaled_height: vertical side of the product on the canvas
                         temp_product.scaled_width = product_width_scaled;

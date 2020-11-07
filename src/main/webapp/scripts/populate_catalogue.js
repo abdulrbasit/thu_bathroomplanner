@@ -74,6 +74,7 @@ function writeToCatalogue(catalogue){
                                 product_dimensions_of_product[product_dimensions_iterator][0] = product_id;
                                 product_dimensions_of_product[product_dimensions_iterator][1] = catalogue[PRODUCT_DIMENSIONS][product_dimension]['length'];
                                 product_dimensions_of_product[product_dimensions_iterator][2] = catalogue[PRODUCT_DIMENSIONS][product_dimension]['width'];
+                                product_dimensions_of_product[product_dimensions_iterator][3] = catalogue[PRODUCT_DIMENSIONS][product_dimension]['id'];
 
                                 product_dimensions_iterator += 1;
                             }
@@ -96,7 +97,7 @@ function writeToCatalogue(catalogue){
                         for(product_dimension = 0; product_dimension < product_dimensions_of_product.length; product_dimension += 1){
 
                             output += "<span style=\"display:inline-block;\">";
-                            output += "<span style=\"display:block;\"><img src=\""+ catalogue[PRODUCTS][product]['image'] +"\" class=\"products\" id=\""+ product_id +"\" alt=\"Product image\" width=\""+(IMG_SIZES[product_dimension] * ( product_dimensions_of_product[product_dimension][1] / product_dimensions_of_product[product_dimension][2] ))+"\" height=\""+IMG_SIZES[product_dimension]+"\" ondragstart=\"set_id(this.id)\"></span>";
+                            output += "<span style=\"display:block;\"><img src=\""+ catalogue[PRODUCTS][product]['image'] +"\" class=\"products\" id=\""+ product_id +"\" alt=\"Product image\" width=\""+(IMG_SIZES[product_dimension] * ( product_dimensions_of_product[product_dimension][1] / product_dimensions_of_product[product_dimension][2] ))+"\" height=\""+IMG_SIZES[product_dimension]+"\" ondragstart=\"set_id(this.id, \'"+ product_dimensions_of_product[product_dimension][3] +"\')\"></span>";
                             output += "<span style=\"display:block;\" class=\"productSpan\">"+ product_dimensions_of_product[product_dimension][1] +"cm x "+ product_dimensions_of_product[product_dimension][2] +"cm</span>";
                             output += "</span>";
                         }

@@ -1,6 +1,7 @@
+/* Header */
 #header{
 	padding-left: 15px;
-	padding-top: 5px;
+	padding-top: 3px;
 	font-size: 18px;
 	/* background-color: #3b3b3a; #249cd3; */
 	/* width:100%; /
@@ -10,11 +11,23 @@
 	*/
 }
 #headerCol {
- background-color: #3b3b3a;
+	background-color: #fff;/*#3b3b3a;*/
 
 }
 
+.header-line{
+	border: 2px solid #dfdfde; /*#249cd3;*/
+	/*border-radius: 5px;*/
+	margin: 0 0 0 0 !important;
+	padding: 0 0 0 0 !important;
+}
+
 .title-box {
+	border: 4px solid #249cd3;
+	/*border: 1px solid #9b9b9a;*/
+	border-radius: 10px;
+	/*background-color: #f6f6f6;*/
+	display: inline-block !important;
 	/*margin-left: 15px;
 	margin-top: 3px;
 	margin-bottom: 3px;
@@ -23,39 +36,132 @@
 	color: #fff;
 	border-radius: 5px;
 	justify-content: center !important;
-	background-color: #3b3b3a;
+	background-color: #3b3b3a;*/
 } 
 
 .title {
 	/* vertical-align: middle; */
 	/* text-align: center; */
+	width: 100%;
+	margin: 0 5px 0 5px !important;
+	justify-content: center !important;
 }
 
+/* Toolbar */
 #toolbar {
-	background-color: #3b3b3a;
+	background-color: #fff;/*#3b3b3a;*/
 	/* width: 100%; */
 	height: 40px;
 	
 }
 
+.toolbar-vertical-divider {
+	border-left: 2px solid #ccc;
+	margin: 1px 10px 1px 10px;
+}
+
 li.nav-item {
 	list-style: none;
+	
 }
 
-.btn-room-layouts {
-	margin: 0 10px 0 10px;
+.layouts-btn {
+	padding: 3px 3px 3px 3px !important;
+	color: black;
+	background-color: #fff !important;
 }
 
-#btn-rotate-left {
-	margin: 0 5px 0 5px;
+.layouts-btn:hover {
+	color: black !important;
+	background-color: #bbb !important;
 }
 
-#btn-rotate-right {
-	margin: 0 5px 0 5px;
+.layouts-btn:active {
+	color: #249cd3 !important;
+	background-color: #d5e6ff !important;
 }
 
-#btn-delete-product {
-	margin: 0 5px 0 5px;
+.layouts-btn-toggled{
+	color: #249cd3 !important;
+	background-color: #d5e6ff !important;
+}
+
+.layouts-btn-toggled:hover {
+	color: #249cd3 !important;
+	background-color: #d5e6ff !important;
+}  
+
+.layout-btn:hover {
+	background-color: #bbb !important;
+}
+
+.layout-btn:active {
+	background-color: #d5e6ff !important;
+}
+
+.dropdown-menu {
+	min-width: 5rem !important;
+}
+
+.layout-selection-img {
+	margin: 5px 0 5px 0;
+}
+
+/* Modal */
+.roomLayout{
+	background-color: #249cd3 !important;
+}
+
+.modal-content {
+	
+}
+.modal-header {
+	background-color: #249cd3;
+	border-bottom: 0 none;
+	color: #fff;
+}
+.modal-body {
+	background-color: #fff;
+}
+.modal-footer {
+	background-color: #fff;
+	/* border-top: 0 none; */
+}
+  
+.toolbar-btn {
+	padding: 3px 7px 3px 7px !important;
+	color: black !important;
+	background-color: #fff !important;
+}
+
+.toolbar-btn:hover {
+	color: black !important;
+	background-color: #bbb !important;
+}
+
+.toolbar-btn:active {
+	color: #249cd3 !important;
+	background-color: #d5e6ff !important;
+}
+
+.toolbar-btn-group {
+	padding: 0 0 0 0  !important;
+	margin: 3px 0 3px 0 !important;
+	user-select: none;
+	
+}
+
+.span-toolbar-layouts {
+	margin: 1px 2px 1px 2px;
+}
+
+.span-toolbar-btns {
+	margin: 4px 2px 4px 2px;
+	padding: 0 0 0 0;
+}
+
+#btn-delete-product, #btn-save-plan {
+	/* padding: 3px 6px 3px 6px !important; */
 }
 
 /* Setting the height of the document to 100% so that catalogues (sidebar-left) height can be set to 100% */
@@ -63,39 +169,64 @@ html, body, #sidebar, #main-container {
     height: 100% !important;
 }
 
+
+/* SIDEBAR (Product dimensions and catalogue)*/
 #sidebar-left{
     color: white;
     min-height: 100%;
     height: auto;
     width:20%;
-    background-color:  #3b3b3a;
+	background-color: #f7f9fc; /*#3b3b3a;*/
+	border-right: 3px solid #3b3b3a;
 }
 
-#main {
-	/* position: absolute;
-  	overflow: hidden; */
+/* Product dimensions */
+.dimensions {
+	padding-top: 10px !important;
+	padding-bottom: 10px !important;
+	color: black;
+	font-size: 15px;
+	background-color: #eeeeee;
+	/*border-top: 2px solid #dfdfde; /*#249cd3;*/
+	border-bottom: 2px solid #dfdfde; /*#249cd3;*/
 }
 
-/* Not in use */
-#sidebar-right{
-	color: white;
-	width:0%;
-	background-color: black;
+.dimensions-row-formatting {
+	/* margin: 1px 0 1px 0 !important; */
 }
 
-#footer{
-	clear:both;
-	height: 30px;
-	width: 100%;
+.product-info-formatting {
+	margin: 1px 0 1px 0;
+}
+
+.product-name-field {
+	background-color: #f9f9f9;
+	margin: 0 8px 0 8px;
+	padding: 0 5px 0 5px;
+	width: 40% !important;
+	border: 1px solid #e9e9e9;
+}
+.dimensions-field {
+	background-color: #f9f9f9;
+	margin: 0 8px 0 8px;
+	padding: 0 3px 0 3px;
+	width: 15% !important;
 	text-align: center;
-	background-color: #3b3b3a;
+	border: 1px solid #e9e9e9;
 }
 
-/********************/
-/* Custom Bootstrap */
-/********************/
-.roomLayout{
-	background-color: #249cd3 !important;
+/* Catalogue */
+
+.loading-catalogue {
+	display: none;
+	padding: 10px 0 10px 0 !important;
+	background-color: #249cd3;
+	border-radius: 5px;
+	justify-content: center;
+}
+
+.loading-catalogue-visible {
+	display: flex !important;
 }
 
 .list-group, .list-group-item {
@@ -125,7 +256,11 @@ html, body, #sidebar, #main-container {
 }
 
 .productSpan {
-	padding-left: 10px;
+	text-align: center !important;
+}
+
+.image-div {
+	
 }
 
 .product:hover {
@@ -190,51 +325,32 @@ html, body, #sidebar, #main-container {
 	padding-left: 30px;
 }
 
+
+/* CANVAS */
+#main {
+	/* position: absolute;
+	overflow: hidden; */
+	border-left: 1px solid black;
+}
+
+/* SIDEBAR-RIGHT - Not in use */
+#sidebar-right{
+	color: white;
+	width:0%;
+	background-color: black;
+}
+
+/* FOOTER - Not in use*/
+#footer{
+	clear:both;
+	height: 30px;
+	width: 100%;
+	text-align: center;
+	background-color: #3b3b3a;
+}
+
 /* Remove the underline for all anchor elements */
 a {
 	text-decoration: none !important;
 }
 
-/* Modal */
-.modal-content {
-	
-}
-.modal-header {
-	background-color: #249cd3;
-	border-bottom: 0 none;
-	color: #fff;
-}
-.modal-body {
-	background-color: #fff;
-}
-.modal-footer {
-	background-color: #fff;
-	/* border-top: 0 none; */
-}
-
-/**alignment of text areas for dimensions*/
-.properties{
-	width: 63px;
-	height: 30px;
-	resize: none;
-}
-
-#selection{
-	width: 130.5px;
-	height: 30px;
-	resize: none;
-}
-
-/* Dimension layout styles */
-.dimensions {
-	padding-left: 15px;
-}
-textarea, option, select{
-	color: black;
-}
-.object_names{
-	color: white;
-    font-size: 15px; 
-    padding: 1px;
-    margin-right: 1px;
-}

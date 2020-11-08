@@ -21,12 +21,17 @@ let catalogue;
                 drag_product_products = catalogue[2].slice();
                 drag_product_product_dimensions = catalogue[3].slice();
 
+                disableLoadingSpinner();
                 writeToCatalogue(catalogue);
             }
         });
     });
 })(jQuery);
 
+
+function disableLoadingSpinner(){
+    document.getElementById("spinner").classList.remove("loading-catalogue-visible");
+}
 
 // Function which writes the manufacturers, product types and products to the catalogue
 // All the HTML code is appended to a single string and then that string is put into the HTML element
@@ -96,10 +101,10 @@ function writeToCatalogue(catalogue){
 
                         for(product_dimension = 0; product_dimension < product_dimensions_of_product.length; product_dimension += 1){
 
-                            output += "<span style=\"display:inline-block;\">";
-                            output += "<span style=\"display:block;\"><img src=\""+ catalogue[PRODUCTS][product]['image'] +"\" class=\"products\" id=\""+ product_id +"\" alt=\"Product image\" width=\""+(IMG_SIZES[product_dimension] * ( product_dimensions_of_product[product_dimension][1] / product_dimensions_of_product[product_dimension][2] ))+"\" height=\""+IMG_SIZES[product_dimension]+"\" ondragstart=\"set_id(this.id, \'"+ product_dimensions_of_product[product_dimension][3] +"\')\"></span>";
-                            output += "<span style=\"display:block;\" class=\"productSpan\">"+ product_dimensions_of_product[product_dimension][1] +"cm x "+ product_dimensions_of_product[product_dimension][2] +"cm</span>";
-                            output += "</span>";
+                            output += "<div style=\"display:inline-block;\">";
+                            output += "<div class=\"image-div\" style=\"display:block;\"><img src=\""+ catalogue[PRODUCTS][product]['image'] +"\" class=\"products\" id=\""+ product_id +"\" alt=\"Product image\" width=\""+(IMG_SIZES[product_dimension] * ( product_dimensions_of_product[product_dimension][1] / product_dimensions_of_product[product_dimension][2] ))+"\" height=\""+IMG_SIZES[product_dimension]+"\" ondragstart=\"set_id(this.id, \'"+ product_dimensions_of_product[product_dimension][3] +"\')\"></div>";
+                            output += "<div style=\"display:block;\" class=\"productSpan\">"+ product_dimensions_of_product[product_dimension][1] +"cm x "+ product_dimensions_of_product[product_dimension][2] +"cm</div>";
+                            output += "</div>";
                         }
 
                         output += "</div>";

@@ -1,5 +1,6 @@
 /**
  * A script used to rotate selected products on the canvas
+ * cleansing is still required
  */
 // rotation angles
 const right_angle = -45;
@@ -38,7 +39,7 @@ function rotate_left() {
                 update_angle(left_angle, sprite);  
             }
             else{
-                alert("the rotation by 45° is not possible\n as it would land the product on another product");
+                alert("the rotation by 45° is not possible\n as it would land the product on another element");
             }
             break;
         }
@@ -61,7 +62,7 @@ function rotate_right() {
                  update_angle(right_angle, sprite);  
             }
            else{
-                alert("the rotation by -45° is not possible\n as it would land the product on another product");
+                alert("the rotation by -45° is not possible\n as it would land the product on another element");
             }
             break;
         }
@@ -119,7 +120,7 @@ function update_coordinates(rad_angle, id){
 }
 
 // a function which prevents a rotation if it is going to land the product on another product 
-// or if it is going land the product outside of the canvas
+// or if it is going land the product outside of the canvas. the passed sprite represents the sprite that wants to rotate
 function prevent_rotation_collision(sprite, deg_angle){
     // convert the angle to radians
     let angle = toRadians(deg_angle);
@@ -128,6 +129,21 @@ function prevent_rotation_collision(sprite, deg_angle){
     //console.log("the angle is: "+toDegrees(rad_angle));
     let half_width = sprite.width / 2;
     let half_height = sprite.height / 2;
+    
+     // create another polygon make of the (future) rotated values of the sprite to be rotated
+    let value1x = Math.cos(rad_angle) * (-half_width) - Math.sin(rad_angle) * (half_height) + sprite.position.x;
+    let value1y = Math.abs(Math.sin(rad_angle) * (-half_width) + Math.cos(rad_angle) * (half_height) - sprite.position.y);
+
+    let value2x = Math.cos(rad_angle) * (-half_width) - Math.sin(rad_angle) * (-half_height) + sprite.position.x;
+    let value2y = Math.abs(Math.sin(rad_angle) * (-half_width) + Math.cos(rad_angle) * (-half_height) - sprite.position.y);
+
+    let value3x = Math.cos(rad_angle) * (half_width) - Math.sin(rad_angle) * (-half_height) + sprite.x;
+    let value3y = Math.abs(Math.sin(rad_angle) * (half_width) + Math.cos(rad_angle) * (-half_height) - sprite.position.y);
+
+    let value4x = Math.cos(rad_angle) * (half_width) - Math.sin(rad_angle) * (half_height) + sprite.position.x;
+    let value4y = Math.abs(Math.sin(rad_angle) * (half_width) + Math.cos(rad_angle) * (half_height) - sprite.position.y);
+
+    let coordinates = [[value1x, value1y], [value2x, value2y],  [value3x, value3y], [value4x, value4y]];
     // make sure that after the rotation the sprite is not landing on another object
     for(let k = 0; k < sprites.length; ++k){
             // the sprite cannot collide with itself
@@ -135,20 +151,6 @@ function prevent_rotation_collision(sprite, deg_angle){
                  // create a polygon using the coordinates of this sprite
                  let polygon = [[sprites[k].coords.x1, sprites[k].coords.y1],[sprites[k].coords.x2, sprites[k].coords.y2],
                  [sprites[k].coords.x3, sprites[k].coords.y3], [sprites[k].coords.x4, sprites[k].coords.y4]];
-
-                 let value1 = Math.cos(rad_angle) * (-half_width) - Math.sin(rad_angle) * (half_height) + sprite.position.x;
-                 let value11 = Math.abs(Math.sin(rad_angle) * (-half_width) + Math.cos(rad_angle) * (half_height) - sprite.position.y);
-
-                 let value2 = Math.cos(rad_angle) * (-half_width) - Math.sin(rad_angle) * (-half_height) + sprite.position.x;
-                 let value22 = Math.abs(Math.sin(rad_angle) * (-half_width) + Math.cos(rad_angle) * (-half_height) - sprite.position.y);
-
-                 let value3 = Math.cos(rad_angle) * (half_width) - Math.sin(rad_angle) * (-half_height) + sprite.x;
-                let value33 = Math.abs(Math.sin(rad_angle) * (half_width) + Math.cos(rad_angle) * (-half_height) - sprite.position.y);
-
-                let value4 = Math.cos(rad_angle) * (half_width) - Math.sin(rad_angle) * (half_height) + sprite.position.x;
-                let value44 = Math.abs(Math.sin(rad_angle) * (half_width) + Math.cos(rad_angle) * (half_height) - sprite.position.y);
-
-                 let coordinates = [[value1, value11], [value2, value22],  [value3, value33], [value4, value44]];
                  // check now if the sprite to be rotated would collide with this sprite
                  // check if a coordinate of this sprite would be in the rotated sprite
                  for(let j=0; j < polygon.length; ++j){
@@ -164,8 +166,56 @@ function prevent_rotation_collision(sprite, deg_angle){
                           return false;
                       }
                   }
+
             }
     }
+    // check if the sprite would land on a wall
+    for(let i = 0; i < coordinates.length; ++i){
+        // top wall
+        if(walls[0].wallSprite.y + walls[0].wallSprite.height > coordinates[i][1]){
+               return false;
+        }
+        // right wall
+        else if(walls[1].wallSprite.x - cm/2 < coordinates[i][0]){
+            return false;
+        }
+        // bottom wall
+        else if(walls[2].wallSprite.y < coordinates[i][1]){
+             return false;
+        }
+        // left wall
+        else if(walls[3].wallSprite.x > coordinates[i][0]){
+               return false;
+        }
+        
+        // small horizontal wall
+        else if(walls.length > 4 && walls[4].wallSprite.y < coordinates[i][1] && (walls[5].wallSprite.x - cm/2) < coordinates[i][0]){
+               return false;
+        }
+        // small vertical wall
+        else if(walls.length > 4 && walls[5].wallSprite.x - cm/2 < coordinates[i][0] && coordinates[i][1] > walls[5].wallSprite.y){
+            return false;
+        }
+    }
+        // checks for wall 5 and 6
+        if(walls.length > 4){
+            // get the wall polygon
+            for(u = 4; u < 6; ++u){
+                let wall_polygon = get_wall_polygon(u);
+                // check for hidden collision with walls 5 and 6
+                for(let v = 0; v < coordinates.length; ++v){
+                    if(collision(coordinates[v], wall_polygon)){
+                        return false;
+                    }
+                }
+                for(let v = 0; v < wall_polygon.length; ++v){
+                    if(collision(wall_polygon[v], coordinates)){
+                        return false;
+                    }
+                }
+
+            }
+        } 
     // if the execution reaches here, then the rotation can go ahead
     return true;
 }

@@ -1,4 +1,5 @@
 /**
+ * This is a draft. I still need to clean this code
  * A script used to drag products to and on the canvas. 
  * In this script, there are two important, parallel arrays: canvas_products and sprites
  * parallel in the sense that for the same id, you get the access the data of the same sprite/product
@@ -362,6 +363,7 @@ let blocked_sprites = [];
 // a function which handles the dragging of the product on the canvas
 function drag()
 {
+    //console.log("the angle: "+this.rad_angle);
     // a variable to indicate a collision
     let collided = false;
 
@@ -420,34 +422,6 @@ function drag()
                 }
             }
         }
-        
-        /*
-        // check collisions with the walls
-        let distance=0;
-        for(n=0, length=walls.length; n < length; ++n){
-  
-            let wall_polygon = get_wall_polygon(n);
-                // check if the colliding sprite is in the collided wall
-                for(p = 0; p < colliding_coordinates.length; ++p){
-                    if(collision(colliding_coordinates[p], wall_polygon)){
-                        // a collision has been detected here
-                       // this.tint = collision_color;
-                       // calculate the distance between the point and the origin
-                      /* let hypo = Math.sqrt((Math.pow((newPositionX - colliding_coordinates[p][0]) ,2))+(Math.pow((newPositionY - colliding_coordinates[p][1]) ,2)));
-                       let adjacent = newPositionX - colliding_coordinates[p][0];
-                       distance = Math.sqrt(Math.pow(hypo, 2) - Math.pow(adjacent, 2));*/
-                        // corrections
-                        /*if(n == 0 && newPositionY - half_height < walls[n].wallSprite.y + walls[n].wallSprite.height){
-                            newPositionY = walls[n].wallSprite.y + walls[n].wallSprite.height + half_height;
-                        }*/
-                        // block the colliding sprite
-                        //this.dragging  = false;
-                       // collided = true;
-       /*                 break;
-                    }
-                }
-        }*/
-
          // change the color back to white after the collision
         if(!collided){
             this.tint = white_color; 
@@ -465,62 +439,64 @@ function drag()
           }
         }
 
-        // inverse properties if rotation angle is degrees
-        if(toDegrees(this.rad_angle) == 90 || toDegrees(this.rad_angle) == 270){
-              temp = half_width;
-              half_width = half_height;
-              half_height = temp;
-        }
+                // distance for the square-shaped images
+                if(half_width == half_height && this.rad_angle != 0 && Math.abs(this.rad_angle) != Math.abs(toRadians(180))
+                && Math.abs(this.rad_angle) != Math.abs(toRadians(90)) && Math.abs(this.rad_angle) != Math.abs(toRadians(270))){
+                     let side = Math.sqrt(2 * Math.pow(half_width, 2));
+                     half_width = side;
+                     half_height = side;
+                }
 
-        // distance for the square
-        if(half_width == half_height && this.rad_angle != 0){
-             let side = Math.sqrt(2 * Math.pow(half_width, 2));
-             half_width = side;
-             half_height = side;
-        }
-        
+                // blocking, non-blocking walls: implementation
+                if((this.rad_angle == 0 || Math.abs(this.rad_angle) == Math.abs(toRadians(180))) && newPositionY - half_height < walls[0].wallSprite.y + walls[0].wallSprite.height
+                && newPositionY - half_height > walls[0].wallSprite.y){
+                    newPositionY = walls[0].wallSprite.y + walls[0].wallSprite.height + half_height;
+                }else if(this.rad_angle != 0 && Math.abs(this.rad_angle) != Math.abs(toRadians(180)) && newPositionY - half_width < walls[0].wallSprite.y + walls[0].wallSprite.height
+                && newPositionY - half_height > walls[0].wallSprite.y){
+                    newPositionY = walls[0].wallSprite.y + walls[0].wallSprite.height + half_width;
+                }
+                // bottom wall
+                if((this.rad_angle == 0 || Math.abs(this.rad_angle) == Math.abs(toRadians(180))) && newPositionY + half_height > walls[2].wallSprite.y &&
+                newPositionY + half_height < walls[2].wallSprite.y + walls[2].wallSprite.height){
+                    newPositionY = walls[2].wallSprite.y - half_height;
+                }else if(this.rad_angle != 0 && Math.abs(this.rad_angle) != Math.abs(toRadians(180)) && newPositionY + half_width > walls[2].wallSprite.y &&
+                newPositionY + half_height < walls[2].wallSprite.y + walls[2].wallSprite.height){
+                    newPositionY = walls[2].wallSprite.y - half_width;
+                }
+
+                // inverse properties if rotation angle is degrees
+               if(Math.abs(toDegrees(this.rad_angle)) == 90 || Math.abs(toDegrees(this.rad_angle)) == 270){
+                      temp = half_width;
+                       half_width = half_height;
+                         half_height = temp;
+                }
+                 // right wall
+                 if(newPositionX + half_width > walls[1].wallSprite.x - cm/2 && newPositionX + half_width < walls[1].wallSprite.x){
+                    newPositionX = walls[1].wallSprite.x -cm/2 - half_width;
+                }
+                // left wall
+                if(newPositionX - half_width < walls[3].wallSprite.x && newPositionX - half_width > walls[3].wallSprite.x - walls[3].wallSprite.height){
+                    newPositionX = walls[3].wallSprite.x + half_width;
+                }
+                // small horizontal wall
+                if(walls.length > 4 && newPositionX + half_width > walls[4].wallSprite.x){
+                   if((this.rad_angle == 0 || Math.abs(this.rad_angle) == Math.abs(toRadians(180))) && (newPositionY + half_height > walls[4].wallSprite.y && newPositionY + half_height < walls[4].wallSprite.y + walls[4].wallSprite.height)){
+                        newPositionY = walls[4].wallSprite.y - half_height;
+                   } 
+                      
+                  else if(this.rad_angle != 0 && Math.abs(this.rad_angle) != Math.abs(toRadians(180)) && newPositionY + half_width > walls[4].wallSprite.y && newPositionY + half_width < walls[4].wallSprite.y + walls[4].wallSprite.height){
+                        newPositionY = walls[4].wallSprite.y - half_width;
+                  }
+               }
+
         // small vertical wall
         if(walls.length > 4 && newPositionY + half_height > walls[5].wallSprite.y){
-            if(walls.length > 4 && newPositionX + half_width > walls[5].wallSprite.x - cm/2){
-                    newPositionX = walls[5].wallSprite.x -cm/2 - half_width;
-             }
+            if(newPositionX + half_width > walls[5].wallSprite.x - walls[5].wallSprite.height && newPositionX + half_width < walls[5].wallSprite.x){
+                   newPositionX = walls[5].wallSprite.x -cm/2 - half_width;
+            }
         }
 
-        // small horizontal wall
-        if(walls.length > 4 && newPositionX + half_width > walls[4].wallSprite.x){
-
-            if(this.rad_angle == 0 && newPositionY + half_height > walls[4].wallSprite.y){
-                 newPositionY = walls[4].wallSprite.y - half_height;
-            }    
-            else if(this.rad_angle != 0 && newPositionY + half_width > walls[4].wallSprite.y){
-                 newPositionY = walls[4].wallSprite.y - half_width;
-             }
-        }
-
-        // left vertical wall collision adjustment
-        if(newPositionX - half_width < walls[3].wallSprite.x){
-              newPositionX = walls[3].wallSprite.x + half_width;
-        }
-        
-        // top wall
-        if(this.rad_angle == 0 && newPositionY - half_height < walls[0].wallSprite.y + walls[0].wallSprite.height){
-            newPositionY = walls[0].wallSprite.y + walls[0].wallSprite.height + half_height;
-        }else if(this.rad_angle != 0 && newPositionY - half_width < walls[0].wallSprite.y + walls[0].wallSprite.height){
-            newPositionY = walls[0].wallSprite.y + walls[0].wallSprite.height + half_width;
-        }
-        // bottom wall
-        if(this.rad_angle == 0 && newPositionY + half_height > walls[2].wallSprite.y){
-            newPositionY = walls[2].wallSprite.y - half_height;
-        }else if(this.rad_angle != 0 && newPositionY + half_width > walls[2].wallSprite.y){
-            newPositionY = walls[2].wallSprite.y - half_width;
-        }
-
-        // right vertical wall collision adjustment
-        if(newPositionX + half_width > walls[1].wallSprite.x - cm/2){
-            newPositionX = walls[1].wallSprite.x -cm/2 - half_width;
-        }
-
-        // to the left of the canvas
+        // corrections for the canvas: to the left of the canvas
         if(newPositionX < half_width){
             newPositionX = half_width;
         }
@@ -538,7 +514,7 @@ function drag()
         }
 
         // move the image of the product on the canvas if there are no collisions
-        if(this.dragging && !(Math.abs(newPositionX - this.position.x) > 2* cm || Math.abs(newPositionY - this.position.y) > 2 * cm)){
+        if(this.dragging && !(Math.abs(newPositionX - this.position.x) > cm || Math.abs(newPositionY - this.position.y) > cm)){
             this.position.x = newPositionX;
             this.position.y = newPositionY;
         }

@@ -129,8 +129,8 @@ function init_draggable() {
                          [canvas_products[k].coords.x3, canvas_products[k].coords.y3], [canvas_products[k].coords.x4, canvas_products[k].coords.y4]];
 
                          // check if any point of the drop product would land in this canvas product
-                         for(i=0; i<dropped_coordinates.length; ++i){
-                             if(collision(dropped_coordinates[i], canvas_product)){
+                         for(y=0; y<dropped_coordinates.length; ++y){
+                             if(collision(dropped_coordinates[y], canvas_product)){
                                 alert("This drop is not possible.\n Please look for a free area for the drop");
                                  drop_product = false;
                                  break;
@@ -138,8 +138,8 @@ function init_draggable() {
                          }
 
                          // check if any point of this canvas product would land in the dropped product
-                         for(i=0; i<canvas_product.length && drop_product; ++i){
-                            if(collision(canvas_product[i], dropped_coordinates)){
+                         for(z=0; z<canvas_product.length && drop_product; ++z){
+                            if(collision(canvas_product[z], dropped_coordinates)){
                                 alert("This drop is not possible.\n Please look for a free area for the drop");
                                 drop_product = false;
                                 break;
@@ -148,9 +148,8 @@ function init_draggable() {
 
                         // check if the dropped product lands across the canvas product
                         // for all the points of the canvas product perform a rectangle check with respect to the dropped product
-                        for(i=0; i<canvas_product.length && drop_product; ++i){   
-                            if(pixel_positionX + product_width_scaled> canvas_product[i][0] && pixel_positionX < canvas_product[i][0]
-                               /* && pixel_positionY + product_height_scaled > canvas_product[i][1] && canvas_product[i][1] + product_height > positionY*/){
+                        for(t=0; t<canvas_product.length && drop_product; ++t){   
+                            if(pixel_positionX + product_width_scaled> canvas_product[t][0] && pixel_positionX < canvas_product[t][0]){
                                     let count1 = 0;
                                     let count2 = 0;
                                     for(d = 0; d < canvas_product.length; ++d){
@@ -315,8 +314,7 @@ function store_id(){
 // a function which is called when the sprite is added to the stage
 function create(){
      sprite_id = this.id;
-    // display the dimensions of the dropped product straight away
-    // selected_product.value = this.id;
+    // display the dimensions of the dropped product straight away 
     update_properties(this.id);
 }
 

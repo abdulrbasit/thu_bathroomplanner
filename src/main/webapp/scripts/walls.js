@@ -1,6 +1,5 @@
 // Wall array, defined here for scope.
 let walls;
-
 // a constant to distinguish layouts
 const layouts = Object.freeze({
    "layout1": 1,

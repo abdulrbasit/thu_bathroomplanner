@@ -144,7 +144,8 @@
         <!-- Custom scripts -->
         <script src="scripts/init.js"></script>
         <script src="scripts/walls.js"></script>
-        <script src="scripts/canvas.js"></script>
+		<script src="scripts/canvas.js"></script>
+		<script src="scripts/drag_drop.js"></script>
 		<script src="scripts/drag_product.js"></script>
 		<script src="scripts/save.js"></script>
         <script src="scripts/populate_catalogue.js"></script>

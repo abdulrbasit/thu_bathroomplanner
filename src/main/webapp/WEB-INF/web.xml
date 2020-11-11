@@ -15,4 +15,13 @@
         <url-pattern>/retrieveCatalogue</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>admin</servlet-name>
+        <jsp-file>/admin.html</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>admin</servlet-name>
+        <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+
 </web-app>

@@ -14,10 +14,13 @@ vendor/
 # since they will be recreated, and may cause churn.  Uncomment if using
 # auto-import.
 .idea/artifacts
+.idea/dataSources
 .idea/compiler.xml
 .idea/jarRepositories.xml
 .idea/modules.xml
 .idea/*.iml
+.idea/dataSources.local.xml
+.idea/dataSources.xml
 .idea/modules
 *.iml
 *.ipr

@@ -16,4 +16,8 @@ const app = new PIXI.Application({ transparent: false, backgroundColor : 0xddddd
 document.getElementById('main').appendChild(app.view);
 
 
+//Init screen size.
+// app.renderer.resize(document.getElementById('main').offsetWidth - 50, document.getElementById('main').offsetHeight- 50 ) ;
+// an array to store sprites displayed on the canvas
+let sprites = [];
 

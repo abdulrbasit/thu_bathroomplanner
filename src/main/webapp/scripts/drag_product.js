@@ -19,8 +19,6 @@ const collision_color = "0xff0002";
 const white_color = "0xffffff";
 // creat an array for the products added to the canvas: this will be used later
 let canvas_products = [];
-// an array to store sprites displayed on the canvas
-let sprites = [];
 // a function which stores sprites blocked by collisions
 let blocked_sprites = [];
 // store the width and the height of the canvas
@@ -228,7 +226,7 @@ function init_draggable()
                }
                if(found_product && drop_product && drop_wall){
                    // create the product on the canvas
-                   create_product(positionX, positionY, texture, product_id++, product_width_scaled, product_height_scaled, coordinates, 0, the_product_id);
+                   create_product(positionX, positionY, texture, product_id++, product_width_scaled, product_height_scaled, coordinates, 0, product.src, the_product_id);
                }
           }
       }
@@ -249,13 +247,14 @@ class Sprite extends PIXI.Sprite
       this.coords = coordinates;
       this.rad_angle = angle;
       this.move = move;
+      this.src;
       this.product_db_id = product_db_id;
     }
 }
 
 
 // a function used to create products on the canvas
-function create_product(posX, posY, texture, product_id, product_width_scaled, product_height_scaled, coordinates, angle, product_db_id)
+function create_product(posX, posY, texture, product_id, product_width_scaled, product_height_scaled, coordinates, angle, src, product_db_id)
 {
     // create a sprite for the product on the canvas
     let product = new Sprite(texture, product_id, coordinates, angle, true, product_db_id);
@@ -266,6 +265,8 @@ function create_product(posX, posY, texture, product_id, product_width_scaled, p
     product.buttonMode = true;
     // center the product's anchor point
     product.anchor.set(0.5);
+    let fileNameStart = src.lastIndexOf("/");
+    product.src = src.slice(fileNameStart);
     
     // setting the scaled dimensions of the product: the width of the sprite is the horizontal side; 
     // the height is the vertical side. so inverting is required
@@ -296,6 +297,13 @@ function create_product(posX, posY, texture, product_id, product_width_scaled, p
 
     // add it to the stage
     app.stage.addChild(product);
+    product.toString = function () {
+        return `{"x": ${this.x}, "y":${this.y}, "src": "${this.src}" , "width":${this.width}, "height": ${this.height}
+                 , "angle": ${this.rad_angle} }`;
+
+       
+
+   }
 }
 
 /*** Event functions for dragging sprites */

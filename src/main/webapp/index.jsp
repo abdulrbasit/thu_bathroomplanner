@@ -6,7 +6,7 @@
         <!-- CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link rel="stylesheet" href='styles/stylesheet.css'>
+		<link rel="stylesheet" href='styles/stylesheet.css'>
 
     </head>
     <body>
@@ -132,7 +132,8 @@
         </div>
 
         <!-- PixiJS -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 
         <!-- jQuery and JS bundle w/ Popper.js -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -144,7 +145,8 @@
         <script src="scripts/init.js"></script>
         <script src="scripts/walls.js"></script>
         <script src="scripts/canvas.js"></script>
-        <script src="scripts/drag_product.js"></script>
+		<script src="scripts/drag_product.js"></script>
+		<script src="scripts/save.js"></script>
         <script src="scripts/populate_catalogue.js"></script>
         <script src="scripts/dimensions.js"></script>
         <script src="scripts/rotate_product.js"></script>

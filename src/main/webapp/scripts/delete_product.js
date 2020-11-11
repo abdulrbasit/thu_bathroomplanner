@@ -5,22 +5,23 @@
  
 $("#btn-delete-product").on('click', function(event){
  
-delete_product();
-
-});
-
-// a function which deletes a selected product
-function delete_product() {
-    // delete selected product
-    var i;
-
-    for(i = 0; i < sprites.length; ++i){
-            if(sprite_id == sprites[i].id){
-                app.stage.removeChild(sprites[i]);
-                sprites.splice(i, 1);
-                canvas_products.splice(i, 1);
-                // delete the properties of the deleted product
-                update_properties(sprite_id);
-            }
+    delete_product();
+    
+    });
+    
+    // a function which deletes a selected product
+    function delete_product() {
+        // delete selected product
+        var i;
+    
+        for(i = 0; i < sprites.length; ++i){
+                if(sprite_id == sprites[i].id){
+                    app.stage.removeChild(sprites[i]);
+                    sprites.splice(i, 1);
+                    canvas_products.splice(i, 1);
+                    // delete the properties of the deleted product
+                    update_properties(sprite_id);
+                    sprite_id = -1;
+                }
+        }
     }
-}

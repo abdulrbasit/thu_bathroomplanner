@@ -6,7 +6,7 @@ const ROOM_LAYOUT1 = "roomLayout_1";
 const ROOM_LAYOUT2 = "roomLayout_2";
 
 //Listener for the button
-$("#reset-plan").on('click', function(event){
+$("#btn-reset-plan").on('click', function(event){
     reset_plan();
 });
 
@@ -23,6 +23,7 @@ function reset_plan(){
 
 //Function which destroys every wall and product on the canvas
 function destroy_everything(){
+    selectTool.unselect();
     if(sprites.length > 0){
         sprites.forEach(element => {
             element.destroy();

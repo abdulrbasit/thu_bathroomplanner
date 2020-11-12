@@ -11,7 +11,7 @@ let catalogue;
 (function ($) {
     $(document).ready(function () {
         $.ajax({
-            url: 'retrieveCatalogue',
+            url: 'RetrieveCatalogue',
             type: 'get',
             dataType: 'json',
             success: function (response) {

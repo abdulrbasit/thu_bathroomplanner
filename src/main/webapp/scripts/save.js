@@ -49,11 +49,12 @@ function getCookies(){
         }
         let str = JSON.stringify(products);
         $.ajax({
-            url: 'retrieveCatalogue',
+            url: 'SavePlan',
             type: 'post',
-            data: {"CookieString":getCookies(), "area":area_text.text.slice(6, -2), "layout":layout, "products" : str}
-            
+            data: {"CookieString":getCookies(), "area":area_text.text.slice(6, -2), "layout":layout, "products" : str},
+            success: function (response) {
+                alert(response);
+            }
         });
-        alert("Your data has been saved.");
     });
 })(jQuery);

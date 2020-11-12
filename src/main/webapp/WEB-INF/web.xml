@@ -5,14 +5,14 @@
          version="4.0">
 
     <servlet>
-        <servlet-name>retrieveCatalogue</servlet-name>
-        <servlet-class>retrieveCatalogue</servlet-class>
+        <servlet-name>RetrieveCatalogue</servlet-name>
+        <servlet-class>RetrieveCatalogue</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>retrieveCatalogue</servlet-name>
-        <url-pattern>/retrieveCatalogue</url-pattern>
+        <servlet-name>RetrieveCatalogue</servlet-name>
+        <url-pattern>/RetrieveCatalogue</url-pattern>
     </servlet-mapping>
 
     <servlet>

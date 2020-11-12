@@ -1,5 +1,5 @@
 /**
- * This java file retrieves data from the postgreSQL database and produces a JSON array as the result.
+ * This java servlet class retrieves data from the postgreSQL database and produces a JSON array as the result.
  */
 
 import org.json.simple.JSONArray;
@@ -13,15 +13,15 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-@WebServlet(name = "retrieveCatalogue")
-public class retrieveCatalogue extends HttpServlet {
+@WebServlet(name = "RetrieveCatalogue")
+public class RetrieveCatalogue extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
 
         // Response set as json
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
 
         // Json arrays for database tables
         JSONArray dbdata_manufacturer = new JSONArray();
@@ -33,57 +33,58 @@ public class retrieveCatalogue extends HttpServlet {
         JSONArray dbdata_catalogue = new JSONArray();
 
         try {
+
             // Establish Database Connection
-            Connection con = DatabaseConnection.getConnection();
-            Statement stmt = con.createStatement();
+            Connection connection = DatabaseConnection.getConnection();
+            Statement statement = connection.createStatement();
 
             // Select all data from manufacturer table
-            ResultSet rs = stmt.executeQuery("select * from manufacturer");
-            while (rs.next()) {
+            ResultSet resultSet = statement.executeQuery("select * from manufacturer");
+            while (resultSet.next()) {
                 JSONObject record = new JSONObject();
 
                 // Inserting key-value pairs into the json object
-                record.put("id", rs.getInt("id"));
-                record.put("name", rs.getString("name"));
+                record.put("id", resultSet.getInt("id"));
+                record.put("name", resultSet.getString("name"));
                 dbdata_manufacturer.add(record);
 
             }
 
             // Select all data from product_type table
-            rs = stmt.executeQuery("select * from product_type");
-            while (rs.next()) {
+            resultSet = statement.executeQuery("select * from product_type");
+            while (resultSet.next()) {
                 JSONObject record = new JSONObject();
 
                 // Inserting key-value pairs into the json object
-                record.put("id", rs.getInt("id"));
-                record.put("name", rs.getString("name"));
-                record.put("manufacturer_id", rs.getInt("manufacturer_id"));
+                record.put("id", resultSet.getInt("id"));
+                record.put("name", resultSet.getString("name"));
+                record.put("manufacturer_id", resultSet.getInt("manufacturer_id"));
                 dbdata_product_type.add(record);
             }
 
             // Select all data from product table
-            rs = stmt.executeQuery("select * from product");
-            while (rs.next()) {
+            resultSet = statement.executeQuery("select * from product");
+            while (resultSet.next()) {
                 JSONObject record = new JSONObject();
 
                 // Inserting key-value pairs into the json object
-                record.put("id", rs.getInt("id"));
-                record.put("name", rs.getString("name"));
-                record.put("image", rs.getString("image"));
-                record.put("product_type_id", rs.getInt("product_type_id"));
+                record.put("id", resultSet.getInt("id"));
+                record.put("name", resultSet.getString("name"));
+                record.put("image", resultSet.getString("image"));
+                record.put("product_type_id", resultSet.getInt("product_type_id"));
                 dbdata_product.add(record);
             }
 
             // Select all data from product_dimension table
-            rs = stmt.executeQuery("select * from product_dimension");
-            while (rs.next()) {
+            resultSet = statement.executeQuery("select * from product_dimension");
+            while (resultSet.next()) {
                 JSONObject record = new JSONObject();
 
                 // Inserting key-value pairs into the json object
-                record.put("id", rs.getInt("id"));
-                record.put("length", rs.getInt("length"));
-                record.put("width", rs.getInt("width"));
-                record.put("product_id", rs.getInt("product_id"));
+                record.put("id", resultSet.getInt("id"));
+                record.put("length", resultSet.getInt("length"));
+                record.put("width", resultSet.getInt("width"));
+                record.put("product_id", resultSet.getInt("product_id"));
                 dbdata_product_dimension.add(record);
             }
 
@@ -94,11 +95,11 @@ public class retrieveCatalogue extends HttpServlet {
             dbdata_catalogue.add(dbdata_product_dimension);
 
             // Close database connection
-            con.close();
+            connection.close();
             out.print(dbdata_catalogue);
 
         } catch (Exception e) {
-            out.println("Database connection not successful");
+            out.print("Database connection not successful");
         }
     }
 }

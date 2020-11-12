@@ -9,8 +9,17 @@
 <h1>Add New Manufacturer</h1>
 <form action="SaveManufacturer" method="post">
     <table>
-        <tr><td>Name:</td><td><input type="text" name="name"/></td></tr>
-        <tr><td colspan="2"><input type="submit" value="Save Manufacturer"/></td></tr>
+        <tr>
+            <td>Manufacturer ID:</td>
+            <td><input type="number" name="manufacturer_id"/></td>
+        </tr>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" name="name"/></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Save Manufacturer"/></td>
+        </tr>
     </table>
 </form>
 
@@ -19,9 +28,21 @@
 <h1>Add New Product Type</h1>
 <form action="SaveProductType" method="post">
     <table>
-        <tr><td>Name:</td><td><input type="text" name="name"/></td></tr>
-        <tr><td>Manufacturer ID:</td><td><input type="number" name="manufacturer_id"/></td></tr>
-        <tr><td colspan="2"><input type="submit" value="Save Product Type"/></td></tr>
+        <tr>
+            <td>Product Type ID:</td>
+            <td><input type="number" name="product_type_id"/></td>
+        </tr>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" name="name"/></td>
+        </tr>
+        <tr>
+            <td>Manufacturer ID:</td>
+            <td><input type="number" name="manufacturer_id"/></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Save Product Type"/></td>
+        </tr>
     </table>
 </form>
 
@@ -30,10 +51,25 @@
 <h1>Add New Product</h1>
 <form action="SaveProduct" method="post">
     <table>
-        <tr><td>Name:</td><td><input type="text" name="name"/></td></tr>
-        <tr><td>Image:</td><td><input type="text" name="image"/></td></tr>
-        <tr><td>Product Type ID:</td><td><input type="number" name="product_type_id"/></td></tr>
-        <tr><td colspan="2"><input type="submit" value="Save Product"/></td></tr>
+        <tr>
+            <td>Product ID:</td>
+            <td><input type="number" name="product_id"/></td>
+        </tr>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" name="name"/></td>
+        </tr>
+        <tr>
+            <td>Image:</td>
+            <td><input type="text" name="image"/></td>
+        </tr>
+        <tr>
+            <td>Product Type ID:</td>
+            <td><input type="number" name="product_type_id"/></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Save Product"/></td>
+        </tr>
     </table>
 </form>
 
@@ -42,10 +78,21 @@
 <h1>Add New Product Dimension</h1>
 <form action="SaveProductDimension" method="post">
     <table>
-        <tr><td>Length:</td><td><input type="number" name="length"/></td></tr>
-        <tr><td>Width:</td><td><input type="number" name="width"/></td></tr>
-        <tr><td>Product ID:</td><td><input type="number" name="product_id"/></td></tr>
-        <tr><td colspan="2"><input type="submit" value="Save Product Dimension"/></td></tr>
+        <tr>
+            <td>Length:</td>
+            <td><input type="number" name="length"/></td>
+        </tr>
+        <tr>
+            <td>Width:</td>
+            <td><input type="number" name="width"/></td>
+        </tr>
+        <tr>
+            <td>Product ID:</td>
+            <td><input type="number" name="product_id"/></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Save Product Dimension"/></td>
+        </tr>
     </table>
 </form>
 

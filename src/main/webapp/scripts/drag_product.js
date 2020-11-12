@@ -59,7 +59,11 @@ function create_product(posX, posY, product_id, product_width_scaled, product_he
         // events for dragging
         .on('mousemove', drag)
         .on('click', click_product)
-        .on('touchmove', drag);
+        .on('touchmove', drag)
+        // open the rotate tool on the selected product
+        .on("pointertap", function (evt) {
+            selectTool.select(evt.currentTarget);
+        });
 
     // position of the product on the canvas: coordinates of the center of the sprite
     product.position.x = posX;
@@ -70,6 +74,11 @@ function create_product(posX, posY, product_id, product_width_scaled, product_he
 
     // add it to the stage
     app.stage.addChild(product);
+
+    // add rotate tool on top of product
+    app.stage.addChild(tool);
+    tool.addChild(selectTool);
+
     product.toString = function () 
     {
         return `{"x": ${this.x}, "y":${this.y}, "src": "${this.src}" , "width":${this.width}, "height": ${this.height}
@@ -96,6 +105,14 @@ function create()
 // a function which handles the start of the dragging of the product
 function start_dragging(event) 
 {
+    // Add the selected product to the top of the canvas and the rotate tool on top of the product
+    app.stage.addChild(this);
+    app.stage.addChild(tool);
+    tool.addChild(selectTool);
+
+    // Unselect the rotate tool so it is not visible while product is being dragged
+    selectTool.unselect();
+
     //Indicator for selected product
     if(sprite_id != this.id ){
         for (sprite = 0; sprite < sprites.length; ++sprite) {

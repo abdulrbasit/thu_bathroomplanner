@@ -5,6 +5,7 @@
  
 $("#btn-delete-product").on('click', function(event){
  
+    selectTool.unselect();
     delete_product();
     
     });

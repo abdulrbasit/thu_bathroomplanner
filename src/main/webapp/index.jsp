@@ -87,11 +87,12 @@
 							</div>
 						</div>
 						<div class="toolbar-vertical-divider"></div>
-						<span class="span-toolbar-btns rotate-left"><a class="toolbar-btn" id="btn-rotate-left">&#8634;</a></span>
-						<span class="span-toolbar-btns rotate-right"><a class="toolbar-btn" id="btn-rotate-right">&#8635;</a></span>
-						<span class="span-toolbar-btns delete-product"><a class="toolbar-btn" id="btn-delete-product">&#x1F5D1;</a></span>
-						<div class="toolbar-vertical-divider"></div>
+						<!-- <span class="span-toolbar-btns rotate-left"><a class="toolbar-btn" id="btn-rotate-left">&#8634;</a></span> -->
+						<!-- <span class="span-toolbar-btns rotate-right"><a class="toolbar-btn" id="btn-rotate-right">&#8635;</a></span> -->
 						<span class="span-toolbar-btns save-plan"><a class="toolbar-btn" id="btn-save-plan">&#x1F4BE;</a></span>
+						<span class="span-toolbar-btns reset-plan"><a class="toolbar-btn" id="btn-reset-plan">Reset layout</a></span>
+						<div class="toolbar-vertical-divider"></div>
+						<span class="span-toolbar-btns delete-product"><a class="toolbar-btn" id="btn-delete-product">&#x1F5D1;</a></span>
 					</div>
 
                 </div>
@@ -134,6 +135,7 @@
         <!-- PixiJS -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+		<script src="scripts/pixijs.util.FreeTransformTool.js"></script>
 
         <!-- jQuery and JS bundle w/ Popper.js -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -152,7 +154,8 @@
 		<script src="scripts/reset_plan.js"></script>
 		<script src="scripts/load_plan.js"></script>
         <script src="scripts/populate_catalogue.js"></script>
-        <script src="scripts/dimensions.js"></script>
+		<script src="scripts/dimensions.js"></script>
+		<script src="scripts/free_rotation.js"></script>
 		<script src="scripts/rotate_product.js"></script>
         <script src="scripts/delete_product.js"></script>
         <script src="scripts/ui-behaviour.js"></script>

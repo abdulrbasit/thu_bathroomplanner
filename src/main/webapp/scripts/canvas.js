@@ -3,6 +3,8 @@ let graphics = new PIXI.Graphics();
 let canvas_height = document.getElementById('main').offsetHeight;
 let canvas_width = document.getElementById('main').offsetWidth * 2;
 function drawGrid() {
+    // unselect the rotate tool (in case it was selected)
+    selectTool.unselect();
     canvas_height = document.getElementById('main').offsetHeight;
     canvas_width = document.getElementById('main').offsetWidth * 2;
     graphics.lineStyle(1, 0x000000, 1);

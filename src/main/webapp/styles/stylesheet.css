@@ -256,11 +256,12 @@ html, body, #sidebar, #main-container {
 }
 
 .productSpan {
-	text-align: center !important;
+	/* text-align: center !important; */
 }
 
 .image-div {
-	
+	margin: 0 2px 0 2px;
+	justify-content: left;
 }
 
 .product:hover {

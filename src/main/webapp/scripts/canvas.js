@@ -24,7 +24,7 @@ function drawGrid() {
 
     app.stage.addChild(graphics);
     if(sprites.length > 0){
-        for (let index = 0; index < sprites.length; index++) {
+        for (let index = 0; sprites != undefined && index < sprites.length; index++) {
             app.stage.removeChild(sprites[index]);
             app.stage.addChild(sprites[index]);
         }

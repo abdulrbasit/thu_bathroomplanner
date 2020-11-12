@@ -7,7 +7,10 @@ const image_folder = "assets";
 // the function restore the user objects on the canvas
 $(function(){
      // gather the data from the cookie
-     let data = JSON.parse(getCookies());
+     let data = getCookies();
+     if(data != undefined){
+        data = JSON.parse(data);
+     }
      // display the data
      if(data != undefined && data.walls != undefined){
          // display walls

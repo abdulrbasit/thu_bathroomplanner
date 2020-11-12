@@ -20,6 +20,13 @@ function rotation_update(){
             else {
                 // No collision
                 collision = false;
+
+                // Update the angle of the sprite
+                sprites[sprite].rad_angle = end_angle;
+                if(Math.cos(sprites[id].rad_angle) == 1){
+                    sprites[id].rad_angle = 0;
+                }
+                
                 update_coordinates(sprites[sprite].rad_angle, sprite);
             }
             break;

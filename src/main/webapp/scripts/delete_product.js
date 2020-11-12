@@ -12,13 +12,13 @@ $("#btn-delete-product").on('click', function(event){
     // a function which deletes a selected product
     function delete_product() {
         // delete selected product
-        var i;
+        var sprite;
     
-        for(i = 0; i < sprites.length; ++i){
-                if(sprite_id == sprites[i].id){
-                    app.stage.removeChild(sprites[i]);
-                    sprites.splice(i, 1);
-                    canvas_products.splice(i, 1);
+        for(sprite = 0; sprite < sprites.length; ++sprite){
+                if(sprite_id == sprites[sprite].id){
+                    app.stage.removeChild(sprites[sprite]);
+                    sprites.splice(sprite, 1);
+                    canvas_products.splice(sprite, 1);
                     // delete the properties of the deleted product
                     update_properties(sprite_id);
                     sprite_id = -1;

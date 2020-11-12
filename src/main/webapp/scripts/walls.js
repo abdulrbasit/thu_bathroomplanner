@@ -1,5 +1,8 @@
 // Wall array, defined here for scope.
 let walls;
+
+var room_layout_id = "roomLayout_2";
+
 // a constant to distinguish layouts
 const layouts = Object.freeze({
    "layout1": 1,
@@ -427,6 +430,7 @@ $(".roomLayout").on('click', function(event){
       });
    }
    let func = "draw" + event.target.id + "();";
+   room_layout_id = event.target.id;
    eval(func);
 });
 

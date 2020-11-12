@@ -149,6 +149,7 @@
 		<script src="scripts/drag_drop.js"></script>
 		<script src="scripts/drag_product.js"></script>
 		<script src="scripts/save.js"></script>
+		<script src="scripts/reset_plan.js"></script>
 		<script src="scripts/load_plan.js"></script>
         <script src="scripts/populate_catalogue.js"></script>
         <script src="scripts/dimensions.js"></script>

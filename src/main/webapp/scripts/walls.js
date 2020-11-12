@@ -277,10 +277,9 @@ function wall(x,y, height, width, horizontal){
    this.wallSprite.getAttachedWalls = function(){
       return this.attached;
    }
-
-
+   
    this.wallSprite.toString = () => {
-      return `{ "x": ${this.x}, "y":${this.y}, "height": "${this.height}" , "width":${this.width}, "horizontal": ${this.horizontal} }`;
+      return `{ "x": ${this.wallSprite.x}, "y":${this.wallSprite.y}, "height": ${this.wallSprite.width} , "width":${this.width}, "horizontal": ${this.horizontal} }`;
    }
 }
 
@@ -319,7 +318,6 @@ function drawroomLayout_1(){
    //bottom
    let wall3 = new wall(100, 500 - (cm/2), 400, cm/2, true);
    wall3.attachWall(wall2);
-
    wall2.attachWall(wall3);
 
    //left
@@ -381,32 +379,34 @@ function getWalls(){
    return walls;
 }
 
-// a function to display the area of the bathroom in the center of the  bathroom
+// a function to display the area of the bathroom at the center of the  bathroom
 function displayArea(layout){
-      // coordinates of the text to be displayed in the center of the room
-      let x = ((walls[0].wallSprite.x)) + (((walls[0].wallSprite.width))/2) - 2 * cm;
-      let y = (((walls[0].wallSprite.y)) + ((walls[3].wallSprite.width))/2) - (cm/2);
-      // dimensions of the room
-      let width = (((walls[0].wallSprite.width)/cm)/scale).toFixed(2);
-      let length = (((walls[3].wallSprite.width)/cm)/scale).toFixed(2);
+    if(walls.length == 4 || walls.length == 6){
+        // coordinates of the text to be displayed in the center of the room
+        let x = ((walls[0].wallSprite.x)) + (((walls[0].wallSprite.width))/2) - 2 * cm;
+        let y = (((walls[0].wallSprite.y)) + ((walls[3].wallSprite.width))/2) - (cm/2);
+        // dimensions of the room
+        let width = (((walls[0].wallSprite.width)/cm)/scale).toFixed(2);
+        let length = (((walls[3].wallSprite.width)/cm)/scale).toFixed(2);
 
-      let area;
-      if(layout == layouts.layout1){
-          // calculate the area
-          area = (width * length * (1/10000)).toFixed(2);
-      }else if(layout == layouts.layout2){
-          // other dimensions
-          let small_width = (((walls[4].wallSprite.width)/cm)/scale).toFixed(2);
-          let small_length = (((walls[5].wallSprite.width)/cm)/scale).toFixed(2);
-          area = ((width * length * (1/10000)).toFixed(2) - (small_width * small_length * (1/10000)).toFixed(2)).toFixed(2);
-      }
-
-      // set the area to be displayed
-      area_text.text = ("Area: " + area + " \u33A1");
-      // set position of the text
-      area_text.position.set(x,y);
-      // display message
-      app.stage.addChild(area_text);
+        let area;
+        if(layout == layouts.layout1){
+            // calculate the area
+            area = (width * length * (1/10000)).toFixed(2);
+        }
+        else if(layout == layouts.layout2){
+            // other dimensions
+            let small_width = (((walls[4].wallSprite.width)/cm)/scale).toFixed(2);
+            let small_length = (((walls[5].wallSprite.width)/cm)/scale).toFixed(2);
+            area = ((width * length * (1/10000)).toFixed(2) - (small_width * small_length * (1/10000)).toFixed(2)).toFixed(2);
+        }
+        // set the area to be displayed
+        area_text.text = ("Area: " + area + " \u33A1");
+        // set position of the text
+        area_text.position.set(x,y);
+        // display message
+        app.stage.addChild(area_text);
+   }
 }
 
 // draw the second layout
@@ -429,3 +429,54 @@ $(".roomLayout").on('click', function(event){
    let func = "draw" + event.target.id + "();";
    eval(func);
 });
+
+
+// a method to attached walls from the cookie: the parameter is an array of walls
+function attach_walls(the_walls){
+     // first layout
+    if(the_walls.length == 4){
+         // store the walls in their global variable
+         walls = the_walls;
+         // attach the top wall and the right wall
+         walls[1].attachWall(walls[0]);
+         walls[0].attachWall(walls[1]);
+         // attach the bottom wall and the right wall
+         walls[2].attachWall(walls[1]);
+         walls[1].attachWall(walls[2]);
+         // attach the left wall and the top wall
+         walls[3].attachWall(walls[0]);
+         walls[0].attachWall(walls[3]);
+         // attach the left wall and the bottom wall
+         walls[3].attachWall(walls[2]);
+         walls[2].attachWall(walls[3]);
+         // display the area
+         layout = layouts.layout1;
+         displayArea(layout);
+    }
+    // second layout
+    else if(the_walls.length == 6){
+         // store the walls in their global variable
+         walls = the_walls;
+         // attach the top wall and the right wall
+         walls[0].attachWall(walls[1]);
+         walls[1].attachWall(walls[0]);
+         // attach the left wall and the bottom wall
+         walls[3].attachWall(walls[2]);
+         walls[2].attachWall(walls[3]);
+         // attach the left wall and the top wall
+         walls[3].attachWall(walls[0]);
+         walls[0].attachWall(walls[3]);
+         // attach the small horizontal wall to the right wall
+         walls[4].attachWall(walls[1]);
+         walls[1].attachWall(walls[4]);
+         // attach the small vertical wall and the small horizontal wall
+         walls[5].attachWall(walls[4]);
+         walls[4].attachWall(walls[5]);
+         // attach the small vertical wall and the right wall
+         walls[5].attachWall(walls[2]);
+         walls[2].attachWall(walls[5]);
+         // display the area
+         layout = layouts.layout2;
+         displayArea(layout);
+    }
+}

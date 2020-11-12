@@ -76,12 +76,8 @@ function update_angle(angle, id){
         let rad_angle = toRadians(angle);
         // cumulatively store the rotation angle of a given sprite
         sprites[id].rad_angle += rad_angle;
-
-        // canvas_products[id].rad_angle += rad_angle;
-
         if(Math.cos(sprites[id].rad_angle) == 1){
             sprites[id].rad_angle = 0;
-            // canvas_products[id].rad_angle = 0;
         }
         // calculate and store the new coordinates 
         update_coordinates(sprites[id].rad_angle, id);
@@ -96,54 +92,8 @@ function update_coordinates(rad_angle, id){
     // half width and half height of the product/sprite
     let half_width = sprites[id].width / 2;
     let half_height = sprites[id].height / 2;
-    // update canvas products coordinates: needed for collisions
-    // update canvas products and sprite coordinates
-
-    // canvas_products[id].coords = calculate_coordinates(rad_angle, half_width, half_height, newPositionX, newPositionY);
-
+    // update sprite coordinates
     sprites[id].coords = calculate_coordinates(rad_angle, half_width, half_height, newPositionX, newPositionY);
     // update displayed properties
     update_properties(sprites[id].id);
-}
-
-// a function which prevents a rotation if it is going to land the product on another product 
-// or if it is going land the product outside of the canvas. the passed sprite represents the sprite that wants to rotate
-function prevent_rotation_collision(sprite_index, deg_angle){
-    // convert the angle to radians
-    let angle = toRadians(deg_angle);
-    // rotation angle for the center of the rectangular used as the origin.
-    let rad_angle = sprites[sprite_index].rad_angle + angle;
-    //console.log("the angle is: "+toDegrees(rad_angle));
-    let half_width = sprites[sprite_index].width / 2;
-    let half_height = sprites[sprite_index].height / 2;
-
-    // create another polygon make of the (future) rotated values of the sprite to be rotated
-    let coords = calculate_coordinates(rad_angle, half_width, half_height, sprites[sprite_index].x, sprites[sprite_index].y);
-    let coordinates = [[coords.x1, coords.y1], [coords.x2, coords.y2], [coords.x3, coords.y3], [coords.x4, coords.y4]];
-    // make sure that after the rotation the sprite is not landing on another object
-    for(let k = 0; k < sprites.length; ++k){
-        // the sprite cannot collide with itself
-        if(sprites[k].id != sprites[sprite_index].id){
-            // create a polygon using the coordinates of this sprite
-            let polygon = [[sprites[k].coords.x1, sprites[k].coords.y1],[sprites[k].coords.x2, sprites[k].coords.y2],
-            [sprites[k].coords.x3, sprites[k].coords.y3], [sprites[k].coords.x4, sprites[k].coords.y4]];
-            // check now if the sprite to be rotated would collide with this sprite
-            // check if a coordinate of this sprite would be in the rotated sprite
-            for(let j=0; j < polygon.length; ++j){
-                if(detect_collision(polygon[j], coordinates)){
-                    // rotation is not permitted
-                    return false;
-                }
-            }
-            // check if a coordinates of the rotated sprite would land in this sprite
-            for(let d=0; d < coordinates.length; ++d){                   
-                if(detect_collision(coordinates[d], polygon)){
-                    // rotation is not permitted
-                    return false;
-                }
-            }
-        }
-    }    
-    // validate the rotation
-    return true;
 }

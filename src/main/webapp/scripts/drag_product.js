@@ -23,8 +23,10 @@ class Sprite extends PIXI.Sprite
 
 
 // a function used to create products on the canvas
-function create_product(posX, posY, texture, product_id, product_width_scaled, product_height_scaled, coordinates, angle, src, product_db_id)
+function create_product(posX, posY, product_id, product_width_scaled, product_height_scaled, coordinates, angle, image_path, product_db_id)
 {
+    // get a texture of the product image
+    var texture = PIXI.Texture.from(image_path);
     // create a sprite for the product on the canvas
     let product = new Sprite(texture, product_id, coordinates, angle, true, product_db_id);
 
@@ -32,10 +34,12 @@ function create_product(posX, posY, texture, product_id, product_width_scaled, p
     product.interactive = true;
     // this button mode will mean the hand cursor appears when you roll over the product with your mouse
     product.buttonMode = true;
+    // rotate the product if needed: angle is in radians
+    product.rotation = -angle;
     // center the product's anchor point
     product.anchor.set(0.5);
-    let fileNameStart = src.lastIndexOf("/");
-    product.src = src.slice(fileNameStart);
+    let fileNameStart = image_path.lastIndexOf("/");
+    product.src = image_path.slice(fileNameStart);
     
     // setting the scaled dimensions of the product: the width of the sprite is the horizontal side; 
     // the height is the vertical side. so inverting is required
@@ -66,10 +70,11 @@ function create_product(posX, posY, texture, product_id, product_width_scaled, p
 
     // add it to the stage
     app.stage.addChild(product);
-    product.toString = function () {
+    product.toString = function () 
+    {
         return `{"x": ${this.x}, "y":${this.y}, "src": "${this.src}" , "width":${this.width}, "height": ${this.height}
-                 , "angle": ${this.rad_angle} }`;
-   }
+                 , "angle": ${this.rad_angle}, "product_db_id": ${this.product_db_id} }`;
+    }
 }
 
 /*** Event functions for dragging sprites */
@@ -92,16 +97,16 @@ function create()
 function start_dragging(event) 
 {
     //Indicator for selected product
-    if(sprite_id != this.id){
+    if(sprite_id != this.id ){
         for (sprite = 0; sprite < sprites.length; ++sprite) {
 
-            if (sprite_id == sprites[sprite].id) {
+            if (sprite_id == sprites[sprite].id && sprites[sprite].tint != collision_color) {
 
-                sprites[sprite].tint = 0xffffff;
+                sprites[sprite].tint = white_color;
             }
         }
     }
-    this.tint = 0xddddff;
+    this.tint = selection_color;
     sprite_id = this.id;
     // update object properties: length and width
     update_properties(this.id);
@@ -147,12 +152,11 @@ function drag()
         let half_height = this.height / 2;
         
         // obtain this colliding sprite and gather its coordinates
-        let sprite;
         let colliding_coordinates = [];
         // make sure the sprite exist on the canvas before trying to use for collision detection
         for(let z = 0; z < sprites.length; ++z){
             if(sprites[z].id == this.id){
-                sprite = sprites[z];
+                let sprite = sprites[z];
                 colliding_coordinates = [[sprite.coords.x1, sprite.coords.y1], [sprite.coords.x2, sprite.coords.y2], [sprite.coords.x3, sprite.coords.y3], [sprite.coords.x4, sprite.coords.y4]];
             }
         }
@@ -313,62 +317,4 @@ function drag()
         // update properties for the user
         update_properties(this.id);
     }
-}
-
-/*********************************************************************************/
-/*                  Javascript: Some Important Functions                         */
-/*********************************************************************************/
-
-// a function which sets the id of the clicked product
-function set_id(value, dimension_id){
-    the_product_id = value;
-    the_dimension_id = dimension_id;
-}
-
-// a function which converts from degrees to radians
-function toRadians(angle){
-    return (angle * Math.PI)/180;
-}
-
-// a function which converts to degrees
-function toDegrees(angle){
-    return (angle * 180)/Math.PI;
-}
-
-/** collision detection: a function which checks if a point is in a polygon
- * polygon is an array of array, and point is a array with two points
- * the function returns true if the point is found inside the polygon
- */
-function detect_collision(coordinate, polygon) {
-
-    var x = coordinate[0], y = coordinate[1]; 
-    var found = false;
-    for (var i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-        var xi = polygon[i][0], yi = polygon[i][1];
-        var xj = polygon[j][0], yj = polygon[j][1];
-        
-        var intersect = ((yi > y) != (yj > y))
-            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-        if (intersect) found = !found;
-    }   
-    return found;
-}
-
-// a function which calculates and returns sprite corner coordinates using the transformation formula
-function calculate_coordinates(rad_angle, half_width, half_height, newPositionX, newPositionY){
-    let coordinates = {};
-    // calculate coordinates using the transformation formula
-    coordinates.x1 = Math.cos(rad_angle) * (-half_width) - Math.sin(rad_angle) * (half_height) + newPositionX;
-    coordinates.y1 = Math.abs(Math.sin(rad_angle) * (-half_width) + Math.cos(rad_angle) * (half_height) - newPositionY);
-    
-    coordinates.x2 = Math.cos(rad_angle) * (-half_width) - Math.sin(rad_angle) * (-half_height) + newPositionX;
-    coordinates.y2 = Math.abs(Math.sin(rad_angle) * (-half_width) + Math.cos(rad_angle) * (-half_height) - newPositionY);
-
-    coordinates.x3 = Math.cos(rad_angle) * (half_width) - Math.sin(rad_angle) * (-half_height) + newPositionX;
-    coordinates.y3 = Math.abs(Math.sin(rad_angle) * (half_width) + Math.cos(rad_angle) * (-half_height) - newPositionY);
-
-    coordinates.x4 = Math.cos(rad_angle) * (half_width) - Math.sin(rad_angle) * (half_height) + newPositionX;
-    coordinates.y4 = Math.abs(Math.sin(rad_angle) * (half_width) + Math.cos(rad_angle) * (half_height) - newPositionY);
-    // return the coordinates as json object
-    return coordinates;
 }

@@ -13,8 +13,7 @@
 // a color for colliding products
 const collision_color = "0xff0002";
 const white_color = "0xffffff";
-// an array to store sprites on the canvas
-let sprites = [];
+const selection_color = "0xddddff";
 // creat an array for the products added to the canvas: this will be used later
 let canvas_products = [];
 // a function which stores sprites blocked by collisions
@@ -78,9 +77,6 @@ function init_draggable()
                // get position of dragged item relative to drop target and center coordinates
                var positionX = dropPositionX-dragItemOffsetX+product.width/2;
                var positionY = dropPositionY-dragItemOffsetY+product.height/2;
-               
-               // get a texture of the product image
-               var texture = PIXI.Texture.from(product.src);
 
                // attempt to add the product to the array of canvas products
                for(i=0, length=drag_product_product_dimensions.length; i < length; ++i){
@@ -97,7 +93,7 @@ function init_draggable()
                         let pixel_positionX = positionX - (product_width_scaled / 2);
                         let pixel_positionY = positionY - (product_height_scaled / 2);
 
-                        // corrections: make sure the drop takes place on the canvas
+                        // adjustments: make sure the drop takes place on the visible area of the canvas
                         if(pixel_positionX < 0){
                             positionX -= pixel_positionX;
                             pixel_positionX = positionX - (product_width_scaled / 2);
@@ -177,7 +173,7 @@ function init_draggable()
                                 wall_width = walls[k].wallSprite.height;
                                 wall_height = walls[k].wallSprite.width;
                             }
-                        // left-side check for the drop
+                            // left-side check for the drop
                             if( ((pixel_positionX + product_width_scaled > walls[k].wallSprite.x && pixel_positionX < walls[k].wallSprite.x)
                                 // right side check for the drop
                                 ||(walls[k].wallSprite.x + wall_width > pixel_positionX && pixel_positionX > walls[k].wallSprite.x)) &&
@@ -188,7 +184,8 @@ function init_draggable()
                                         break;
                             }
                         }
-
+                        
+                        // store properties of the product
                         for(let q = 0; q < drag_product_products.length; ++q){
                        
                             if(the_product_id == drag_product_products[q]["id"] && drop_product && drop_wall){
@@ -203,15 +200,8 @@ function init_draggable()
                                 temp_product.width = drag_product_product_dimensions[i]['width'];
                                 temp_product.length = drag_product_product_dimensions[i]['length'];
 
-                                // store the coordinates of all 4 corners of the product
-                                coordinates.x1 = pixel_positionX;
-                                coordinates.y1 = pixel_positionY;
-                                coordinates.x2 = pixel_positionX;
-                                coordinates.y2 = pixel_positionY + product_height_scaled;
-                                coordinates.x3 = pixel_positionX + product_width_scaled;
-                                coordinates.y3 = pixel_positionY + product_height_scaled;
-                                coordinates.x4 = pixel_positionX + product_width_scaled;
-                                coordinates.y4 = pixel_positionY;
+                                // store the coordinates of all 4 corners of the rectangular product
+                                coordinates = compute_coordinates(pixel_positionX, pixel_positionY, product_width_scaled, product_height_scaled);
                                 // add the dropped product in the list of canvas products. this array does not contain pixels of the sprite
                                 canvas_products.push(temp_product);
 
@@ -227,9 +217,62 @@ function init_draggable()
                
                if(found_product && drop_product && drop_wall){
                    // create the product on the canvas
-                   create_product(positionX, positionY, texture, product_id++, product_width_scaled, product_height_scaled, coordinates, 0, product.src, the_product_id);
+                   create_product(positionX, positionY, product_id++, product_width_scaled, product_height_scaled, coordinates, 0, product.src, the_product_id);
                }
           }
       }
     );
+}
+
+/*********************************************************************************/
+/*                        Javascript functions                                   */
+/*********************************************************************************/
+
+// a function which sets the id of the clicked product
+function set_id(value, dimension_id){
+    the_product_id = value;
+    the_dimension_id = dimension_id;
+}
+
+// a function which converts from degrees to radians
+function toRadians(angle){
+    return (angle * Math.PI)/180;
+}
+
+// a function which converts to degrees
+function toDegrees(angle){
+    return (angle * 180)/Math.PI;
+}
+
+// a function which calculates and returns sprite corner coordinates using the transformation formula
+function calculate_coordinates(rad_angle, half_width, half_height, centerX, centerY){
+    let coordinates = {};
+    // calculate coordinates using the transformation formula
+    coordinates.x1 = Math.cos(rad_angle) * (-half_width) - Math.sin(rad_angle) * (half_height) + centerX;
+    coordinates.y1 = Math.abs(Math.sin(rad_angle) * (-half_width) + Math.cos(rad_angle) * (half_height) - centerY);
+    
+    coordinates.x2 = Math.cos(rad_angle) * (-half_width) - Math.sin(rad_angle) * (-half_height) + centerX;
+    coordinates.y2 = Math.abs(Math.sin(rad_angle) * (-half_width) + Math.cos(rad_angle) * (-half_height) - centerY);
+
+    coordinates.x3 = Math.cos(rad_angle) * (half_width) - Math.sin(rad_angle) * (-half_height) + centerX;
+    coordinates.y3 = Math.abs(Math.sin(rad_angle) * (half_width) + Math.cos(rad_angle) * (-half_height) - centerY);
+
+    coordinates.x4 = Math.cos(rad_angle) * (half_width) - Math.sin(rad_angle) * (half_height) + centerX;
+    coordinates.y4 = Math.abs(Math.sin(rad_angle) * (half_width) + Math.cos(rad_angle) * (half_height) - centerY);
+    // return the coordinates as json object
+    return coordinates;
+}
+
+// a function used to calculate the initial coordinates of the 4 corners of the product
+function compute_coordinates(pixel_positionX, pixel_positionY, product_width_scaled, product_height_scaled){
+    let coordinates = {};
+    coordinates.x1 = pixel_positionX;
+    coordinates.y1 = pixel_positionY;
+    coordinates.x2 = pixel_positionX;
+    coordinates.y2 = pixel_positionY + product_height_scaled;
+    coordinates.x3 = pixel_positionX + product_width_scaled;
+    coordinates.y3 = coordinates.y2;
+    coordinates.x4 = coordinates.x3;
+    coordinates.y4 = pixel_positionY;
+    return coordinates;
 }

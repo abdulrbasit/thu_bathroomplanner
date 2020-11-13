@@ -96,7 +96,7 @@ function check_for_collisions_while_rotating(){
 
             }
             else {
-                sprites[sprite].tint = 0xddddff;
+                sprites[sprite].tint = white_color;
             }
             break;
         }

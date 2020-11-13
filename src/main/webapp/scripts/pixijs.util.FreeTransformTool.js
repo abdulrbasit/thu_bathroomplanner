@@ -389,7 +389,11 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
         this.rotateTool
             .on("pointerdown", onRotateToolDown)
             .on("pointermove", onRotateToolMove)
-            .on('mouseupoutside',onRotateToolUp);
+            //.on('pointerup', onRotateToolUp)
+            //.on('mouseup', onRotateToolUp)
+            .on('mouseupoutside',onRotateToolUp)
+            //.on('touchend', onRotateToolUp)
+            .on('touchendoutside', onRotateToolUp);
         this.addChild(this.rotateTool);
         
         function onRotateToolDown(downEvent) {

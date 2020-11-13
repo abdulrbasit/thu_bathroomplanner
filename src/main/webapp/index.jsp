@@ -89,7 +89,12 @@
 						<div class="toolbar-vertical-divider"></div>
 						<!-- <span class="span-toolbar-btns rotate-left"><a class="toolbar-btn" id="btn-rotate-left">&#8634;</a></span> -->
 						<!-- <span class="span-toolbar-btns rotate-right"><a class="toolbar-btn" id="btn-rotate-right">&#8635;</a></span> -->
-						<span class="span-toolbar-btns save-plan"><a class="toolbar-btn" id="btn-save-plan">&#x1F4BE;</a></span>
+						<span class="span-toolbar-btns save-plan">
+							<a class="toolbar-btn" id="btn-save-plan">&#x1F4BE;</a>
+							<span class="spinner-sp-disabled spinner-border spinner-border-sm text-primary" role="status" id="spinner-save-plan">
+								<span class="sr-only">Saving...</span>
+							</span>
+						</span>
 						<span class="span-toolbar-btns reset-plan"><a class="toolbar-btn" id="btn-reset-plan">Reset layout</a></span>
 						<div class="toolbar-vertical-divider"></div>
 						<span class="span-toolbar-btns delete-product"><a class="toolbar-btn" id="btn-delete-product">&#x1F5D1;</a></span>

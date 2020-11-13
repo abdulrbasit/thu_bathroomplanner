@@ -5,6 +5,10 @@ let canvas_width = document.getElementById('main').offsetWidth * 2;
 function drawGrid() {
     // unselect the rotate tool (in case it was selected)
     selectTool.unselect();
+    const parent = app.view.parentNode;
+    app.renderer.resize(parent.clientWidth, parent.clientHeight);
+    the_canvas_width = parent.clientWidth;
+    the_canvas_height = parent.clientHeight;
     canvas_height = document.getElementById('main').offsetHeight;
     canvas_width = document.getElementById('main').offsetWidth * 2;
     graphics.lineStyle(1, 0x000000, 1);

@@ -20,13 +20,16 @@ function rotation_update(){
             else {
                 // No collision
                 collision = false;
-
+                
+                // Reverse the delta from the trigonometric value (clockwise = positive and c-clockwise = negative now)
+                delta_angle *= -1; 
+                
                 // Update the angle of the sprite
-                sprites[sprite].rad_angle = end_angle;
+                sprites[sprite].rad_angle = sprites[sprite].rad_angle + delta_angle;
                 if(Math.cos(sprites[sprite].rad_angle) == 1){
                     sprites[sprite].rad_angle = 0;
                 }
-                
+
                 update_coordinates(sprites[sprite].rad_angle, sprite);
             }
             break;

@@ -160,12 +160,25 @@ li.nav-item {
 	padding: 0 0 0 0;
 }
 
+.btn-sp-disabled{
+	display: none !important;
+}
+
+.spinner-sp-disabled{
+	display: none;
+}
+
+.spinner-sp-enabled{
+	display: visible !important;
+	/* display: inline-block; */
+}
+
 #btn-delete-product, #btn-save-plan {
 	/* padding: 3px 6px 3px 6px !important; */
 }
 
 /* Setting the height of the document to 100% so that catalogues (sidebar-left) height can be set to 100% */
-html, body, #sidebar, #main-container {
+html, body, #sidebar, #main-container, #main{
     height: 100% !important;
 }
 
@@ -255,13 +268,20 @@ html, body, #sidebar, #main-container {
 
 }
 
-.productSpan {
+.product-container {
+	margin: 0 3px 0 3px;
+	display:inline-block;
+}
+
+.product-div {
 	/* text-align: center !important; */
+	display:block;
 }
 
 .image-div {
 	margin: 0 2px 0 2px;
 	justify-content: left;
+	display:block;
 }
 
 .product:hover {

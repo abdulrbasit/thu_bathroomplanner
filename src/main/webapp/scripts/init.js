@@ -2,7 +2,7 @@
 const cm = 37.79;
 
 //Global Scale Variable
-var scale = 1/20;
+var scale = 1/25;
 
 // Rotate tool
 const tool = new PIXI.Container();

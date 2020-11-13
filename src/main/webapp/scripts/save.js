@@ -39,6 +39,10 @@ function getCookies(){
 // a function used to store data as cookies and in the database
 (function ($) {
     $("#btn-save-plan").on('click', function(event){
+        document.getElementById("btn-save-plan").classList.add("btn-sp-disabled");
+        document.getElementById("spinner-save-plan").classList.add("spinner-sp-enabled");
+        document.getElementById("spinner-save-plan").classList.remove("spinner-sp-disabled");
+        
         // set the cookies: store user data in the file system of this PC
         setCookies();
         let products = [];
@@ -53,6 +57,9 @@ function getCookies(){
             type: 'post',
             data: {"CookieString":getCookies(), "area":area_text.text.slice(6, -2), "layout":layout, "products" : str},
             success: function (response) {
+                document.getElementById("btn-save-plan").classList.remove("btn-sp-disabled");
+                document.getElementById("spinner-save-plan").classList.remove("spinner-sp-enabled");
+                document.getElementById("spinner-save-plan").classList.add("spinner-sp-disabled");
                 alert(response);
             }
         });

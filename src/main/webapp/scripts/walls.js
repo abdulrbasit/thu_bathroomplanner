@@ -365,6 +365,7 @@ drawroomLayout_2();
 
 $(".roomLayout").on('click', function(event){
    //event.stopPropagation();
+   selectTool.unselect();
    if(sprites.length > 0){
       sprites.forEach(element => {
          element.destroy();

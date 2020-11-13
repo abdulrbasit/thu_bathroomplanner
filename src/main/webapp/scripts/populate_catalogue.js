@@ -101,9 +101,9 @@ function writeToCatalogue(catalogue){
 
                         for(product_dimension = 0; product_dimension < product_dimensions_of_product.length; product_dimension += 1){
 
-                            output += "<div style=\"display:inline-block;\">";
-                            output += "<div class=\"image-div\" style=\"display:block;\"><img src=\""+ catalogue[PRODUCTS][product]['image'] +"\" class=\"products\" id=\""+ product_id +"\" alt=\"Product image\" width=\""+(IMG_SIZES[product_dimension] * ( product_dimensions_of_product[product_dimension][1] / product_dimensions_of_product[product_dimension][2] ))+"\" height=\""+IMG_SIZES[product_dimension]+"\" ondragstart=\"set_id(this.id, \'"+ product_dimensions_of_product[product_dimension][3] +"\')\"></div>";
-                            output += "<div style=\"display:block;\" class=\"productSpan\">"+ product_dimensions_of_product[product_dimension][1] +"cm x "+ product_dimensions_of_product[product_dimension][2] +"cm</div>";
+                            output += "<div class=\"product-container\">";
+                            output += "<div class=\"image-div\"><img src=\""+ catalogue[PRODUCTS][product]['image'] +"\" class=\"products\" id=\""+ product_id +"\" alt=\"Product image\" width=\""+Math.round((product_dimensions_of_product[product_dimension][1] * cm) * scale)+"\" height=\""+Math.round((product_dimensions_of_product[product_dimension][2] * cm) * scale)+"\" ondragstart=\"set_id(this.id, \'"+ product_dimensions_of_product[product_dimension][3] +"\')\"></div>";
+                            output += "<div class=\"product-div\">"+ product_dimensions_of_product[product_dimension][1] +"cm x "+ product_dimensions_of_product[product_dimension][2] +"cm</div>";
                             output += "</div>";
                         }
 

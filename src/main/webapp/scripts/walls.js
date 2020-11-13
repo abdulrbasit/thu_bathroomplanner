@@ -11,54 +11,12 @@ const layouts = Object.freeze({
 let layout = layouts.layout1;
 
 
-//Points (Array for future), defined here for scope.
-let points = [];
-
 // a variable to display the area of a text
 let area_text = new PIXI.Text("", {fontFamily: "Arial", fontSize : "22px", fontWeight: "normal"});
 
-//Interaction point to resize room layout.
-function interactionPoint(sprite) {
-
-      let phics = new PIXI.Graphics();
-
-      //Draw rectangle for wall.
-      phics.lineStyle(2, 0xFFFFFF, 1);
-      phics.drawRect(0, 0, sprite.width, sprite.height);
-
-      //Convert it to Sprite.
-      let ren = new PIXI.AbstractRenderer();
-      let tex = app.renderer.generateTexture(phics);
-      this.usage = false;
-      let wallLines = new PIXI.Sprite(tex);
-      this.wallLines = wallLines;
-      wallLines.sprite = sprite;
-
-      wallLines.x = sprite.x;
-      wallLines.y = sprite.y;
-
-      if(!sprite.horizontal){
-         this.wallLines.rotation = (Math.PI/180) *90;
-      }
-      wallLines.interactive = true;
-      app.stage.addChild(this.wallLines);
-      wallLines.anchor.set(0.0);
-      wallLines.interactive = true;
-      wallLines.on('pointerdown', onDragStart)
-      .on('pointerup', onDragEnd)
-      .on('pointerupoutside', onDragEnd)
-      .on('pointermove', onDragMove)
-      .on('pointerout', function (event) {
-        if(!this.usage){
-           this.destroy();
-        };
-         
-      })
-      ;
-   //return this;
-}
-
 function onDragStart(event) {
+
+   this.tint = 0x00FF00;
    // store a reference to the data
    // the reason for this is because of multitouch
    // we want to track the movement of this particular touch
@@ -66,17 +24,17 @@ function onDragStart(event) {
    this.alpha = 0.5;
    this.dragging = true;
    this.usage = true;
+
 }
 
 function onDragEnd() {
+   
    this.alpha = 1;
+   this.tint = 0xFFFFFF;
    this.dragging = false;
-   // set the interaction data to null
-  // this.destroy();
-   points[0] = null;
    this.data = null;
    this.usage = false;
-   this.destroy();
+
 }
 
 function onDragMove() {
@@ -84,18 +42,18 @@ function onDragMove() {
    
    if (this.dragging) {
       const newPosition = this.data.getLocalPosition(this.parent);
-      let attachedWalls = this.sprite.getAttachedWalls();
+      let attachedWalls = this.getAttachedWalls();
       attachedWalls.sort(function(a, b){return a.wallSprite.width - b.wallSprite.width; });
-      if(this.sprite.horizontal){ //if this wall is horizontal
+      if(this.horizontal){ //if this wall is horizontal
          
          for (let index = 0; index < attachedWalls.length; index++) {
-            collisionWithObjects(this.sprite);
+            collisionWithObjects(this);
             const verticalWall = attachedWalls[index];
             if(!verticalWall.horizontal){ //move & resize the vertical walls,
                if(newPosition.y - this.y != 0 ){
                   if(newPosition.y < this.y && newPosition.y - this.y > -75){ //If sprite moved upwards
                      //if anchor sprite is below the walls
-                  if(verticalWall.wallSprite.y < this.sprite.y){
+                  if(verticalWall.wallSprite.y < this.y){
                         //decrease the length
                         if(verticalWall.wallSprite.width < 50){
                            move = false;
@@ -106,16 +64,16 @@ function onDragMove() {
                         
                     //    verticalWall.wallSprite.text.y -= this.y - newPosition.y;
                   //if it is above the walls move the walls upwards and increase the length
-                  }else if(verticalWall.wallSprite.y >= this.sprite.y){
+                  }else if(verticalWall.wallSprite.y >= this.y){
                      verticalWall.wallSprite.y -=  this.y  - newPosition.y;
                      verticalWall.wallSprite.width += this.y - newPosition.y;
                   }
 
                }else if(newPosition.y > this.y && newPosition.y - this.y < 75){ //if the anchor sprite moved downwards
                   //if anchor is below the walls
-                  if(verticalWall.wallSprite.y < this.sprite.y){
+                  if(verticalWall.wallSprite.y < this.y){
                      //increase the size
-                     verticalWall.wallSprite.width += newPosition.y - this.sprite.y ;
+                     verticalWall.wallSprite.width += newPosition.y - this.y ;
                     // verticalWall.wallSprite.text.y += newPosition.y - this.y;
                   }else if(verticalWall.wallSprite.y >= this.y){ //if the anchor lines are above the walls
                      //move the walls downwards and decrease the size
@@ -136,8 +94,6 @@ function onDragMove() {
                }
                verticalWall.wallSprite.text.y = (verticalWall.wallSprite.width / 2) + verticalWall.wallSprite.y;
                verticalWall.wallSprite.text.text = ((verticalWall.wallSprite.width/cm)  /scale/100).toFixed(2)  + " m";
-               //verticalWall.wallSprite.text.updateText();
-               //verticalWall.wallSprite.text.visible = false;
             }
             
          }
@@ -146,15 +102,15 @@ function onDragMove() {
          if(move){
 
             this.y = newPosition.y;
-            this.sprite.text.y = this.y - 25;
-            this.sprite.y = newPosition.y;
+            this.text.y = this.y - 25;
+            //this.sprite.y = newPosition.y;
          
          }
       }
-      if(!(this.sprite.horizontal)){ //if this wall is vertical
+      if(!(this.horizontal)){ //if this wall is vertical
          let move = true;
          for (let index = 0; index < attachedWalls.length; index++) {
-            collisionWithObjects(this.sprite);
+            collisionWithObjects(this);
          const horizontalWall = attachedWalls[index];
             //move and resize horizontal walls
             if(horizontalWall.horizontal){
@@ -163,13 +119,13 @@ function onDragMove() {
                   //if moved to the left
                   if (newPosition.x - this.x < 0 && newPosition.x - this.x  > -75) {
                      //if selected anchor is on the left side of horizontal walls
-                     if (this.sprite.x <= horizontalWall.wallSprite.x ) {
+                     if (this.x <= horizontalWall.wallSprite.x ) {
                        
                         //Move horizontal walls to the left and increase their size
                         horizontalWall.wallSprite.x -= this.x - newPosition.x;
                         horizontalWall.wallSprite.width += this.x - newPosition.x; //+ test;
                      }//if selected anchor is on the right side of horizontal walls
-                     else if((this.sprite.x > horizontalWall.wallSprite.x )){
+                     else if((this.x > horizontalWall.wallSprite.x )){
                         //decrease size
                         if(horizontalWall.wallSprite.width < 50){ move = false; break;}
                         if(move){
@@ -180,7 +136,7 @@ function onDragMove() {
                   }//If selected anchor moved to the right
                   else if (newPosition.x - this.x > 0 && newPosition.x - this.x  < 75)  {
                      //if selected anchor is on the left side of horizontal walls
-                     if (this.sprite.x <= horizontalWall.wallSprite.x ) {
+                     if (this.x <= horizontalWall.wallSprite.x ) {
                         if(horizontalWall.wallSprite.width < 50){ move = false; break; }
                         if(move){
                         //Move horizontal walls to the right and decrease their size
@@ -188,7 +144,7 @@ function onDragMove() {
                         horizontalWall.wallSprite.width -= newPosition.x - this.x; //+ test;
                      }
                      }//if selected anchor is on the right side of horizontal walls
-                     else if((this.sprite.x > horizontalWall.wallSprite.x )){
+                     else if((this.x > horizontalWall.wallSprite.x )){
                         //decrease size
                        
                         horizontalWall.wallSprite.width += newPosition.x - this.x;
@@ -204,8 +160,8 @@ function onDragMove() {
          }
          if(move){
          this.x = newPosition.x ;
-         this.sprite.text.x = this.x + 10;
-         this.sprite.x = newPosition.x;
+         this.text.x = this.x + 10;
+         //this.sprite.x = newPosition.x;
          }
       }
       // display the area of the room
@@ -222,10 +178,6 @@ function onOver(event){
 function wall(x,y, height, width, horizontal){
    this.x = x;
    this.y = y;
-
-   // if(!horizontal){
-   //    [width, height] = [height, width];
-   // }
 
    this.height = height;
    this.width = width;
@@ -259,14 +211,10 @@ function wall(x,y, height, width, horizontal){
 
    app.stage.addChild(wallSprite.text);
 
-  // var wsp = this.wallSprite;
-   //If it's clicked on, make the interaction point visible/not visible.
-   wallSprite.on('pointerover', function(event) { 
-        
-         let point1 = new interactionPoint(this);
-         
-      
-   });
+   wallSprite.on('pointerdown', onDragStart)
+   .on('pointerup', onDragEnd)
+   .on('pointerupoutside', onDragEnd)
+   .on('pointermove', onDragMove);
 
    app.stage.addChild(wallSprite);
 

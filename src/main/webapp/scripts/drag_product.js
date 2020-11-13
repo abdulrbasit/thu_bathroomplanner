@@ -113,17 +113,7 @@ function start_dragging(event)
     // Unselect the rotate tool so it is not visible while product is being dragged
     selectTool.unselect();
 
-    //Indicator for selected product
-    if(sprite_id != this.id ){
-        for (sprite = 0; sprite < sprites.length; ++sprite) {
 
-            if (sprite_id == sprites[sprite].id && sprites[sprite].tint != collision_color) {
-
-                sprites[sprite].tint = white_color;
-            }
-        }
-    }
-    this.tint = selection_color;
     sprite_id = this.id;
     // update object properties: length and width
     update_properties(this.id);

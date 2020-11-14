@@ -14,8 +14,6 @@
 const collision_color = "0xff0002";
 const white_color = "0xffffff";
 const selection_color = "0xddddff";
-// creat an array for the products added to the canvas: this will be used later
-let canvas_products = [];
 // a function which stores sprites blocked by collisions
 let blocked_sprites = [];
 // store the width and the height of the canvas
@@ -77,12 +75,12 @@ function init_draggable()
                // get position of dragged item relative to drop target and center coordinates
                var positionX = dropPositionX-dragItemOffsetX+product.width/2;
                var positionY = dropPositionY-dragItemOffsetY+product.height/2;
+               let product_properties = {};
 
                // attempt to add the product to the array of canvas products
                for(i=0, length=drag_product_product_dimensions.length; i < length; ++i){
                    // retrieve the selected product and its dimensions
                     if(drag_product_product_dimensions[i]['product_id'] == the_product_id && drag_product_product_dimensions[i]['id'] == the_dimension_id){
-                        let temp_product = {};
                         /* product[i].width is the actual width in centimeters. multiplying it with cm yields the width in pixels.
                         * then multiplying it with the scale scales it (reduces it): scaled height and width of the product
                         */
@@ -189,23 +187,16 @@ function init_draggable()
                         for(let q = 0; q < drag_product_products.length; ++q){
                        
                             if(the_product_id == drag_product_products[q]["id"] && drop_product && drop_wall){
-                                // store properties for the products on the canvas
-                                temp_product.id = product_id;
-                                temp_product.x = pixel_positionX;
-                                temp_product.y = pixel_positionY;
-
-                                // gather this data for display to the left of the screen
-                                temp_product.name = drag_product_products[q]['name'];
-                                temp_product.image = drag_product_products[q]['image'];
-                                temp_product.width = drag_product_product_dimensions[i]['width'];
-                                temp_product.length = drag_product_product_dimensions[i]['length'];
+                                // gather the properties of product
+                                product_properties.name = drag_product_products[q]['name'];
+                                product_properties.image = drag_product_products[q]['image'];
+                                product_properties.real_width = drag_product_product_dimensions[i]['width'];
+                                product_properties.real_length = drag_product_product_dimensions[i]['length'];
 
                                 // store the coordinates of all 4 corners of the rectangular product
                                 coordinates = compute_coordinates(pixel_positionX, pixel_positionY, product_width_scaled, product_height_scaled);
-                                // add the dropped product in the list of canvas products. this array does not contain pixels of the sprite
-                                canvas_products.push(temp_product);
 
-                                // indicate that the product was added to the canvas_products. so it can be dropped.
+                                // indicate that the product was found and that its properties were gathered
                                 found_product = true;
                                 break;
                             }
@@ -217,7 +208,7 @@ function init_draggable()
                
                if(found_product && drop_product && drop_wall){
                    // create the product on the canvas
-                   create_product(positionX, positionY, product_id++, product_width_scaled, product_height_scaled, coordinates, 0, product.src, the_product_id);
+                   create_product(positionX, positionY, product_id++, product_width_scaled, product_height_scaled, coordinates, 0, the_product_id, product_properties);
                }
           }
       }

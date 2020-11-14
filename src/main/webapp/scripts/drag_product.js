@@ -9,7 +9,7 @@
 // a constructor for sprites
 class Sprite extends PIXI.Sprite 
 {
-    constructor(texture, id, coordinates, angle, move, product_db_id) 
+    constructor(texture, id, coordinates, angle, move, product_db_id, product_properties) 
     {
       super(texture);
       this.id = id;
@@ -18,17 +18,22 @@ class Sprite extends PIXI.Sprite
       this.move = move;
       this.src;
       this.product_db_id = product_db_id;
+      this.name = product_properties.name;
+      this.real_width = product_properties.real_width;
+      this.real_length = product_properties.real_length;
     }
 }
 
 
 // a function used to create products on the canvas
-function create_product(posX, posY, product_id, product_width_scaled, product_height_scaled, coordinates, angle, image_path, product_db_id)
+function create_product(posX, posY, product_id, product_width_scaled, product_height_scaled, coordinates, angle, product_db_id, product_properties)
 {
+    if(product_properties == undefined) return false;
+    let image_path = product_properties.image;
     // get a texture of the product image
     var texture = PIXI.Texture.from(image_path);
     // create a sprite for the product on the canvas
-    let product = new Sprite(texture, product_id, coordinates, angle, true, product_db_id);
+    let product = new Sprite(texture, product_id, coordinates, angle, true, product_db_id, product_properties);
 
     // enable the product to be interactive. this will allow it to respond to mouse and touch events
     product.interactive = true;
@@ -78,11 +83,12 @@ function create_product(posX, posY, product_id, product_width_scaled, product_he
     // add rotate tool on top of product
     app.stage.addChild(tool);
     tool.addChild(selectTool);
-
+    // adapt the name of the product
+    let the_name = JSON.stringify(product.name);
     product.toString = function () 
     {
         return `{"x": ${this.x}, "y":${this.y}, "src": "${this.src}" , "width":${this.width}, "height": ${this.height}
-                 , "angle": ${this.rad_angle}, "product_db_id": ${this.product_db_id} }`;
+                 , "angle": ${this.rad_angle}, "product_db_id": ${this.product_db_id}, "name": ${the_name}, "real_width": ${this.real_width}, "real_length": ${this.real_length}}`;
     }
 }
 

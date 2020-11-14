@@ -61,7 +61,13 @@ function display_products(products_data)
         let coordinates = calculate_coordinates(product.angle, product.width/2, product.height/2, product.x, product.y);
         // re-arrange the image path
         product.src = image_folder.concat(product.src);
+        // gather product properties
+        let product_properties = {};
+        product_properties.name = product.name;
+        product_properties.real_length = product.real_length;
+        product_properties.real_width = product.real_width;
+        product_properties.image = product.src;
         // create the product on the canvas
-        create_product(product.x, product.y, product_id++, product.width, product.height, coordinates, product.angle, product.src, product.product_db_id);
+        create_product(product.x, product.y, product_id++, product.width, product.height, coordinates, product.angle, product.product_db_id, product_properties);
     }
 }

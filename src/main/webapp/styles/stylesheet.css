@@ -1,18 +1,25 @@
-/* Header */
-#header{
-	padding-left: 15px;
-	padding-top: 3px;
-	font-size: 18px;
-	/* background-color: #3b3b3a; #249cd3; */
-	/* width:100%; /
-	height:40px;
-	padding: 0.05px !important;
-	display: flex;
-	*/
+/* Setting the height of the document to 100% so that catalogues (sidebar-left) height can be set to 100% */
+html, body{
+	height: 100% !important;
+	margin: 0;
+	overflow: hidden;
 }
+
+#header, #toolbar{
+	height: 4% !important;
+}
+#sidebar, #main {
+	height: 96% !important;
+}
+
+/* Header */
 #headerCol {
 	background-color: #fff;/*#3b3b3a;*/
+	height: 100%;
+}
 
+.logo {
+	margin: 1px 5px 1px 5px;
 }
 
 .header-line{
@@ -22,32 +29,10 @@
 	padding: 0 0 0 0 !important;
 }
 
-.title-box {
-	border: 4px solid #249cd3;
-	/*border: 1px solid #9b9b9a;*/
-	border-radius: 10px;
-	/*background-color: #f6f6f6;*/
-	display: inline-block !important;
-	/*margin-left: 15px;
-	margin-top: 3px;
-	margin-bottom: 3px;
-	width: 10%; 
-	background-color: #249cd3;
-	color: #fff;
-	border-radius: 5px;
-	justify-content: center !important;
-	background-color: #3b3b3a;*/
-} 
-
-.title {
-	/* vertical-align: middle; */
-	/* text-align: center; */
-	width: 100%;
-	margin: 0 5px 0 5px !important;
-	justify-content: center !important;
-}
-
 /* Toolbar */
+#toolbarCol{
+	height: 100%;
+}
 #toolbar {
 	background-color: #fff;/*#3b3b3a;*/
 	/* width: 100%; */
@@ -129,8 +114,9 @@ li.nav-item {
 }
   
 .toolbar-btn {
-	padding: 3px 7px 3px 7px !important;
-	color: black !important;
+	margin: 0 2px 0 2px;
+	padding: 3px 3px 3px 3px !important;
+	color: black;
 	background-color: #fff !important;
 }
 
@@ -146,7 +132,7 @@ li.nav-item {
 
 .toolbar-btn-group {
 	padding: 0 0 0 0  !important;
-	margin: 3px 0 3px 0 !important;
+	margin: 1px 0 1px 0 !important;
 	user-select: none;
 	
 }
@@ -176,12 +162,6 @@ li.nav-item {
 #btn-delete-product, #btn-save-plan {
 	/* padding: 3px 6px 3px 6px !important; */
 }
-
-/* Setting the height of the document to 100% so that catalogues (sidebar-left) height can be set to 100% */
-html, body, #sidebar, #main-container, #main{
-    height: 100% !important;
-}
-
 
 /* SIDEBAR (Product dimensions and catalogue)*/
 #sidebar-left{
@@ -351,6 +331,7 @@ html, body, #sidebar, #main-container, #main{
 #main {
 	/* position: absolute;
 	overflow: hidden; */
+	height: 100% !important;
 	border-left: 1px solid black;
 }
 

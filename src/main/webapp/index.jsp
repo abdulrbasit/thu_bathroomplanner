@@ -7,25 +7,24 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<link rel="stylesheet" href='styles/stylesheet.css'>
+		<link rel="icon" href="favicon.ico">
 
     </head>
     <body>
-        <div class="row no-gutters">
+        <div class="row no-gutters" id="header">
             <div class="col-4" id="headerCol">
-                <div class="text-black font-weight-bold" id="header">
-                    <div class="title-box">
-                        <div class="title">Bathroom Planner</div>
-                    </div>
-                </div>
+                <img class="logo" src="assets/bathroom-planner-logo.png" width="210" height="35">             
             </div>
 
-            <div class="col-8">
+            <div class="col-8" id="toolbarCol">
                 <div class="" id="toolbar">
 
                     <div class="toolbar-btn-group btn-group">
 						<span class="span-toolbar-layouts">
-							<li class="layouts-nav-item nav-item dropdown">
-								<a class="layouts-btn nav-link" data-toggle="dropdown" href="#"  aria-haspopup="true" aria-expanded="false" id="layout-dropdown-btn">Layouts</a>
+							<li class="layouts-nav-item nav-item dropdown" id="layout-dropdown">
+								<a class="layouts-btn nav-link" data-toggle="dropdown"   aria-haspopup="true" aria-expanded="false" id="layout-dropdown-btn">
+									<img src="assets/toolbar-icons/layouts.png" width="25" height="25">
+								</a>
 								<div class="dropdown-menu">
 								
 									<div>
@@ -89,15 +88,15 @@
 						<div class="toolbar-vertical-divider"></div>
 						<!-- <span class="span-toolbar-btns rotate-left"><a class="toolbar-btn" id="btn-rotate-left">&#8634;</a></span> -->
 						<!-- <span class="span-toolbar-btns rotate-right"><a class="toolbar-btn" id="btn-rotate-right">&#8635;</a></span> -->
-						<span class="span-toolbar-btns save-plan">
-							<a class="toolbar-btn" id="btn-save-plan">&#x1F4BE;</a>
+						<span class="span-toolbar-layouts save-plan">
+							<a class="toolbar-btn nav-link" id="btn-save-plan"><img src="assets/toolbar-icons/save-icon.png" width="25" height="25"></a>
 							<span class="spinner-sp-disabled spinner-border spinner-border-sm text-primary" role="status" id="spinner-save-plan">
 								<span class="sr-only">Saving...</span>
 							</span>
 						</span>
-						<span class="span-toolbar-btns reset-plan"><a class="toolbar-btn" id="btn-reset-plan">Reset layout</a></span>
+						<span class="span-toolbar-layouts reset-plan"><a class="toolbar-btn nav-link" id="btn-reset-plan"><img src="assets/toolbar-icons/reset-plan.png" width="25" height="25"></a></span>
 						<div class="toolbar-vertical-divider"></div>
-						<span class="span-toolbar-btns delete-product"><a class="toolbar-btn" id="btn-delete-product">&#x1F5D1;</a></span>
+						<span class="span-toolbar-layouts delete-product"><a class="toolbar-btn nav-link" id="btn-delete-product"><img src="assets/toolbar-icons/delete-product.png" width="25" height="25"></a></span>
 					</div>
 
                 </div>

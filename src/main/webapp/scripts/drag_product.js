@@ -47,7 +47,7 @@ function create_product(posX, posY, product_id, product_width_scaled, product_he
     product.src = image_path.slice(fileNameStart);
     
     // setting the scaled dimensions of the product: the width of the sprite is the horizontal side; 
-    // the height is the vertical side. so inverting is required
+    // the height is the vertical side.
     product.width = product_width_scaled;
     product.height = product_height_scaled;
   
@@ -118,7 +118,6 @@ function start_dragging(event)
 
     // Unselect the rotate tool so it is not visible while product is being dragged
     selectTool.unselect();
-
 
     sprite_id = this.id;
     // update object properties: length and width

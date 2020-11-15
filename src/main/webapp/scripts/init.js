@@ -4,6 +4,9 @@ const cm = 37.79;
 //Global Scale Variable
 var scale = 1/25;
 
+// an array to store sprites displayed on the canvas
+let sprites = [];
+
 // Rotate tool
 const tool = new PIXI.Container();
 var selectTool = new PIXI.util.FreeTransformTool();
@@ -25,7 +28,4 @@ tool.addChild(selectTool);
 
 //add canvas to the html document
 document.getElementById('main').appendChild(app.view);
-
-// an array to store sprites displayed on the canvas
-let sprites = [];
 

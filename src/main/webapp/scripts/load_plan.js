@@ -1,7 +1,7 @@
 /* a file used to retrieve, where possible, data stored as cookies and display that on the canvas*/
 
 // image folder name for re-constructing the image path
-const image_folder = "assets";
+const image_folder = "assets/products";
 
 // a function which gets automatically called as soon as the html document document is ready
 // the function restore the user objects on the canvas

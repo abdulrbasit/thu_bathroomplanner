@@ -6,7 +6,7 @@
 
     <groupId>thu</groupId>
     <artifactId>thu_bathroomplanner</artifactId>
-    <version>1.0</version>
+    <version>1.3</version>
     <name>thu_bathroomplanner</name>
     <packaging>war</packaging>
 

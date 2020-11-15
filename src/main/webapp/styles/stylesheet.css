@@ -2,7 +2,7 @@
 html, body{
 	height: 100% !important;
 	margin: 0;
-	overflow: hidden;
+	/* overflow: hidden; */
 }
 
 #header, #toolbar{
@@ -271,8 +271,7 @@ li.nav-item {
 
 .just-padding {
 	padding: 15px;
-	
-  }
+}
   
 /* Formatting for the entire list/catalogue */
 .list-group.list-group-root {

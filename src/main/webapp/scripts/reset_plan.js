@@ -15,9 +15,11 @@ function reset_plan(){
     destroy_everything();
     if (room_layout_id == ROOM_LAYOUT1){
         drawroomLayout_1();
+        setCookies();
     }
     if (room_layout_id == ROOM_LAYOUT2){
         drawroomLayout_2();
+        setCookies();
     }
 }
 

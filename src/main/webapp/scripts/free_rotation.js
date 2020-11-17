@@ -3,8 +3,10 @@ var start_position;
 var end_position;
 var start_angle;
 var end_angle;
-var delta_angle;
+var delta_angle = 0;
+var cumulative_delta_angle;
 var collision = false;
+const NEGATION = -1;
 
 // Function which checks if the rotation ended with a collision
 function rotation_update(){
@@ -13,7 +15,7 @@ function rotation_update(){
     for (sprite = 0; sprite < sprites.length; ++sprite) {
 
         if (sprite_id == sprites[sprite].id) {
-            if(check_for_rotation_collision(sprite, end_angle)){
+            if(check_for_rotation_collision(sprite, (delta_angle*NEGATION))){
                 collision = true;
                 sprites[sprite].tint = 0xddddff;
             }
@@ -22,7 +24,8 @@ function rotation_update(){
                 collision = false;
                 
                 // Reverse the delta from the trigonometric value (clockwise = positive and c-clockwise = negative now)
-                delta_angle *= -1; 
+                delta_angle *= NEGATION; 
+                //cumulative_delta_angle += delta_angle
                 
                 // Update the angle of the sprite
                 sprites[sprite].rad_angle = sprites[sprite].rad_angle + delta_angle;
@@ -90,7 +93,8 @@ function check_for_collisions_while_rotating(){
             app.stage.addChild(sprites[sprite]);
             app.stage.addChild(tool);
             tool.addChild(selectTool);
-            if(check_for_rotation_collision(sprite, end_angle)){
+
+            if(check_for_rotation_collision(sprite, (delta_angle*NEGATION))){
                                
                 sprites[sprite].tint = collision_color;
 

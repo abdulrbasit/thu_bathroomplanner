@@ -387,11 +387,13 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
             this.controlsSize / 2, this.controlsSize / 2
         );
         this.rotateTool
-            .on("pointerdown", onRotateToolDown)
-            .on("pointermove", onRotateToolMove)
+            .on("mousedown", onRotateToolDown)
+            .on("mousemove", onRotateToolMove)
             //.on('pointerup', onRotateToolUp)
             //.on('mouseup', onRotateToolUp)
-            .on('mouseupoutside',onRotateToolUp)
+            //.on('pointerup', onRotateToolUp)
+            .on('mouseupoutside', onRotateToolUp)
+            //.on('mouseupoutside', onRotateToolUp)
             //.on('touchend', onRotateToolUp)
             .on('touchendoutside', onRotateToolUp);
         this.addChild(this.rotateTool);
@@ -404,6 +406,7 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
             if (!this.dragging) {
                 return;
             }
+            
             // the drag point is relative to the display object x,y position on the stage (it's registration point)
             var relativeStartPoint = {
                 x: this.downGlobalPosition.x - that.target.x,
@@ -419,13 +422,12 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
             var startAngle = calcAngleRadians(relativeStartPoint.x, relativeStartPoint.y);
             start_angle = startAngle;
             end_angle = endAngle;
-            //console.log("start angle: "+start_angle);
-            //console.log("end angle: "+end_angle);
             var deltaAngle = endAngle - startAngle;
             delta_angle = deltaAngle;
             // TODO: constrain to bounds
-            check_for_collisions_while_rotating();
+            
             that.target.rotation = this.startRotation + deltaAngle;
+            check_for_collisions_while_rotating();
             that.update();
         }
 

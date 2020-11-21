@@ -13,6 +13,8 @@ $("#btn-reset-plan").on('click', function(event){
 //Function which first destroys walls and products on the canvas and then redraws the canvas
 function reset_plan(){
     destroy_everything();
+    // clear the display for dimensions using an invalid id
+    update_properties(-1);
     if (room_layout_id == ROOM_LAYOUT1){
         drawroomLayout_1();
         setCookies();

@@ -151,6 +151,7 @@
         <script src="scripts/init.js"></script>
         <script src="scripts/walls.js"></script>
 		<script src="scripts/canvas.js"></script>
+		<script src="scripts/dimensions.js"></script>
 		<script src="scripts/collisions.js"></script>
 		<script src="scripts/drag_drop.js"></script>
 		<script src="scripts/drag_product.js"></script>
@@ -158,7 +159,6 @@
 		<script src="scripts/reset_plan.js"></script>
 		<script src="scripts/load_plan.js"></script>
         <script src="scripts/populate_catalogue.js"></script>
-		<script src="scripts/dimensions.js"></script>
 		<script src="scripts/free_rotation.js"></script>
 		<script src="scripts/rotate_product.js"></script>
         <script src="scripts/delete_product.js"></script>

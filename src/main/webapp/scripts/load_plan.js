@@ -1,4 +1,4 @@
-/* a file used to retrieve, where possible, data stored as cookies and display that on the canvas*/
+/* a file used to retrieve, where possible, data stored in cookies, and then display that on the canvas.*/
 
 // image folder name for re-constructing the image path
 const image_folder = "assets/products";

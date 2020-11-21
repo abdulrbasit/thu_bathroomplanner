@@ -1,7 +1,7 @@
-/*********************************************************************************************************/
-/*            PIXI.JS : Creation and Handling of products on canvas                                       */
+/**********************************************************************************************************/
+/*                        PIXI.JS : Creation and Handling of products on canvas                           */
 /* Once the product is dropped on the canvas, it becomes a pixi sprite. So pixi event methods are used to */
-/* drag the new sprite around the canvas. In these methods collision prevention between sprites is also   */
+/* drag the new sprite around the canvas. In these methods collision detection between sprites is also    */
 /* implemented. sprites are gathered a in data structure, and the id of a selected sprite on the canvas   */
 /* is stored in a variable. These two elements are later used to rotate sprites and also delete sprites.  */
 /**********************************************************************************************************/
@@ -24,7 +24,6 @@ class Sprite extends PIXI.Sprite
     }
 }
 
-
 // a function used to create products on the canvas
 function create_product(posX, posY, product_id, product_width_scaled, product_height_scaled, coordinates, angle, product_db_id, product_properties)
 {
@@ -37,17 +36,17 @@ function create_product(posX, posY, product_id, product_width_scaled, product_he
 
     // enable the product to be interactive. this will allow it to respond to mouse and touch events
     product.interactive = true;
-    // this button mode will mean the hand cursor appears when you roll over the product with your mouse
+    // make the hand cursor appear when you roll over the product with your mouse
     product.buttonMode = true;
     // rotate the product if needed: angle is in radians
     product.rotation = -angle;
     // center the product's anchor point
     product.anchor.set(0.5);
+    // adapt the path of the image
     let fileNameStart = image_path.lastIndexOf("/");
     product.src = image_path.slice(fileNameStart);
     
-    // setting the scaled dimensions of the product: the width of the sprite is the horizontal side; 
-    // the height is the vertical side.
+    // setting the scaled dimensions of the product on the canvas
     product.width = product_width_scaled;
     product.height = product_height_scaled;
   
@@ -56,7 +55,7 @@ function create_product(posX, posY, product_id, product_width_scaled, product_he
         .on('added', create)
         .on('mousedown', start_dragging)
         .on('touchstart', start_dragging)
-        // events for drag end
+        // events for the end of the drag
         .on('mouseup', stop_dragging)
         .on('mouseupoutside',stop_dragging)
         .on('touchend', stop_dragging)
@@ -103,7 +102,7 @@ function click_product()
 // a function which is called when the sprite is added to the stage
 function create()
 {
-     sprite_id = this.id;
+    sprite_id = this.id;
     // display the dimensions of the dropped product straight away 
     update_properties(this.id);
 }
@@ -163,22 +162,23 @@ function drag()
         let half_width = this.width / 2;
         let half_height = this.height / 2;
         
-        // obtain this colliding sprite and gather its coordinates
+        // obtain this (dragged) colliding sprite and gather its coordinates
         let colliding_coordinates = [];
-        // make sure the sprite exist on the canvas before trying to use for collision detection
+
+        // make sure the colliding sprite exists on the canvas before trying to use it for collision detection
         for(let z = 0; z < sprites.length; ++z){
             if(sprites[z].id == this.id){
                 let sprite = sprites[z];
                 colliding_coordinates = [[sprite.coords.x1, sprite.coords.y1], [sprite.coords.x2, sprite.coords.y2], [sprite.coords.x3, sprite.coords.y3], [sprite.coords.x4, sprite.coords.y4]];
             }
         }
+
         // collision detection: in case a collision occurs, block the collided sprite and make the colliding sprite red
         for(k = 0, length = sprites.length; k < length; ++k){
              // gather the coordinates of the collided sprite
              let collided_polygon = [[sprites[k].coords.x1, sprites[k].coords.y1], [sprites[k].coords.x2, sprites[k].coords.y2],
               [sprites[k].coords.x3, sprites[k].coords.y3], [sprites[k].coords.x4, sprites[k].coords.y4]];           
-             
-             // collision detection: check if the colliding sprite is colliding the collided sprite (point in polygon)
+             // collision detection: check if the dragged sprite is colliding the collided sprite (point in polygon)
              for(m = 0; m < colliding_coordinates.length; ++m){
                 if( this.id != sprites[k].id && detect_collision(colliding_coordinates[m], collided_polygon)){ 
                     // collision has been detected: change color of this colliding sprite
@@ -192,7 +192,7 @@ function drag()
                     // store the index of the blocked, collided sprite
                     blocked_sprites.push(temp);
                     break;
-                 }
+                }
              }
 
              // when necessary, check if the collided sprite is in the colliding sprite
@@ -217,7 +217,7 @@ function drag()
             this.tint = white_color; 
         }
 
-        // release the blocked sprites if it still exists
+        // release the blocked sprites if they still exist
         if(this.dragging){
           for(k = 0; k < blocked_sprites.length; ++k){
              for(i = 0; i < sprites.length; ++i){
@@ -232,10 +232,10 @@ function drag()
         // distance for the square-shaped images: calculate inclined distances for squre sprites
         if(half_width == half_height && this.rad_angle != 0 && Math.abs(this.rad_angle) != Math.abs(toRadians(180))
         && Math.abs(this.rad_angle) != Math.abs(toRadians(90)) && Math.abs(this.rad_angle) != Math.abs(toRadians(270))){
-                // calculate the side which may hit the canvas bother for a certain non-straight angle
-                let side = Math.sqrt(2 * Math.pow(half_width, 2));
-                half_width = side;
-                half_height = side;
+            // calculate the side which may hit the canvas bother for a certain non-straight angle
+            let side = Math.sqrt(2 * Math.pow(half_width, 2));
+            half_width = side;
+            half_height = side;
         }
 
         /** walls-products collision implementation: The idea is that products will get very lightly blocked by walls.
@@ -245,23 +245,25 @@ function drag()
         if((this.rad_angle == 0 || Math.abs(this.rad_angle) == Math.abs(toRadians(180))) && newPositionY - half_height < walls[0].wallSprite.y + walls[0].wallSprite.height
         && newPositionY - half_height > walls[0].wallSprite.y + walls[0].wallSprite.height/2){
                 newPositionY = walls[0].wallSprite.y + walls[0].wallSprite.height + half_height;
-        }else if(this.rad_angle != 0 && Math.abs(this.rad_angle) != Math.abs(toRadians(180)) && newPositionY - half_width < walls[0].wallSprite.y + walls[0].wallSprite.height
+        }
+        else if(this.rad_angle != 0 && Math.abs(this.rad_angle) != Math.abs(toRadians(180)) && newPositionY - half_width < walls[0].wallSprite.y + walls[0].wallSprite.height
             && newPositionY - half_width > walls[0].wallSprite.y + walls[0].wallSprite.height/2){
              newPositionY = walls[0].wallSprite.y + walls[0].wallSprite.height + half_width;
         }
         // collision between the bottom wall and a moving product on the canvas
         if((this.rad_angle == 0 || Math.abs(this.rad_angle) == Math.abs(toRadians(180))) && newPositionY + half_height > walls[2].wallSprite.y &&
             newPositionY + half_height < walls[2].wallSprite.y + walls[2].wallSprite.height/2){
-                newPositionY = walls[2].wallSprite.y - half_height;
-        }else if(this.rad_angle != 0 && Math.abs(this.rad_angle) != Math.abs(toRadians(180)) && newPositionY + half_width > walls[2].wallSprite.y &&
+            newPositionY = walls[2].wallSprite.y - half_height;
+        }
+        else if(this.rad_angle != 0 && Math.abs(this.rad_angle) != Math.abs(toRadians(180)) && newPositionY + half_width > walls[2].wallSprite.y &&
             newPositionY + half_width < walls[2].wallSprite.y + walls[2].wallSprite.height/2){
-                newPositionY = walls[2].wallSprite.y - half_width;
+            newPositionY = walls[2].wallSprite.y - half_width;
         }
         // inverse product dimensions if 90 degree angle has been achieved
         if(Math.abs(toDegrees(this.rad_angle)) == 90 || Math.abs(toDegrees(this.rad_angle)) == 270){
-                    temp = half_width;
-                    half_width = half_height;
-                    half_height = temp;
+            temp = half_width;
+            half_width = half_height;
+            half_height = temp;
         }
         // mild collision between the right wall and a moving product on the canvas
         if(newPositionX + half_width > walls[1].wallSprite.x - walls[1].wallSprite.height && newPositionX + half_width < walls[1].wallSprite.x - walls[1].wallSprite.height/2){
@@ -269,21 +271,21 @@ function drag()
         }
         // mild collision between the left wall and a moving product on the canvas
         if(newPositionX - half_width < walls[3].wallSprite.x && newPositionX - half_width > walls[3].wallSprite.x - walls[3].wallSprite.height/2){
-                newPositionX = walls[3].wallSprite.x + half_width;
+            newPositionX = walls[3].wallSprite.x + half_width;
         }
         // mild collision between the small, horizontal wall and a moving product on the canvas
         if(walls.length > 4 && newPositionX + half_width > walls[4].wallSprite.x){
-                if((this.rad_angle == 0 || Math.abs(this.rad_angle) == Math.abs(toRadians(180))) && (newPositionY + half_height > walls[4].wallSprite.y && newPositionY + half_height < walls[4].wallSprite.y + walls[4].wallSprite.height/2)){
-                        newPositionY = walls[4].wallSprite.y - half_height;
-                }                     
-                else if(this.rad_angle != 0 && Math.abs(this.rad_angle) != Math.abs(toRadians(180)) && newPositionY + half_width > walls[4].wallSprite.y && newPositionY + half_width < walls[4].wallSprite.y + walls[4].wallSprite.height/2){
-                        newPositionY = walls[4].wallSprite.y - half_width;
-                }
+            if((this.rad_angle == 0 || Math.abs(this.rad_angle) == Math.abs(toRadians(180))) && (newPositionY + half_height > walls[4].wallSprite.y && newPositionY + half_height < walls[4].wallSprite.y + walls[4].wallSprite.height/2)){
+                newPositionY = walls[4].wallSprite.y - half_height;
+            }                     
+            else if(this.rad_angle != 0 && Math.abs(this.rad_angle) != Math.abs(toRadians(180)) && newPositionY + half_width > walls[4].wallSprite.y && newPositionY + half_width < walls[4].wallSprite.y + walls[4].wallSprite.height/2){
+                newPositionY = walls[4].wallSprite.y - half_width;
+            }
         }
         // mild collision between the small, vertical wall and a moving product on the canvas
         if(walls.length > 4 && newPositionY + half_height > walls[5].wallSprite.y){
             if(newPositionX + half_width > walls[5].wallSprite.x - walls[5].wallSprite.height && newPositionX + half_width < walls[5].wallSprite.x - walls[5].wallSprite.height/2){
-                   newPositionX = walls[5].wallSprite.x -walls[5].wallSprite.height - half_width;
+                newPositionX = walls[5].wallSprite.x -walls[5].wallSprite.height - half_width;
             }
         }
 

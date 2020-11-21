@@ -1,9 +1,7 @@
 /***************************************************************************************************************/
-/* Dragging and handling of canvas products                                                                    */
-/* A script used to drag products to and on the canvas.                                                        */
-/* In this script, the dragging and dropping of a product on the canvas is handle by JQuery.                   */
-/* The JQuery droppable function also ensure that a product cannot be dropped on top existing elements on      */
-/* on the canvas. This prevents collisions from happening as the user populate the canvas.                     */
+/* A script used to enable a user to drag a product from the catalogue and drop it on the canvas.              */
+/* In addition, this script also ensures that a user cannot drop catalogue product on top of an existing       */ 
+/* canvas product. So a collision detection algorithm is implemented to ensure that it does not happen.        */
 /***************************************************************************************************************/
 
 /*********************************************************************************/
@@ -34,7 +32,7 @@ let sprite_id = -1;
 
 
 /*********************************************************************************/
-/*             JQUERY : Drag and drop concept                                    */
+/*             JQUERY : Drag and drop implementation                             */
 /*********************************************************************************/
 
 // a function used to drop products on the canvas
@@ -62,28 +60,28 @@ function init_draggable()
                // real product dimensions
                let product_width_scaled = 0;
                let product_height_scaled = 0;
-               // create a json object with all four coordinates of the product 
+               // create a json object to store all four coordinates of a product 
                let coordinates = {};
-               // get mouse position relative to drop target 
+               // get the mouse position relative to drop target 
                var dropPositionX = event.pageX - $(this).offset().left;
                var dropPositionY = event.pageY - $(this).offset().top;
-               // get mouse offset relative to dragged item
+               // get the mouse offset relative to dragged item
                var dragItemOffsetX = event.offsetX;
                var dragItemOffsetY = event.offsetY;
                // get the image of the product from the html document
                var product = document.getElementById(the_product_id);
-               // get position of dragged item relative to drop target and center coordinates
+               // get position of dragged item relative to drop target
+               // get the center coordinates of the dropped product
                var positionX = dropPositionX-dragItemOffsetX+product.width/2;
                var positionY = dropPositionY-dragItemOffsetY+product.height/2;
                let product_properties = {};
 
-               // attempt to add the product to the array of canvas products
+               // an algorithm which ensures that only allowed drops happened on the canvas
                for(i=0, length=drag_product_product_dimensions.length; i < length; ++i){
                    // retrieve the selected product and its dimensions
                     if(drag_product_product_dimensions[i]['product_id'] == the_product_id && drag_product_product_dimensions[i]['id'] == the_dimension_id){
                         /* product[i].width is the actual width in centimeters. multiplying it with cm yields the width in pixels.
-                        * then multiplying it with the scale scales it (reduces it): scaled height and width of the product
-                        */
+                        * then multiplying it with the scale scales it (reduces it): scaled height and width of the product*/
                         product_width_scaled = Math.round((drag_product_product_dimensions[i]['length'] * cm) * scale);
                         product_height_scaled = Math.round((drag_product_product_dimensions[i]['width'] * cm) * scale);
 
@@ -119,7 +117,7 @@ function init_draggable()
                              let canvas_product = [[sprites[k].coords.x1, sprites[k].coords.y1], [sprites[k].coords.x2, sprites[k].coords.y2],
                              [sprites[k].coords.x3, sprites[k].coords.y3], [sprites[k].coords.x4, sprites[k].coords.y4]];
 
-                             // check if any point of the drop product would land in this canvas product
+                             // check if any point of the dropped product would land in this canvas product
                              for(y=0; y<dropped_coordinates.length; ++y){
                                  if(detect_collision(dropped_coordinates[y], canvas_product)){
                                     alert("This drop is not possible.\n Please look for a free area for the drop");
@@ -195,7 +193,6 @@ function init_draggable()
 
                                 // store the coordinates of all 4 corners of the rectangular product
                                 coordinates = compute_coordinates(pixel_positionX, pixel_positionY, product_width_scaled, product_height_scaled);
-
                                 // indicate that the product was found and that its properties were gathered
                                 found_product = true;
                                 break;
@@ -235,26 +232,7 @@ function toDegrees(angle){
     return (angle * 180)/Math.PI;
 }
 
-// a function which calculates and returns sprite corner coordinates using the transformation formula
-function calculate_coordinates(rad_angle, half_width, half_height, centerX, centerY){
-    let coordinates = {};
-    // calculate coordinates using the transformation formula
-    coordinates.x1 = Math.cos(rad_angle) * (-half_width) - Math.sin(rad_angle) * (half_height) + centerX;
-    coordinates.y1 = Math.abs(Math.sin(rad_angle) * (-half_width) + Math.cos(rad_angle) * (half_height) - centerY);
-    
-    coordinates.x2 = Math.cos(rad_angle) * (-half_width) - Math.sin(rad_angle) * (-half_height) + centerX;
-    coordinates.y2 = Math.abs(Math.sin(rad_angle) * (-half_width) + Math.cos(rad_angle) * (-half_height) - centerY);
-
-    coordinates.x3 = Math.cos(rad_angle) * (half_width) - Math.sin(rad_angle) * (-half_height) + centerX;
-    coordinates.y3 = Math.abs(Math.sin(rad_angle) * (half_width) + Math.cos(rad_angle) * (-half_height) - centerY);
-
-    coordinates.x4 = Math.cos(rad_angle) * (half_width) - Math.sin(rad_angle) * (half_height) + centerX;
-    coordinates.y4 = Math.abs(Math.sin(rad_angle) * (half_width) + Math.cos(rad_angle) * (half_height) - centerY);
-    // return the coordinates as json object
-    return coordinates;
-}
-
-// a function used to calculate the initial coordinates of the 4 corners of the product
+// a function used to calculate the initial coordinates of the 4 corner points of the product
 function compute_coordinates(pixel_positionX, pixel_positionY, product_width_scaled, product_height_scaled){
     let coordinates = {};
     coordinates.x1 = pixel_positionX;

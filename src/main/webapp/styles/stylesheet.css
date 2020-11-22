@@ -5,11 +5,18 @@ html, body{
 	/* overflow: hidden; */
 }
 
+/* Responsive height for the headers and for the sidebar/canvas */
+/* Headers need more styling in order to be properly responsive */
 #header, #toolbar{
 	height: 4% !important;
 }
 #sidebar, #main {
 	height: 96% !important;
+}
+
+/* Remove the underline for all anchor elements */
+a {
+	text-decoration: none !important;
 }
 
 /* Header */
@@ -97,9 +104,6 @@ li.nav-item {
 	background-color: #249cd3 !important;
 }
 
-.modal-content {
-	
-}
 .modal-header {
 	background-color: #249cd3;
 	border-bottom: 0 none;
@@ -159,10 +163,6 @@ li.nav-item {
 	/* display: inline-block; */
 }
 
-#btn-delete-product, #btn-save-plan {
-	/* padding: 3px 6px 3px 6px !important; */
-}
-
 /* SIDEBAR (Product dimensions and catalogue)*/
 #sidebar-left{
     color: white;
@@ -182,10 +182,6 @@ li.nav-item {
 	background-color: #eeeeee;
 	/*border-top: 2px solid #dfdfde; /*#249cd3;*/
 	border-bottom: 2px solid #dfdfde; /*#249cd3;*/
-}
-
-.dimensions-row-formatting {
-	/* margin: 1px 0 1px 0 !important; */
 }
 
 .product-info-formatting {
@@ -209,7 +205,6 @@ li.nav-item {
 }
 
 /* Catalogue */
-
 .loading-catalogue {
 	display: none;
 	padding: 10px 0 10px 0 !important;
@@ -273,7 +268,6 @@ li.nav-item {
 	padding: 15px;
 }
   
-/* Formatting for the entire list/catalogue */
 .list-group.list-group-root {
 	padding: 0;
 	/* overflow: hidden; */
@@ -320,38 +314,15 @@ li.nav-item {
 	border-bottom-right-radius: 0 !important;
 }
   
-/* Products formatting*/
+/* Products formatting */
 .list-group.list-group-root > .list-group > .list-group > .list-group-item {
 	padding-left: 30px;
 }
 
 
-/* CANVAS */
+/* Canvas */
 #main {
-	/* position: absolute;
-	overflow: hidden; */
 	height: 100% !important;
 	border-left: 1px solid black;
-}
-
-/* SIDEBAR-RIGHT - Not in use */
-#sidebar-right{
-	color: white;
-	width:0%;
-	background-color: black;
-}
-
-/* FOOTER - Not in use*/
-#footer{
-	clear:both;
-	height: 30px;
-	width: 100%;
-	text-align: center;
-	background-color: #3b3b3a;
-}
-
-/* Remove the underline for all anchor elements */
-a {
-	text-decoration: none !important;
 }
 

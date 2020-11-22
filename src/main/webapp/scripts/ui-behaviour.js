@@ -2,6 +2,7 @@
 $(document).ready(function () {
 
     // Handler - Layouts dropdown menu button
+    // Add custom behaviour to the layouts toolbar button when selected
     $("#layout-dropdown").on('click', '.layouts-btn', function (event) {
 
         event.stopPropagation();
@@ -23,6 +24,8 @@ $(document).ready(function () {
     });
 
     // Handler - Buttons inside of layouts dropdown
+    // Close the layouts dropdown menu and undo selected formatting 
+    // on the layouts toolbar button when a layout has been selected in the dropdown
     $("#layout-dropdown").on('click', '.layout-btn', function (event) {
 
         if( $("a.layouts-btn").hasClass("layouts-btn-toggled")){
@@ -36,6 +39,7 @@ $(document).ready(function () {
     });
 
     // Handler - Anywhere on the document
+    // Close the layouts dropdown menu and undo selected formatting on the layouts toolbar button
     $(document).click(function(event) {
         var $target = $(event.target);
         if(!$target.closest('.layout-btn').length && $('a.layouts-btn').hasClass("layouts-btn-toggled")){

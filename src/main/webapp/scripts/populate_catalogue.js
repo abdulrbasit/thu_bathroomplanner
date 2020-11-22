@@ -3,10 +3,9 @@ const MANUFACTURERS = 0;
 const PRODUCT_TYPES = 1;
 const PRODUCTS = 2;
 const PRODUCT_DIMENSIONS = 3;
-const IMG_SIZES = [65, 55, 45];
 
 // AJAX call
-// Retrieve a catalogue array which consists of 3 arrays: manufacturers, product types and products.
+// Retrieve a catalogue array which consists of 4 arrays: manufacturers, product types, products and product dimensions.
 let catalogue;
 (function ($) {
     $(document).ready(function () {
@@ -28,13 +27,14 @@ let catalogue;
     });
 })(jQuery);
 
-
+// A function which disables the loading spinner of the catalogue
 function disableLoadingSpinner(){
     document.getElementById("spinner").classList.remove("loading-catalogue-visible");
 }
 
-// Function which writes the manufacturers, product types and products to the catalogue
+// Function which writes the manufacturers, product types, products and product dimensions to the catalogue
 // All the HTML code is appended to a single string and then that string is put into the HTML element
+// catalogue: Multidimensional JSON array which contains all the catalogue data
 function writeToCatalogue(catalogue){
 
     htmlCatalogue = document.getElementById("catalogue");
@@ -47,7 +47,7 @@ function writeToCatalogue(catalogue){
     var product_dimensions_of_product;
     var product_dimensions_iterator;
     
-
+    // Loop which prepares the manufacturers for the output
     for(manufacturer = 0; manufacturer < catalogue[MANUFACTURERS].length; manufacturer += 1){
         var manufacturer_id = catalogue[MANUFACTURERS][manufacturer]['id'];
 
@@ -55,6 +55,7 @@ function writeToCatalogue(catalogue){
 
         output += "<div class=\"list-group collapse\" id=\"item-"+ manufacturer_id +"\">";
 
+        // Loop which prepares the product types of a manufacturer for the output
         for(productType = 0; productType < catalogue[PRODUCT_TYPES].length; productType += 1){
             var productType_id = catalogue[PRODUCT_TYPES][productType]['id'];
 
@@ -64,6 +65,7 @@ function writeToCatalogue(catalogue){
 
                 output += "<div class=\"list-group list-group-flush collapse\" id=\"item-"+ manufacturer_id +"-"+ productType_id +"\">";
 
+                // Loop which prepares the product of a product type for the output
                 for(product = 0; product < catalogue[PRODUCTS].length; product += 1){
                     var product_id = catalogue[PRODUCTS][product]['id'];
                     product_dimensions_of_product =[[],[],[]];
@@ -71,6 +73,7 @@ function writeToCatalogue(catalogue){
 
                     if(catalogue[PRODUCTS][product]['product_type_id'] == productType_id){
 
+                        // Loop which stores the product dimension info about a product into a temporary array
                         for(product_dimension = 0; product_dimension < catalogue[PRODUCT_DIMENSIONS].length; product_dimension += 1){
 
                             if(catalogue[PRODUCT_DIMENSIONS][product_dimension]['product_id'] == product_id){
@@ -94,11 +97,13 @@ function writeToCatalogue(catalogue){
                             product_dimensions_of_product.splice(1,1);
                         }
 
+                        // Sort highest to lowest
                         product_dimensions_of_product.sort(sortArrayLength);
                         product_dimensions_of_product.sort(sortArrayWidth);
 
                         output += "<div href=\"#\" class=\"list-group-item product text-primary\">";
 
+                        // Loop which prepares the product and its dimensions for the output
                         for(product_dimension = 0; product_dimension < product_dimensions_of_product.length; product_dimension += 1){
 
                             output += "<div class=\"product-container\">";
@@ -116,8 +121,8 @@ function writeToCatalogue(catalogue){
         output += "</div>";
     }
     output += "</div>";
-    htmlCatalogue.innerHTML = output;
-    init_draggable();
+    htmlCatalogue.innerHTML = output; // Write the output to the catalogue
+    init_draggable(); // Initialize dragging of products in the catalogue
 }
 
 // Sorts the second value of the multidimensional array - highest to lowest

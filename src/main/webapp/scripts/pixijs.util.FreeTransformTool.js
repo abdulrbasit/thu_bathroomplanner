@@ -1,3 +1,7 @@
+// PixiJS Free Transform Tool
+// A third party tool
+// Some of the unnecessary features were commented out
+
 // namespace:
 this.PIXI = this.PIXI || {};
 
@@ -431,9 +435,8 @@ this.PIXI.util.constrainObjectTo = constrainObjectTo;
             that.update();
         }
 
-        function onRotateToolUp(){
-            rotation_update();
-            if(collision == true){
+        function onRotateToolUp(){            
+            if(rotation_update()){
                 that.target.rotation = this.startRotation;
                 that.update();
             }

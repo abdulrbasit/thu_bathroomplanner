@@ -5,7 +5,7 @@
 const ROOM_LAYOUT1 = "roomLayout_1";
 const ROOM_LAYOUT2 = "roomLayout_2";
 
-//Listener for the button
+// Handler - Reset button on the toolbar
 $("#btn-reset-plan").on('click', function(event){
     reset_plan();
 });

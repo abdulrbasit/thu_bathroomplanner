@@ -1,7 +1,8 @@
 /**
  * A script used to delete selected products on the canvas
  */
- 
+
+// Handler - Delete button on the toolbar
 $("#btn-delete-product").on('click', function(event){
  
     selectTool.unselect();

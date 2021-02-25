@@ -15,7 +15,7 @@ public class DatabaseConnection {
 
             // PostgreSQL connection to the database
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:postgresql://rosie.db.elephantsql.com:5432/mspgxcxr", "mspgxcxr", "yiUV914v2ToEMPbL1gi_sJ6V02YO6Hi1");
+            connection = DriverManager.getConnection("jdbc:postgresql://database-url.com/username", "username", "password");
 
         } catch (Exception e) {
             System.out.println(e);
